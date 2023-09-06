@@ -14,6 +14,7 @@
 #include <ctime>
 #include <cmath>
 #include <iomanip>
+#include <chrono>
 #include "getch.h"
 using namespace std;
 #endif /* HEADERS_H_ */

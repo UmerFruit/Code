@@ -2,6 +2,6 @@
 using namespace std;
 int main()
 {
-    ostream& Helloworld =  cout;
-    Helloworld << "cout";
+  ostream &Helloworld = cout;
+  Helloworld << "cout" << endl;
 }

@@ -67,6 +67,7 @@
 		"vector": "cpp",
 		"filesystem": "cpp",
 		"__cxx_version": "cpp",
-		"getch.h": "c"
+		"getch.h": "c",
+		"list": "cpp"
 	}
 }
