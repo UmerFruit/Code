@@ -23,7 +23,7 @@ uint64_t BubbleSort(int *arr, long long size)
             if (arr[j] > arr[j + 1])
             {
                 temp = arr[j];
-                arr[j+1] = arr[size - 1 - i];
+                arr[j + 1] = arr[size - 1 - i];
                 arr[size - 1 - i] = temp;
             }
         }
@@ -86,6 +86,8 @@ int main()
     // }
 
     cout << "Time Taken For Insertion Sort: " << InsertionSort(arr2, size2) << endl;
+    randomize(arr2, size2);
     cout << "Time Taken For Selection Sort: " << SelectionSort(arr2, size2) << endl;
+    randomize(arr2, size2);
     cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << endl;
 }
