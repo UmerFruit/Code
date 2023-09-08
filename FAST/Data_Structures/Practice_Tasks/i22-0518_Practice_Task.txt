@@ -1,0 +1,6 @@
+i22-0518, Practice Task Description:
+-> The assignment was to implement a dictionary data structure and compare it's time of execution with arrays while searching for a particular element. The difference, as we discussed in the class, was about a 10x reduction in the execution time.
+-> I searched for a CNIC which was not present as instructed so as to check the worst case scenario for each data structure.
+-> The array data structure took on average 5500 microseconds to execute, which itself is not too bad but is nothing compared to the, on average, 500 microsecond execution time of the dictionary data structure.
+-> The implementation is a bit messy so please do direct me in any way that you think I can improve this code.
+-> Thank you.
