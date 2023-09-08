@@ -2,6 +2,10 @@
 using namespace std;
 int main()
 {
-  ostream &Helloworld = cout;
-  Helloworld << "cout" << endl;
+    char** grid = new char* [30];
+    for (int i = 0; i < 30; i++)
+    {
+        *(grid + i) = new char[30];
+    }
+    
 }
