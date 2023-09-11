@@ -147,11 +147,15 @@ int main()
 
     randomize(arr2, size2);
 
+
+    // cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
+    // cout << "Time Taken For Selection Sort: " << SelectionSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
+    // cout << "Time Taken For Insertion Sort: " << InsertionSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
     cout << "Time Taken For Merge Sort: " << MergeSort(arr2, size2) << " Milliseconds" << endl;
     randomize(arr2, size2);
-    cout << "Time Taken For Insertion Sort: " << InsertionSort(arr2, size2) << " Milliseconds" << endl;
-    randomize(arr2, size2);
-    cout << "Time Taken For Selection Sort: " << SelectionSort(arr2, size2) << " Milliseconds" << endl;
-    randomize(arr2, size2);
-    cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << " Milliseconds" << endl;
+    
+    
 }
