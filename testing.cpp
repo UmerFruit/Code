@@ -56,6 +56,7 @@ void insertatIndex(Node *&head, Node *&tail, int d, int idx)
     insert->next = curr->next;
     curr->next = insert;
 }
+
 void printList(Node *&head)
 {
     Node *temp = head;

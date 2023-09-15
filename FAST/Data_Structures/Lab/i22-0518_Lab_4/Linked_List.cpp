@@ -33,7 +33,7 @@ public:
         head = NULL;
         delete head;
     }
-    void insert(const Employee &emp)
+    void insert(Employee emp)
     {
         Node *temp = new Node(emp);
         if (head == NULL)

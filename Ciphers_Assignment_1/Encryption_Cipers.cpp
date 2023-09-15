@@ -1,178 +1,85 @@
-// C++ program to implement Playfair Cipher
-
+// C++ code to implement Hill Cipher
 #include <iostream>
 using namespace std;
-#define SIZE 30
 
-// Function to convert the string to lowercase
-void toLowerCase(char plain[], int ps)
+// Following function generates the key matrix for the key string
+void getKeyMatrix(string key, int keyMatrix[][3])
 {
-	int i;
-	for (i = 0; i < ps; i++) {
-		if (plain[i] > 64 && plain[i] < 91)
-			plain[i] += 32;
+	int k = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			keyMatrix[i][j] = (key[k]) % 65;
+			k++;
+		}
 	}
 }
 
-// Function to remove all spaces in a string
-int removeSpaces(char* plain, int ps)
+// Following function encrypts the message
+void encrypt(int cipherMatrix[][1],
+			int keyMatrix[][3],
+			int messageVector[][1])
 {
-	int i, count = 0;
-	for (i = 0; i < ps; i++)
-		if (plain[i] != ' ')
-			plain[count++] = plain[i];
-	plain[count] = '\0';
-	return count;
-}
-
-// Function to generate the 5x5 key square
-void generateKeyTable(char key[], int ks, char keyT[5][5])
-{
-	int i, j, k, flag = 0;
-
-	// a 26 character hashmap
-	// to store count of the alphabet
-	int dicty[26] = { 0 };
-	for (i = 0; i < ks; i++) {
-		if (key[i] != 'j')
-			dicty[key[i] - 97] = 2;
-	}
-
-	dicty['j' - 97] = 1;
-
-	i = 0;
-	j = 0;
-
-	for (k = 0; k < ks; k++) {
-		if (dicty[key[k] - 97] == 2) {
-			dicty[key[k] - 97] -= 1;
-			keyT[i][j] = key[k];
-			j++;
-			if (j == 5) {
-				i++;
-				j = 0;
+	int x, i, j;
+	for (i = 0; i < 3; i++)
+	{
+		for (j = 0; j < 1; j++)
+		{
+			cipherMatrix[i][j] = 0;
+		
+			for (x = 0; x < 3; x++)
+			{
+				cipherMatrix[i][j] +=
+					keyMatrix[i][x] * messageVector[x][j];
 			}
-		}
-	}
-
-	for (k = 0; k < 26; k++) {
-		if (dicty[k] == 0) {
-			keyT[i][j] = (char)(k + 97);
-			j++;
-			if (j == 5) {
-				i++;
-				j = 0;
-			}
+		
+			cipherMatrix[i][j] = cipherMatrix[i][j] % 26;
 		}
 	}
 }
 
-// Function to search for the characters of a digraph
-// in the key square and return their position
-void search(char keyT[5][5], char a, char b, int arr[])
+// Function to implement Hill Cipher
+void HillCipher(string message, string key)
 {
-	int i, j;
+	// Get key matrix from the key string
+	int keyMatrix[3][3];
+	getKeyMatrix(key, keyMatrix);
 
-	if (a == 'j')
-		a = 'i';
-	else if (b == 'j')
-		b = 'i';
+	int messageVector[3][1];
 
-	for (i = 0; i < 5; i++) {
+	// Generate vector for the message
+	for (int i = 0; i < 3; i++)
+		messageVector[i][0] = (message[i]) % 65;
 
-		for (j = 0; j < 5; j++) {
+	int cipherMatrix[3][1];
 
-			if (keyT[i][j] == a) {
-				arr[0] = i;
-				arr[1] = j;
-			}
-			else if (keyT[i][j] == b) {
-				arr[2] = i;
-				arr[3] = j;
-			}
-		}
-	}
+	// Following function generates
+	// the encrypted vector
+	encrypt(cipherMatrix, keyMatrix, messageVector);
+
+	string CipherText;
+
+	// Generate the encrypted text from
+	// the encrypted vector
+	for (int i = 0; i < 3; i++)
+		CipherText += cipherMatrix[i][0] + 65;
+
+	// Finally print the ciphertext
+	cout << " Ciphertext:" << CipherText;
 }
 
-// Function to find the modulus with 5
-int mod5(int a) { return (a % 5); }
-
-// Function to make the plain text length to be even
-int prepare(char str[], int ptrs)
-{
-	if (ptrs % 2 != 0) {
-		str[ptrs++] = 'z';
-		str[ptrs] = '\0';
-	}
-	return ptrs;
-}
-
-// Function for performing the encryption
-void encrypt(char str[], char keyT[5][5], int ps)
-{
-	int i, a[4];
-
-	for (i = 0; i < ps; i += 2) {
-
-		search(keyT, str[i], str[i + 1], a);
-
-		if (a[0] == a[2]) {
-			str[i] = keyT[a[0]][mod5(a[1] + 1)];
-			str[i + 1] = keyT[a[0]][mod5(a[3] + 1)];
-		}
-		else if (a[1] == a[3]) {
-			str[i] = keyT[mod5(a[0] + 1)][a[1]];
-			str[i + 1] = keyT[mod5(a[2] + 1)][a[1]];
-		}
-		else {
-			str[i] = keyT[a[0]][a[3]];
-			str[i + 1] = keyT[a[2]][a[1]];
-		}
-	}
-}
-
-// Function to encrypt using Playfair Cipher
-void encryptByPlayfairCipher(char str[], char key[])
-{
-	char ps, ks, keyT[5][5];
-
-	// Key
-	ks = strlen(key);
-	ks = removeSpaces(key, ks);
-	toLowerCase(key, ks);
-
-	// Plaintext
-	ps = strlen(str);
-	toLowerCase(str, ps);
-	ps = removeSpaces(str, ps);
-
-	ps = prepare(str, ps);
-
-	generateKeyTable(key, ks, keyT);
-
-	encrypt(str, keyT, ps);
-}
-
-// Driver code
+// Driver function for above code
 int main()
 {
-	char str[SIZE], key[SIZE];
+	// Get the message to be encrypted
+	string message = "ACT";
 
-	// Key to be encrypted
-	strcpy(key, "Monarchy");
-	cout << "Key text: " << key << "\n";
+	// Get the key
+	string key = "GYBNQKURP";
 
-	// Plaintext to be encrypted
-	strcpy(str, "instruments");
-	cout << "Plain text: " << str << "\n";
-
-	// encrypt using Playfair Cipher
-	encryptByPlayfairCipher(str, key);
-
-	cout << "Cipher text: " << str << "\n";
+	HillCipher(message, key);
 
 	return 0;
 }
-
-// This code is contributed by aditya942003patil
 
