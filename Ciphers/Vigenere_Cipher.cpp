@@ -76,6 +76,7 @@ string DecVigenere(string cipher, string key)
 
 int main()
 {
+	cout << "\nVigenere Cipher with Keyword \"UMER\"" << endl;
 	string str = "PAKISTAN";
 	string keyword = "UMER";
 	str = removeSpaces(str);
@@ -86,6 +87,6 @@ int main()
 		 << cipher_text << endl;
 
 	cout << "Decrypted Text : "
-		 << DecVigenere(cipher_text, key) << endl;
+		 << DecVigenere(cipher_text, key) << endl<<endl;
 	return 0;
 }

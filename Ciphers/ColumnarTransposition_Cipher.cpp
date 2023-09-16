@@ -180,14 +180,14 @@ int main()
 	int check;
 	islower(plaintext[0]) ? check = 97 : check = 65;
 	string cipher = Encrpyt(arr, Key, plaintext);
-	string cipher2 = delchar(cipher, check+25);
+	string cipher2 = delchar(cipher, check + 25);
 	string decr = Decrpyt(arr, Key, cipher);
-	string decr2 = delchar(decr, check+25);
+	string decr2 = delchar(decr, check + 25);
 
+	cout << "\nColumnar Transposition Cipher with Keyword \"SPIDERMAN\"" << endl;
 	cout << "Plain text: " << plaintext << endl;
-	cout << "Key: " << Key << endl;
 	cout << "Ciphertext: " << cipher2 << endl;
-	cout << "Decrypted Text: " << decr2 << endl;
+	cout << "Decrypted Text: " << decr2 << endl<<endl;
 
 	return 0;
 }

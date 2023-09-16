@@ -1,3 +1,9 @@
+/*
+ *      CY-A Umer Farooq
+ *      22I-0518
+ *      Networks and CyberSecurity-I
+ *      Assignment-1
+ */
 #include <iostream>
 #include <cstring>
 using namespace std;
@@ -15,15 +21,16 @@ int main()
         key[i] = i;
     }
 
-    for (int i = 0; i < 26; i++)     // bogosort zindabad
+    for (int i = 0; i < 26; i++) // bogosort zindabad
         swap(key[i], key[rand() % 26]);
 
-    
+    cout << "\nSubtitution Cipher with Randomized Dictionary" << endl;
     cout << "Input: " << input << endl;
     string cipher = subCipherEnc(input, key);
     cout << "Cipher: " << cipher << endl;
     string decrypt = subCipherDec(cipher, key);
-    cout << "Decrypt: " << decrypt << endl;
+    cout << "Decrypt: " << decrypt << endl
+         << endl;
 }
 string subCipherEnc(string input, int *key)
 {

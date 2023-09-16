@@ -17,11 +17,12 @@ int main()
     string str = "BALLOON", key = "MONARCHY";
 
     string cipher = EncPFC(str, key, keyT);
+    cout << "\nPlayfair Cipher with Keyword \"MONARCHY\"" << endl;
     cout << "Plain Text: " << str << endl;
     cout << "Cipher text: " << cipher << endl;
     string original = DecPFC(cipher, keyT);
-    original = delchar(original,'z');
-    cout << "Decrypted text: " << original << endl;
+    original = delchar(original, 'z');
+    cout << "Decrypted text: " << original << endl<<endl;
 
     return 0;
 }

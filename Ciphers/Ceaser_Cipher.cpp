@@ -1,23 +1,43 @@
+/*
+ *      CY-A Umer Farooq
+ *      22I-0518
+ *      Networks and CyberSecurity-I
+ *      Assignment-1
+ */
 #include <iostream>
 #include <cstring>
 using namespace std;
 string ceaserCipherDec(string cipher, int key = 3);
+void Cracker(string cipher, int key);
 string ceaserCipherEnc(string input, int key = 3);
 int main()
 {
     string input = "INFORMATIONSECURITY";
     string cipher = ceaserCipherEnc(input);
-    cout << cipher << endl;
+    cout << "\nCeaser Cipher with Key = 3" << endl;
+    cout << "Plain text: " << input << endl;
+    cout << "Cipher text: " << cipher << endl;
     string decrypt = ceaserCipherDec(cipher);
-    cout << decrypt << endl;
+    cout << "Decrypted text: " << decrypt << endl
+         << endl;
 
+    
+}
+void Cracker(string cipher, int key)
+{
     // All possible Combinations Tester Code
+    cout << "\nCeaser Cipher Cracker (solution at Key = 3)" << endl;
     for (int i = 0; i < 26; i++)
     {
-        cout << i + 1 << ". " << ceaserCipherDec(cipher, i) << endl;
+        cout << i + 1;
+        if(i<9)cout<<" ";
+        cout<< ". " << ceaserCipherDec(cipher, i);
+        if (i % 2)
+            cout << endl;
+        else
+            cout << "\t";
     }
 }
-
 string ceaserCipherEnc(string input, int key)
 {
     int len = input.length();
