@@ -1,34 +1,73 @@
 #include <iostream>
 using namespace std;
+int mod5(int a) { return (a % 5); }
+string DecPFC(string, string *);
+string EncPFC(string, string, string *);
+string encrypt(string, string *);
+void search(string *, char, char, int[]);
+string removeSpaces(string);
+string tolower(string);
+string prepare(string);
+string delchar(string, char);
+
+int main()
+{
+    string keyT[5];
+
+    string str = "BALLOON", key = "MONARCHY";
+
+    string cipher = EncPFC(str, key, keyT);
+    cout << "Plain Text: " << str << endl;
+    cout << "Cipher text: " << cipher << endl;
+    string original = DecPFC(cipher, keyT);
+    original = delchar(original,'z');
+    cout << "Decrypted text: " << original << endl;
+
+    return 0;
+}
+string delchar(string str, char c)
+{
+    string result = "";
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (str[i] != c)
+        {
+            result += str[i];
+        }
+    }
+    return result;
+}
 string prepare(string str)
 {
-    for(int i = 0 ;i<str.length();i += 2)
+    for (int i = 0; i < str.length(); i += 2)
     {
-        if(str[i] == str[i+1])
+        if (str[i] == str[i + 1])
         {
-            str.insert(i+1,"x");
+            str.insert(i + 1, "z");
         }
     }
     if (str.length() % 2 != 0)
     {
         str.push_back('z');
     }
-    
+
     return str;
 }
+
 string tolower(string plain)
 {
     int size = plain.length();
     string lower = "";
     for (int i = 0; i < size; i++)
     {
-        if (plain[i] >= 65 || plain[i] <= 92)
+        if (plain[i] >= 65 && plain[i] <= 92)
         {
             lower.push_back(plain[i] + 32);
         }
     }
-    return plain;
+    return lower;
 }
+
 string removeSpaces(string plain)
 {
     int size = plain.length();
@@ -69,28 +108,29 @@ void search(string *keyT, char a, char b, int arr[])
         }
     }
 }
-int mod5(int a) { return (a % 5); }
+
 void generateKeyTable(string key, string *keyT)
 {
+    int check = 97;
     int i, j, k;
     int size = key.length();
     int table[26] = {0};
     for (i = 0; i < size; i++)
     {
         if (key[i] != 'j')
-            table[key[i] - 97] = 2;
+            table[key[i] - check] = 2;
     }
 
-    table['j' - 97] = 1;
+    table['j' - check] = 1;
 
     i = 0;
     j = 0;
 
     for (k = 0; k < size; k++)
     {
-        if (table[key[k] - 97] == 2)
+        if (table[key[k] - check] == 2)
         {
-            table[key[k] - 97] -= 1;
+            table[key[k] - check] -= 1;
             keyT[i][j] = key[k];
             j++;
             if (j == 5)
@@ -105,7 +145,7 @@ void generateKeyTable(string key, string *keyT)
     {
         if (table[k] == 0)
         {
-            keyT[i][j] = (char)(k + 97);
+            keyT[i][j] = (char)(k + check);
             j++;
             if (j == 5)
             {
@@ -115,7 +155,6 @@ void generateKeyTable(string key, string *keyT)
         }
     }
 }
-
 string encrypt(string str, string *keyT)
 {
     int i, a[4];
@@ -144,7 +183,7 @@ string encrypt(string str, string *keyT)
     }
     return cipher;
 }
-string EncPFC(string str, string &key, string *keyT)
+string EncPFC(string str, string key, string *keyT)
 {
 
     key = removeSpaces(key);
@@ -185,18 +224,3 @@ string DecPFC(string cipher, string *keyT)
     }
     return original;
 }
-int main()
-{
-    string keyT[5];
-
-    string str = "balloon", key = "monarchy";
-    
-    string cipher = EncPFC(str, key, keyT);
-    cout << "Plain Text: " << str << endl;
-    cout << "Cipher text: " << cipher << endl;
-    string original = DecPFC(cipher,keyT);
-    cout<<"Decrypted text: "<<original<<endl;
-
-    return 0;
-}
-

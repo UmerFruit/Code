@@ -39,7 +39,7 @@ public:
 		else
 		{
 			char c;
-			(islower(str[0])) ? c = 'x' : c = 'X';
+			(islower(str[0])) ? c = 'z' : c = 'Z';
 			int diff = (keylength * keylength) - strlen;
 			for (int i = 0; i < diff; i++)
 			{
@@ -173,15 +173,16 @@ string Decrpyt(Node *&arr, string Key, string cipher)
 }
 int main()
 {
-	string Key = "spiderman";
-	string plaintext = "peterparker";
+	string Key = "SPIDERMAN";
+	string plaintext = "PETERPARKER";
 	int Keysize = Key.length();
 	Node *arr;
-
+	int check;
+	islower(plaintext[0]) ? check = 97 : check = 65;
 	string cipher = Encrpyt(arr, Key, plaintext);
-	string cipher2 = delchar(cipher, 'x');
+	string cipher2 = delchar(cipher, check+25);
 	string decr = Decrpyt(arr, Key, cipher);
-	string decr2 = delchar(decr, 'x');
+	string decr2 = delchar(decr, check+25);
 
 	cout << "Plain text: " << plaintext << endl;
 	cout << "Key: " << Key << endl;

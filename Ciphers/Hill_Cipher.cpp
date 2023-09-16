@@ -1,6 +1,7 @@
-#include "Matrix.h"   //my own implementation of a matrix class
+#include "Matrix.h" //my own implementation of a matrix class
 string encrypt(string, Matrix &, int);
 string decrypt(string, Matrix &, int);
+string delchar(string str, char c);
 string prepare(string);
 int main()
 {
@@ -10,11 +11,12 @@ int main()
     key.Setelement(8, 0, 1);
     key.Setelement(19, 1, 0);
     key.Setelement(3, 1, 1);
-    Matrix inverse = key.inverse();  //calculate in mod 26
-    string plain_text = "FRIDAY";
+    Matrix inverse = key.inverse(); // calculate in mod 26
+    string plain_text = "INFORMATIONSECURTIY";
+
     islower(plain_text[0]) ? check = 97 : check = 65;
-    
     string cipher_text = encrypt(plain_text, key, check);
+
     cout << "Plaintext text is: " << plain_text << endl;
     cout << "Key Matrix is: " << endl;
     cout << key;
@@ -22,17 +24,31 @@ int main()
     cout << "Inverse of Key Matrix in mod 26 is: " << endl;
     cout << inverse;
 
-    cout << "Decrypted text is: " << decrypt(cipher_text, inverse, check) << endl;
+    cout << "Decrypted text is: " << delchar(decrypt(cipher_text, inverse, check),check+25) << endl;
     return 0;
 }
 string prepare(string str)
 {
+    char c;
+    islower(str[0]) ? c = 'z' : c = 'Z';
+
     if (str.length() % 2 != 0)
     {
-        str.push_back('Z');
+        str.push_back(c);
     }
-
     return str;
+}
+string delchar(string str, char c)
+{
+	string result = "";
+	for (int i = 0; i < str.length(); i++)
+	{
+		if (str[i] != c)
+		{
+			result += str[i];
+		}
+	}
+	return result;
 }
 string encrypt(string str, Matrix &Key, int check)
 {
