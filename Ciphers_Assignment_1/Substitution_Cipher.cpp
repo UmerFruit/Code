@@ -17,16 +17,6 @@ int main()
     cout << cipher << endl;
     string decrypt = subCipherDec(cipher, key);
     cout << decrypt << endl;
-    // code cracker with all possible combinations
-    // string original = "";
-    // for (int i = 0; i < len; i++)
-    // {
-    //     for (int j = 0; j < 26; j++)
-    //     {
-    //         char a = ((static_cast<int>(cipher[i] - 97) - j + 26) % 26) + 97;
-    //         original.push_back(a);
-    //     }
-    // }
 }
 string subCipherEnc(string input, int *key)
 {
@@ -54,3 +44,4 @@ string subCipherDec(string cipher, int *key)
     }
     return original;
 }
+
