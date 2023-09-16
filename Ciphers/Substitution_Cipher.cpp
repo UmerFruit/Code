@@ -6,14 +6,19 @@ string subCipherEnc(string input, int *key);
 int main()
 {
     srand(time(0));
-    string input = "INSTRUMENTS";
+    string input = "balloon";
     int len = input.length();
-    int *key = new int[len];
+    int *key = new int[26];
 
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i < 26; i++)
     {
-        key[i] = rand() % 26;
+        key[i] = i;
     }
+
+    for (int i = 0; i < 26; i++)     // bogosort zindabad
+        swap(key[i], key[rand() % 26]);
+
+    
     cout << "Input: " << input << endl;
     string cipher = subCipherEnc(input, key);
     cout << "Cipher: " << cipher << endl;
@@ -29,7 +34,7 @@ string subCipherEnc(string input, int *key)
 
     for (int i = 0; i < len; i++)
     {
-        char a = ((static_cast<int>(input[i] - minus) + key[i]) % 26) + minus;
+        char a = key[input[i] - minus] + minus;
         cipher.push_back(a);
     }
     return cipher;
@@ -43,7 +48,14 @@ string subCipherDec(string cipher, int *key)
 
     for (int i = 0; i < len; i++)
     {
-        char a = ((static_cast<int>(cipher[i] - minus) - key[i] + 26) % 26) + minus;
+        int idx = cipher[i] - minus;
+        int j;
+        for (j = 0; j < 26; j++)
+        {
+            if (key[j] == idx)
+                break;
+        }
+        char a = j + minus;
         original.push_back(a);
     }
     return original;
