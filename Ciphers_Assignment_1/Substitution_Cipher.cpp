@@ -6,7 +6,7 @@ string subCipherEnc(string input, int *key);
 int main()
 {
     srand(time(0));
-    string input = "hassansiddiqui";
+    string input = "umerfarooq";
     int len = input.length();
     int *key = new int[len];
     for (int i = 0; i < len; i++)
