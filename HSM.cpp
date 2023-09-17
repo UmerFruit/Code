@@ -2,6 +2,7 @@
 #include <vector>
 using namespace std;
   
+  
 // Store the data of Hospital
 class Hospital {
 public:
