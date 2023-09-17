@@ -5,7 +5,7 @@ SE-B
 */
 #include <iostream>
 #include <iomanip>
-#include <windows.h>
+#include <unistd.h>
 #include <stdlib.h>
 using namespace std;
 
@@ -23,7 +23,7 @@ int main()
     while (1)
     {
         sleep(1);
-        system("cls");
+        system("clear");
         g = (n * w);
         for (int i = 0; i < n; i++)
         {
