@@ -1,3 +1,9 @@
+/*
+ *      CY-A Umer Farooq
+ *      22I-0518
+ *      Networks and CyberSecurity-I
+ *      Assignment-1
+ */
 #include <iostream>
 using namespace std;
 int mod5(int a) { return (a % 5); }
