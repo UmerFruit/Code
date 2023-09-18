@@ -68,6 +68,7 @@
 		"filesystem": "cpp",
 		"__cxx_version": "cpp",
 		"getch.h": "c",
-		"list": "cpp"
+		"list": "cpp",
+		"random": "cpp"
 	}
 }

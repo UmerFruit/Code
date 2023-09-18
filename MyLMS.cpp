@@ -68,18 +68,19 @@ public:
     }
     void showstudent()
     {
-        cout << setw(20) << left << "Admission Number: " << adm_num << endl;
-        cout << setw(20) << left << "Student Name : " << name << endl;
-        cout << setw(20) << left << "No of Books Issued : " << token << endl;
+        cout << setw(30) << left << "Admission Number: " << adm_num << endl;
+        cout << setw(30) << left << "Student Name : " << name << endl;
+        cout << setw(30) << left << "No of Books Issued : " << token << endl;
         if (token == 1)
         {
-            cout << setw(20) << left << "Book Number " << stbook_num << endl;
+            cout << setw(30) << left << "Book Number " << stbook_num << endl;
         }
     }
     void modifystudent()
     {
         cout << "\nAdmission No. " << adm_num;
         cout << "\nModify Student Name : ";
+        cin.ignore();
         getline(cin, name);
     }
     string getadm_num()
@@ -161,6 +162,7 @@ void displayspb(string n) // display specific book
     {
         cout << "\nBook does not exist." << endl;
     }
+    cin.ignore();
     getch();
 }
 void displaysps(string n) // display specific student
@@ -182,6 +184,7 @@ void displaysps(string n) // display specific student
     {
         cout << "\nStudent does not exist." << endl;
     }
+    cin.ignore();
     getch();
 }
 void modifybook()
@@ -191,27 +194,29 @@ void modifybook()
     int found = 0; // seach book of given data
     system("clear");
     cout << "\nMODIFY BOOK RECORD" << endl;
-    cout << "\nEnter The Book Num:" << endl;
+    cout << "\nEnter The Book No. ";
     cin >> n;
     fp.open("Book.dat", ios::in | ios::out | ios::binary);
+    int pos;
     while (fp.read(reinterpret_cast<char *>(&bk), sizeof(Book)) && found == 0)
     {
         if (bk.getbook_num() == n)
         {
             bk.showbook();
-            cout << "\nEnter the new details book";
+            cout << "\nEnter the new details for book." << endl;
+            cin.ignore();
             bk.modifybook();
-            int pos = sizeof(bk);
-            pos *= -1;
-            fp.seekp(pos, ios::cur); // back from current position
+            fp.seekp(pos); // back from current position
             fp.write(reinterpret_cast<char *>(&bk), sizeof(Book));
             cout << "\nRecord Updated" << endl;
             found = 1;
         }
+        pos = fp.tellg();
     }
     fp.close();
     if (found == 0)
     {
+        cin.ignore();
         cout << "\nRecord Not Found" << endl;
     }
     getch(); // press key to get out
@@ -222,30 +227,33 @@ void modifystudent()
     string n;
     int found = 0; // seach book of given data
     system("clear");
-    cout << "\nMODIFY STUDENT RECORD..." << endl;
-    cout << "\nEnter the Admission no. " << endl;
+    cout << "\nMODIFY STUDENT RECORD" << endl;
+    cout << "\nEnter the Admission no. ";
     cin >> n;
     fp.open("Student.dat", ios::in | ios::out | ios::binary);
+    int pos;
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && found == 0)
     {
+
         if (st.getadm_num() == n)
         {
             st.showstudent();
             cout << "\nEnter the new details of student";
             st.modifystudent();
-            int pos = sizeof(st);
-            pos *= -1;
-            fp.seekp(pos, ios::cur); // back from current position
+            fp.seekp(pos); // back from current position
             fp.write(reinterpret_cast<char *>(&st), sizeof(Student));
             cout << "\nRecord Updated." << endl;
             found = 1;
         }
+        pos = fp.tellg();
     }
     fp.close();
     if (found == 0)
     {
+        cin.ignore();
         cout << "\nRecord Not Found." << endl;
     }
+
     getch(); // press key to get out
 }
 
@@ -262,7 +270,7 @@ void deletestudent()
     fp.open("Student.dat", ios::in | ios::out | ios::binary);
     fstream fp2;
     fp2.open("temp.dat", ios::out | ios::binary);
-    fp.seekg(0, ios::beg);
+    fp.seekg(0);
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)))
     {
         if (st.getadm_num() != n)
@@ -286,6 +294,7 @@ void deletestudent()
     {
         cout << "\nRecord not Found." << endl;
     }
+    cin.ignore();
     getch();
 }
 void deletebook()
@@ -305,7 +314,7 @@ void deletebook()
     {
         if (bk.getbook_num() != n)
         {
-            fp2.write(reinterpret_cast<char *>(&st), sizeof(Book));
+            fp2.write(reinterpret_cast<char *>(&bk), sizeof(Book));
         }
         else
         {
@@ -324,6 +333,7 @@ void deletebook()
     {
         cout << "\nRecord not Found." << endl;
     }
+    cin.ignore();
     getch();
 }
 void displayalls() // display all students
@@ -335,18 +345,20 @@ void displayalls() // display all students
     if (!fin)
     {
         cout << "File Could Not Be Opened" << endl;
+        cin.ignore();
         getch();
         return; // press any key and return
     }
     cout << "\n\t\t\tStudent List\n";
     cout << "==================================================================" << endl;
-    cout << "Admission No." << setw(15) << "Name" << setw(20) << "Book Issued" << endl;
+    cout << "Admission No." << setw(15) << right << "Name" << setw(20) << "Book Issued" << endl;
     cout << "==================================================================" << endl;
     while (fin.read(reinterpret_cast<char *>(&st), sizeof(Student)))
     {
         st.showstudent();
     }
     fin.close();
+    cin.ignore();
     getch();
 }
 void displayallb()
@@ -357,18 +369,20 @@ void displayallb()
     if (!fin)
     {
         cout << "File Could Not Be Open";
+        cin.ignore();
         getch();
         return; // press any key and return
     }
     cout << "\n\t\t\tBook List\n";
     cout << "==================================================================" << endl;
-    cout << "Book Number" << setw(20) << "Book Name" << setw(25) << "Book Author" << endl;
+    cout << "Book Number" << setw(20) << right << "Book Name" << setw(25) << "Book Author" << endl;
     cout << "==================================================================" << endl;
     while (fin.read(reinterpret_cast<char *>(&bk), sizeof(Book)))
     {
         bk.showbook();
     }
     fin.close();
+    cin.ignore();
     getch();
 }
 void bookissue()
@@ -378,10 +392,11 @@ void bookissue()
     int found = 0, flag = 0;
     system("clear");
     cout << "\nBOOK ISSUE" << endl;
-    cout << "\nEnter Admission num" << endl;
+    cout << "\nEnter Admission num. ";
     cin >> sn;
     fp.open("Student.dat", ios::in | ios::out | ios::binary);
     fp1.open("Book.dat", ios::in | ios::out | ios::binary);
+    int pos;
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && found == 0)
     {
         if (st.getadm_num() == sn) // compare admsn no.
@@ -389,8 +404,9 @@ void bookissue()
             found = 1;
             if (st.gettoken() == 0) // if book not issued
             {
-                cout << "\n\tEnter The Book Num" << endl;
+                cout << "\nEnter The Book No. ";
                 cin >> bn;
+
                 while (fp1.read(reinterpret_cast<char *>(&bk), sizeof(Book)) && flag == 0)
                 {
                     if (bk.getbook_num() == bn) // compare book no.
@@ -398,9 +414,7 @@ void bookissue()
                         flag = 1;
                         st.addtoken();
                         st.setstbook_num(bk.getbook_num()); // pass book no.
-                        int pos = sizeof(st);
-                        pos *= -1;
-                        fp.seekg(pos, ios::cur);
+                        fp.seekg(pos);
                         fp.write(reinterpret_cast<char *>(&st), sizeof(Student));
                         cout << "\n\nBook Issued Successfully\n\nPlease Note The Book Issue Date On Backside Of Your Book And Return Book Within 15 Days, Otherwise Fine Of 15 Rs Per Day" << endl;
                     }
@@ -416,14 +430,16 @@ void bookissue()
                 cout << "You Have Not Returned The Last Book" << endl;
             }
         }
+        pos = fp.tellg();
     }
     if (found == 0)
     {
         cout << "Student Record Not Exist" << endl;
     }
-    getch();
     fp.close();
     fp1.close();
+    cin.ignore();
+    getch();
 }
 void bookdeposit()
 {
@@ -436,6 +452,7 @@ void bookdeposit()
     cin >> sn;
     fp.open("Student.dat", ios::in | ios::out | ios::binary);
     fp1.open("Book.dat", ios::in | ios::out | ios::binary);
+    int pos;
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && found == 0)
     {
         if (st.getadm_num() == sn) // compare admsn no.
@@ -457,9 +474,8 @@ void bookdeposit()
                             cout << "\nFine = " << fine << endl;
                         }
                         st.resettoken();
-                        int pos = sizeof(st);
-                        pos *= -1;
-                        fp.seekg(pos, ios::cur);
+
+                        fp.seekg(pos);
                         fp.write(reinterpret_cast<char *>(&st), sizeof(Student));
                         cout << "\nBook Deposited Successfully" << endl;
                     }
@@ -476,11 +492,13 @@ void bookdeposit()
                 cout << "No Book Issued";
             }
         }
+        pos = fp.tellg();
     }
     if (found == 0)
     {
         cout << "Student Record Not Exist" << endl;
     }
+    cin.ignore();
     getch();
     fp.close();
     fp1.close();
@@ -498,18 +516,19 @@ void adminmenu()
 {
     system("clear");
     int ch2;
-    cout << "\nADMINISTRATOR MENU";
-    cout << "\n1.CREATE STUDENT RECORD" << endl;
-    cout << "\n2.DISPLAY ALL STUDENT RECORD" << endl;
-    cout << "\n3.DISPLAY SPECIFIC STUDENT RECORD" << endl;
-    cout << "\n4.MODIFY STUDENT RECORD" << endl;
-    cout << "\n5.DELETE STUDENT RECORD" << endl;
-    cout << "\n6.CREATE BOOK" << endl;
-    cout << "\n7.DISPLAY ALL BOOKS" << endl;
-    cout << "\n8.DISPLAY SPECIFIC BOOK" << endl;
-    cout << "\n9.MODIFY BOOK RECORD" << endl;
-    cout << "\n10.DELETE BOOK RECORD" << endl;
-    cout << "\n11.BACK TO MAIN MENU" << endl;
+    string num;
+    cout << "\nADMINISTRATOR MENU" << endl;
+    cout << "\n1. CREATE STUDENT RECORD" << endl;
+    cout << "2. DISPLAY ALL STUDENT RECORD" << endl;
+    cout << "3. DISPLAY SPECIFIC STUDENT RECORD" << endl;
+    cout << "4. MODIFY STUDENT RECORD" << endl;
+    cout << "5. DELETE STUDENT RECORD" << endl;
+    cout << "6. CREATE BOOK" << endl;
+    cout << "7. DISPLAY ALL BOOKS" << endl;
+    cout << "8. DISPLAY SPECIFIC BOOK" << endl;
+    cout << "9. MODIFY BOOK RECORD" << endl;
+    cout << "10.DELETE BOOK RECORD" << endl;
+    cout << "11.BACK TO MAIN MENU" << endl;
     cout << "\nPLEASE ENTER YOUR CHOICE(1-11)" << endl;
     cin >> ch2;
     switch (ch2)
@@ -521,9 +540,9 @@ void adminmenu()
         displayalls();
         break;
     case 3:
-        char num[6];
+
         system("clear");
-        cout << "\n\n\t Please enter admission no.";
+        cout << "\nPlease Enter Admission no. ";
         cin >> num;
         displaysps(num);
         break;
@@ -541,9 +560,8 @@ void adminmenu()
         break;
     case 8:
     {
-        string num;
         system("clear");
-        cout << "\nPlease enter book no." << endl;
+        cout << "\nPlease Enter Book no." << endl;
         cin >> num;
         displayspb(num);
         break;
@@ -569,13 +587,14 @@ int main()
     do
     {
         system("clear");
-        cout << "\nt MAIN MENU" << endl;
-        cout << "\n1 BOOK ISSUE" << endl;
-        cout << "\n2 BOOK DEPOSIT" << endl;
-        cout << "\n3 ADMINISTRATOR MENU" << endl;
-        cout << "\n4 EXIT" << endl;
-        cout << "\n PLEASE SELECT YOUR OPTION(1-4)" << endl;
-        ch = getche();
+        cout << "\nMAIN MENU" << endl;
+        cout << "\n1. BOOK ISSUE" << endl;
+        cout << "2. BOOK DEPOSIT" << endl;
+        cout << "3. ADMINISTRATOR MENU" << endl;
+        cout << "4. EXIT" << endl;
+        cout << "\nPLEASE SELECT YOUR OPTION(1-4)" << endl;
+        ch = getch();
+        // ch = '3';
         switch (ch)
         {
         case '1':
