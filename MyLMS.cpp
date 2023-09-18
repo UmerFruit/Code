@@ -6,93 +6,90 @@
 using namespace std;
 class book
 {
-    char bno[6];    // bookno.
-    char bname[50]; // bookname
-    char aname[20]; // authorname
+private:
+    string book_num;    // bookno.
+    string book_name;   // bookname
+    string author_name; // authorname
 public:
     void createbook()
     {
-        cout << "\nNEW BOOK ENTRY...\n";
-        cout << "\nENTER BOOK NO.";
-        cin >> bno;
-        cout << "\nENTER BOOK NAME";
-        gets(bname); // enables enter with space
-        cout << "\nENTER AUTHOR NAME";
-        gets(aname);
-        cout << "\n\n\nBook Created..";
+        cout << "NEW BOOK ENTRY\n\n";
+        cout << "Enter Book Number:" << endl;
+        cin >> book_num;
+        cout << "Enter Book Name:" << endl;
+        cin.ignore();
+        getline(cin, book_name);
+        cout << "Enter Author Name:" << endl;
+        getline(cin, author_name);
+        cout << "Book Created!" << endl;
     }
     void showbook()
     {
-        cout << "\nBook Number: " << bno;
-        cout << "\nBook Name: ";
-        puts(bname);
-        cout << "\nBook Author Name: ";
-        puts(aname);
+        cout << setw(20) << left << "Book Number: " << book_num << endl;
+        cout << setw(20) << left << "Enter Book Name: " << book_name << endl;
+        cout << setw(20) << left << "Enter Author Name: " << author_name << endl;
     }
     void modifybook()
     {
-        cout << "\nBook Number: " << bno;
-        cout << "\nModify Book Name :";
-        gets(bname);
-        cout << "\nModify Author's Name :";
-        gets(aname);
+        cout << "Book Number: " << book_num << endl;
+        cout << "Modify Book Name:" << endl;
+        getline(cin, book_name);
+        cout << "Modify Author's Name :" << endl;
+        getline(cin, author_name);
     }
 
-    char *retbno() // string return
+    string getbook_num() // string getter
     {
-        return bno;
+        return book_num;
     }
-    void report()
-    {
-        cout << bno << setw(30) << bname << setw(30) << aname << endl;
-    }
+
 }; // class ends here
 
 class student
 {
-    char admno[6]; // admission no.
-    char name[20];
-    char stbno[6]; // student book no
-    int token;     // total book of student
+    string adm_num; // admission no.
+    string name;
+    string stbook_num; // student book no
+    int token;         // total book of student
 public:
     void createstudent()
     {
         system("clear");
-        cout << "\nNEW STUDENT ENTRY...\n";
-        cout << "\nEnter The Admission No. ";
-        cin >> admno;
-        cout << "Enter The Student Name ";
-        gets(name);
+        cout << "NEW STUDENT ENTRY\n\n";
+        cout << "Enter The Admission Num:" << endl;
+        cin >> adm_num;
+        cout << "Enter The Student Name:" << endl;
+        cin.ignore();
+        getline(cin, name);
         token = 0;
-        stbno[0] = '\0';
-        cout << "\n\nStudent Record Created...";
+        stbook_num = "";
+        cout << "Student Record Created!" << endl;
     }
     void showstudent()
     {
-        cout << "\nAdmission Number : " << admno;
-        cout << "\nStudent Name : ";
-        puts(name);
-        cout << "\nNo of Book Issued : " << token;
+        cout << "Admission Number: " << adm_num << endl;
+        cout << "Student Name : " << name << endl;
+        cout << "No of Books Issued : " << token << endl;
         if (token == 1)
         {
-            cout << "\nBook Number " << stbno;
+            cout << "Book Number " << stbook_num << endl;
         }
     }
     void modifystudent()
     {
-        cout << "\nAdmission No. " << admno;
+        cout << "\nAdmission No. " << adm_num;
         cout << "\nModify Student Name : ";
-        gets(name);
+        getline(cin, name);
     }
-    char *retadmno()
+    string getadm_num()
     {
-        return admno;
+        return adm_num;
     }
-    char *retstbno()
+    string getstbook_num()
     {
-        return stbno;
+        return stbook_num;
     }
-    int rettoken()
+    int gettoken()
     {
         return token;
     }
@@ -104,13 +101,10 @@ public:
     {
         token = 0;
     }
-    void getstbno(char t[])
+    void setstbook_num(string t)
     {
-        strcpy(stbno, t);
-    }
-    void report()
-    {
-        cout << "\t" << admno << setw(20) << name << setw(10) << token << endl;
+        stbook_num = t;
+        addtoken();
     }
 };               // class ends here
 fstream fp, fp1; // object
@@ -153,7 +147,7 @@ void displayspb(char n[])
     fp.open("book.dat", ios::in); // read data
     while (fp.read((char *)&bk, sizeof(book)))
     {
-        if (strcmp(bk.retbno(), n) == 0) // not case sensitive
+        if (bk.getbook_num() == n) // not case sensitive
         {
             bk.showbook();
             flag = 1;
@@ -173,7 +167,7 @@ void displaysps(char n[])
     fp.open("student.dat", ios::in); // read data
     while (fp.read((char *)&st, sizeof(student)))
     {
-        if (strcmp(st.retadmno(), n) == 0) // not case sensitive
+        if (st.getadm_num() == n) // not case sensitive
         {
             st.showstudent();
             flag = 1;
@@ -197,7 +191,7 @@ void modifybook()
     fp.open("book.dat", ios::in | ios::out);
     while (fp.read((char *)&bk, sizeof(book)) && found == 0)
     {
-        if (strcmp(bk.retbno(), n) == 0)
+        if (bk.getbook_num() == n)
         {
             bk.showbook();
             cout << "\nEnter the new details book";
@@ -227,7 +221,7 @@ void modifystudent()
     fp.open("student.dat", ios::in | ios::out);
     while (fp.read((char *)&st, sizeof(student)) && found == 0)
     {
-        if (strcmp(st.retadmno(), n) == 0)
+        if (st.getadm_num() == n)
         {
             st.showstudent();
             cout << "\nEnter the new details of student";
@@ -261,7 +255,7 @@ void deletestudent()
     fp.seekg(0, ios::beg);
     while (fp.read((char *)&st, sizeof(student)))
     {
-        if (strcmp(st.retadmno(), n) != 0)
+        if (st.getadm_num() != n)
         {
             fp2.write((char *)&st, sizeof(student));
         }
@@ -298,7 +292,7 @@ void deletebook()
     fp.seekg(0, ios::beg);
     while (fp.read((char *)&bk, sizeof(book)))
     {
-        if (strcmp(bk.retbno(), n) != 0)
+        if (bk.getbook_num()!= n)
         {
             fp2.write((char *)&st, sizeof(book));
         }
@@ -337,7 +331,7 @@ void displayalls()
     cout << "==================================================================\n";
     while (fp.read((char *)&st, sizeof(student)))
     {
-        st.report();
+        st.showstudent();
     }
     fp.close();
     getch();
@@ -358,7 +352,7 @@ void displayallb()
     cout << "==================================================================\n";
     while (fp.read((char *)&bk, sizeof(book)))
     {
-        bk.report();
+        bk.showbook();
     }
     fp.close();
     getch();
@@ -375,20 +369,20 @@ void bookissue()
     fp1.open("book.dat", ios::in | ios::out);
     while (fp.read((char *)&st, sizeof(student)) && found == 0)
     {
-        if (strcmp(st.retadmno(), sn) == 0) // compare admsn no.
+        if (st.getadm_num()== sn) // compare admsn no.
         {
             found = 1;
-            if (st.rettoken() == 0) // if book not issued
+            if (st.gettoken() == 0) // if book not issued
             {
                 cout << "\n\n\tEnter The Book No.";
                 cin >> bn;
                 while (fp1.read((char *)&bk, sizeof(book)) && flag == 0)
                 {
-                    if (strcmp(bk.retbno(), bn) == 0) // compare book no.
+                    if (bk.getbook_num()== bn) // compare book no.
                     {
                         flag = 1;
                         st.addtoken();
-                        st.getstbno(bk.retbno()); // pass book no.
+                        st.setstbook_num(bk.getbook_num()); // pass book no.
                         int pos = -1 * sizeof(st);
                         fp.seekg(pos, ios::cur);
                         fp.write((char *)&st, sizeof(student));
@@ -429,14 +423,14 @@ void bookdeposit()
     fp1.open("book.dat", ios::in | ios::out);
     while (fp.read((char *)&st, sizeof(student)) && found == 0)
     {
-        if (strcmp(st.retadmno(), sn) == 0) // compare admsn no.
+        if (st.getadm_num()== sn) // compare admsn no.
         {
             found = 1;
-            if (st.rettoken() == 1) // if book issued
+            if (st.gettoken() == 1) // if book issued
             {
                 while (fp1.read((char *)&bk, sizeof(book)) && flag == 0)
                 {
-                    if (strcmp(bk.retbno(), st.retstbno()) == 0)
+                    if (bk.getbook_num()== st.getstbook_num())
                     {
                         flag = 1;
                         bk.showbook();
