@@ -356,6 +356,7 @@ void displayalls() // display all students
     while (fin.read(reinterpret_cast<char *>(&st), sizeof(Student)))
     {
         st.showstudent();
+        cout<<endl;
     }
     fin.close();
     cin.ignore();
@@ -396,7 +397,7 @@ void bookissue()
     cin >> sn;
     fp.open("Student.dat", ios::in | ios::out | ios::binary);
     fp1.open("Book.dat", ios::in | ios::out | ios::binary);
-    int pos;
+    int pos = fp.tellg();
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && found == 0)
     {
         if (st.getadm_num() == sn) // compare admsn no.
@@ -452,7 +453,7 @@ void bookdeposit()
     cin >> sn;
     fp.open("Student.dat", ios::in | ios::out | ios::binary);
     fp1.open("Book.dat", ios::in | ios::out | ios::binary);
-    int pos;
+    int pos = fp.tellg();
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && found == 0)
     {
         if (st.getadm_num() == sn) // compare admsn no.
@@ -471,7 +472,7 @@ void bookdeposit()
                         if (day > 15)
                         {
                             fine = (day - 15) * 15;
-                            cout << "\nFine = " << fine << endl;
+                            cout << "\nFine = " << fine<<" Rs" << endl;
                         }
                         st.resettoken();
 
@@ -538,6 +539,7 @@ void adminmenu()
         break;
     case 2:
         displayalls();
+        
         break;
     case 3:
 
@@ -580,10 +582,10 @@ void adminmenu()
     adminmenu();
 }
 int main()
-
 {
+
     char ch;
-    start();
+    // start();
     do
     {
         system("clear");
