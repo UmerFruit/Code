@@ -4,7 +4,7 @@
 #include <fstream>
 #include "getch.h"
 using namespace std;
-class book
+class Book
 {
 private:
     string book_num;    // bookno.
@@ -45,7 +45,7 @@ public:
 
 }; // class ends here
 
-class student
+class Student
 {
     string adm_num; // admission no.
     string name;
@@ -108,8 +108,8 @@ public:
     }
 };               // class ends here
 fstream fp, fp1; // object
-book bk;         // book class object
-student st;      // student class object
+Book bk;         // book class object
+Student st;      // student class object
 
 void writebook()
 {
@@ -119,7 +119,7 @@ void writebook()
     {
         system("clear");
         bk.createbook();
-        fp.write((char *)&bk, sizeof(book)); // size of class
+        fp.write((char *)&bk, sizeof(Book)); // size of class
         cout << "\n\nDo you want to add more record...(y/n?) ";
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
@@ -134,7 +134,7 @@ void writestudent()
     {
         system("clear");
         st.createstudent();
-        fp.write((char *)&st, sizeof(student)); // size of class
+        fp.write((char *)&st, sizeof(Student)); // size of class
         cout << "\n\nDo you want to add more record...(y/n?) ";
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
@@ -145,7 +145,7 @@ void displayspb(char n[])
     cout << "\nBOOK DETAILS\n";
     int flag = 0;                 // book not found
     fp.open("book.dat", ios::in); // read data
-    while (fp.read((char *)&bk, sizeof(book)))
+    while (fp.read((char *)&bk, sizeof(Book)))
     {
         if (bk.getbook_num() == n) // not case sensitive
         {
@@ -165,7 +165,7 @@ void displaysps(char n[])
     cout << "\nSTUDENT DETAILS\n";
     int flag = 0;                    // student not found
     fp.open("student.dat", ios::in); // read data
-    while (fp.read((char *)&st, sizeof(student)))
+    while (fp.read((char *)&st, sizeof(Student)))
     {
         if (st.getadm_num() == n) // not case sensitive
         {
@@ -189,7 +189,7 @@ void modifybook()
     cout << "\n\nEnter the book no. ";
     cin >> n;
     fp.open("book.dat", ios::in | ios::out);
-    while (fp.read((char *)&bk, sizeof(book)) && found == 0)
+    while (fp.read((char *)&bk, sizeof(Book)) && found == 0)
     {
         if (bk.getbook_num() == n)
         {
@@ -198,7 +198,7 @@ void modifybook()
             bk.modifybook();
             int pos = -1 * sizeof(bk);
             fp.seekp(pos, ios::cur); // back from current position
-            fp.write((char *)&bk, sizeof(book));
+            fp.write((char *)&bk, sizeof(Book));
             cout << "\n\nRecord Updated";
             found = 1;
         }
@@ -219,7 +219,7 @@ void modifystudent()
     cout << "\n\nEnter the Admission no. ";
     cin >> n;
     fp.open("student.dat", ios::in | ios::out);
-    while (fp.read((char *)&st, sizeof(student)) && found == 0)
+    while (fp.read((char *)&st, sizeof(Student)) && found == 0)
     {
         if (st.getadm_num() == n)
         {
@@ -228,7 +228,7 @@ void modifystudent()
             st.modifystudent();
             int pos = -1 * sizeof(st);
             fp.seekp(pos, ios::cur); // back from current position
-            fp.write((char *)&st, sizeof(student));
+            fp.write((char *)&st, sizeof(Student));
             cout << "\n\nRecord Updated";
             found = 1;
         }
@@ -253,11 +253,11 @@ void deletestudent()
     fstream fp2;
     fp2.open("temp.dat", ios::out);
     fp.seekg(0, ios::beg);
-    while (fp.read((char *)&st, sizeof(student)))
+    while (fp.read((char *)&st, sizeof(Student)))
     {
         if (st.getadm_num() != n)
         {
-            fp2.write((char *)&st, sizeof(student));
+            fp2.write((char *)&st, sizeof(Student));
         }
         else
         {
@@ -290,11 +290,11 @@ void deletebook()
     fstream fp2;                    // New onject
     fp2.open("Temp.dat", ios::out); // temp having data else than that to be deleted
     fp.seekg(0, ios::beg);
-    while (fp.read((char *)&bk, sizeof(book)))
+    while (fp.read((char *)&bk, sizeof(Book)))
     {
         if (bk.getbook_num()!= n)
         {
-            fp2.write((char *)&st, sizeof(book));
+            fp2.write((char *)&st, sizeof(Book));
         }
         else
         {
@@ -329,7 +329,7 @@ void displayalls()
     cout << "==================================================================\n";
     cout << "\tAdmission No." << setw(10) << "Name" << setw(20) << "Book Issued\n";
     cout << "==================================================================\n";
-    while (fp.read((char *)&st, sizeof(student)))
+    while (fp.read((char *)&st, sizeof(Student)))
     {
         st.showstudent();
     }
@@ -350,7 +350,7 @@ void displayallb()
     cout << "==================================================================\n";
     cout << "\tBook No." << setw(20) << "Book Name" << setw(25) << "Book Author\n";
     cout << "==================================================================\n";
-    while (fp.read((char *)&bk, sizeof(book)))
+    while (fp.read((char *)&bk, sizeof(Book)))
     {
         bk.showbook();
     }
@@ -367,7 +367,7 @@ void bookissue()
     cin >> sn;
     fp.open("student.dat", ios::in | ios::out);
     fp1.open("book.dat", ios::in | ios::out);
-    while (fp.read((char *)&st, sizeof(student)) && found == 0)
+    while (fp.read((char *)&st, sizeof(Student)) && found == 0)
     {
         if (st.getadm_num()== sn) // compare admsn no.
         {
@@ -376,7 +376,7 @@ void bookissue()
             {
                 cout << "\n\n\tEnter The Book No.";
                 cin >> bn;
-                while (fp1.read((char *)&bk, sizeof(book)) && flag == 0)
+                while (fp1.read((char *)&bk, sizeof(Book)) && flag == 0)
                 {
                     if (bk.getbook_num()== bn) // compare book no.
                     {
@@ -385,7 +385,7 @@ void bookissue()
                         st.setstbook_num(bk.getbook_num()); // pass book no.
                         int pos = -1 * sizeof(st);
                         fp.seekg(pos, ios::cur);
-                        fp.write((char *)&st, sizeof(student));
+                        fp.write((char *)&st, sizeof(Student));
                         cout << "\n\n\tBook Issued Successfully\n\n Please Note The Book Issue Date On Backside Of Your Book And Return Book Within 15 Days, Otherwise Fine Of 15 Rs Per Day";
                     }
                 }
@@ -421,14 +421,14 @@ void bookdeposit()
     cin >> sn;
     fp.open("student.dat", ios::in | ios::out);
     fp1.open("book.dat", ios::in | ios::out);
-    while (fp.read((char *)&st, sizeof(student)) && found == 0)
+    while (fp.read((char *)&st, sizeof(Student)) && found == 0)
     {
         if (st.getadm_num()== sn) // compare admsn no.
         {
             found = 1;
             if (st.gettoken() == 1) // if book issued
             {
-                while (fp1.read((char *)&bk, sizeof(book)) && flag == 0)
+                while (fp1.read((char *)&bk, sizeof(Book)) && flag == 0)
                 {
                     if (bk.getbook_num()== st.getstbook_num())
                     {
@@ -445,7 +445,7 @@ void bookdeposit()
 
                         int pos = -1 * sizeof(st);
                         fp.seekg(pos, ios::cur);
-                        fp.write((char *)&st, sizeof(student));
+                        fp.write((char *)&st, sizeof(Student));
                         cout << "\n\n\tBook Deposited Successfully";
                     }
                 }
