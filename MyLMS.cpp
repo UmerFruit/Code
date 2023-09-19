@@ -108,7 +108,7 @@ public:
         stbook_num = t;
         addtoken();
     }
-};          // class ends here
+};
 Book bk;    // book class object
 Student st; // student class object
 
@@ -616,4 +616,3 @@ int main()
         }
     } while (ch != 4);
     return 0;
-}
