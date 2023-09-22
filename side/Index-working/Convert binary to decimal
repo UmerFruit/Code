@@ -1,0 +1,17 @@
+#include <iostream>
+using namespace std;
+int main(){
+cout<<"THIS IS A DECIMAL TO BINARY CONVERTER"<<endl;
+int binaryArray[10],number,i;
+cout<<"Enter decimal number for conversion";
+cin>>number;
+for(i=0;number>0; i++){
+  binaryArray[i]=number%2;
+  number = number/2;
+}
+cout<<"The binary number is "<<endl;
+for(i=i-1 ; i>=0 ; i--){
+   cout<<binaryArray[i];
+}
+}
+
