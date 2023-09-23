@@ -987,7 +987,7 @@ void adminmenu()
     case 11:
         return;
     default:
-        cout << "Invalid choiceice";
+        cout << "Invalid choice";
     }
     adminmenu();
 }
