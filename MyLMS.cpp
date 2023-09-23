@@ -993,7 +993,6 @@ void adminmenu()
 }
 int main()
 {
-
     char ch;
     // start();
     do
