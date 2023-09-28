@@ -21,8 +21,7 @@ public:
         cout << "Enter Your First Name only:" << endl;
         cin >> name;
         cout << "Enter The Libraian ID:" << endl;
-        cin.ignore();
-        getline(cin, libID);
+        cin>> libID;
         login = login.Register();
         cout << "Librarian Record Created!" << endl;
     }
@@ -86,7 +85,7 @@ void deletelib()
     cout << "\nDELETE LIBRARIAN" << endl;
     cout << "\nEnter the LibID :" << endl;
     cin >> n;
-    fp.open("Librarian.dat", ios::in | ios::out | ios::binary);
+    fp.open("Librarians.dat", ios::out | ios::in | ios::binary);
     fstream fp2;
     fp2.open("temp.dat", ios::out | ios::binary);
     fp.seekg(0);
@@ -103,8 +102,8 @@ void deletelib()
     }
     fp2.close();
     fp.close();
-    remove("Librarian.dat");
-    rename("temp.dat", "Librarian.dat"); // data after deletion moved to temp
+    remove("Librarians.dat");
+    rename("temp.dat", "Librarians.dat"); // data after deletion moved to temp
     if (flag == 1)
     {
         cout << "\nRecord Deleted." << endl;
