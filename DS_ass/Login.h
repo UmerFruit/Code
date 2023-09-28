@@ -3,6 +3,7 @@
 #include <cstring>
 #include <iostream>
 #include <fstream>
+#include "Student.h"
 #include "getch.h"
 using namespace std;
 class Login
@@ -12,30 +13,30 @@ private:
     string password;
 
 public:
-    Login &Register()
+    string getun()
     {
-        Login L;
+        return username;
+    }
+    void Register()
+    {
+        string us,pss;
         char choice;
         char l;
-
+        Student st;
         cout << "----------------------" << endl;
         cout << "Type your New Username: " << endl;
         cin >> ws;
-        getline(cin, username);
+        getline(cin, us);
         bool alreadyE = false;
-        fstream fp("Usernames.dat", ios::in | ios::binary);
-        if (fp)
+        ifstream fp("Student.dat", ios::in | ios::binary); // read data
+        while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)))
         {
-            while (fp.read(reinterpret_cast<char *>(&L), sizeof(Login)))
+            if (st.getL().getun() == us)
             {
-                if (L.username == username)
-                {
-                    alreadyE = true;
-                    break;
-                }
+                alreadyE = true;
+                break;
             }
         }
-
         if (alreadyE)
         {
             cout << "----------------------" << endl;
@@ -46,20 +47,15 @@ public:
         }
         else
         {
-            fp.close();
-            fp.open("Usernames.dat", ios::binary | ios::app);
             cout << "Type your New Password: " << endl;
-            password = inputPass();
-
-            fp.write(reinterpret_cast<char *>(this), sizeof(Login));
-
+            pss = inputPass();
             cout << "\n----------------------" << endl;
             cout << "Registered successfully" << endl;
             cout << "----------------------" << endl;
         }
-
+        username = us;
+        password = pss;
         fp.close();
-        return *this;
     }
     bool Check()
     {

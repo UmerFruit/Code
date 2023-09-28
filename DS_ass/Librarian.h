@@ -22,7 +22,7 @@ public:
         cin >> name;
         cout << "Enter The Libraian ID:" << endl;
         cin>> libID;
-        login = login.Register();
+        login.Register();
         cout << "Librarian Record Created!" << endl;
     }
     string getid() { return libID; }

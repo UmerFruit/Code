@@ -22,7 +22,7 @@ public:
         cout << "Enter The Admin ID:" << endl;
         cin.ignore();
         getline(cin, adminID);
-        login = login.Register();
+        login.Register();
         cout << "Admin Record Created!" << endl;
     }
     string getid() { return adminID; }

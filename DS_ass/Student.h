@@ -14,6 +14,10 @@ class Student
     int token;         // total book of student
     Login login;       // for access control
 public:
+    Login getL()
+    {
+        return login;
+    }
     void createstudent()
     {
         system("clear");
@@ -25,7 +29,7 @@ public:
         getline(cin, name);
         token = 0;
         stbook_num = "";
-        login = login.Register();
+        login.Register();
         cout << "Student Record Created!" << endl;
     }
     void showstudent()

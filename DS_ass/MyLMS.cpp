@@ -157,7 +157,7 @@ void adminmenu()
     cout << "15.DISPLAY ALL ADMIN" << endl;
     cout << "16.DELETE ADMIN" << endl;
     cout << "17.BACK TO MAIN MENU" << endl;
-    cout << "\nPLEASE ENTER YOUR CHOICE(1-11)" << endl;
+    cout << "\nPLEASE ENTER YOUR CHOICE(1-17)" << endl;
     cin >> ch2;
     switch (ch2)
     {
