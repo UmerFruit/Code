@@ -69,6 +69,16 @@
 		"__cxx_version": "cpp",
 		"getch.h": "c",
 		"list": "cpp",
-		"random": "cpp"
+		"random": "cpp",
+		"__tree": "cpp",
+		"condition_variable": "cpp",
+		"future": "cpp",
+		"map": "cpp",
+		"numeric": "cpp",
+		"queue": "cpp",
+		"regex": "cpp",
+		"set": "cpp",
+		"unordered_set": "cpp",
+		"valarray": "cpp"
 	}
 }

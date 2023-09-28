@@ -15,19 +15,23 @@ void randomize(int *arr, long long size)
 }
 uint64_t BubbleSort(int *arr, long long size)
 {
-    int temp;
+    
     uint64_t ms1 = gettime();
-    for (int i = 0; i < size; i++)
-    {
-        for (int j = 0; j < size - i - 1; j++)
+    for (int i = 1; i < size; i++)
+    {   
+        bool a = false;
+        for (int j = 0; j < size - i; j++)
         {
-            if (arr[j] > arr[j + 1])
+            if (arr[i] < arr[j])
             {
-                temp = arr[j];
-                arr[j + 1] = arr[size - 1 - i];
-                arr[size - 1 - i] = temp;
+                a = true;
+                int temp = arr[j];
+                arr[j + 1] = arr[j];
+                arr[j] = temp;
             }
         }
+        if(!a)
+            break;
     }
     uint64_t ms2 = gettime();
     return ms2 - ms1;
@@ -142,11 +146,12 @@ int main()
     const int size = 10;
     int arr[size] = {9, 5, 2, 1, 6, 8, 7, 3, 4, 0};
 
-    const long long size2 = 100000;
+    const long long size2 = 1000000;
     int *arr2 = new int[size2];
 
     randomize(arr2, size2);
 
+    
 
     // cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << " Milliseconds" << endl;
     // randomize(arr2, size2);
@@ -155,7 +160,5 @@ int main()
     // cout << "Time Taken For Insertion Sort: " << InsertionSort(arr2, size2) << " Milliseconds" << endl;
     // randomize(arr2, size2);
     cout << "Time Taken For Merge Sort: " << MergeSort(arr2, size2) << " Milliseconds" << endl;
-    randomize(arr2, size2);
-    
-    
+    // randomize(arr2, size2);
 }
