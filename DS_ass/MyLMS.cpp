@@ -1,4 +1,46 @@
 #include "Headers.h"
+void stlogin();
+void liblogin();
+void adminlogin();
+void stmenu(Student &);
+void libmenu(Librarian &);
+void adminmenu(Admin &);
+void start();
+void bookdeposit(string);
+void bookissue(string);
+int main()
+{
+    char ch;
+    // start();
+    do
+    {
+        system("clear");
+        cout << "\nMAIN MENU" << endl;
+        cout << "1. ADMINISTRATOR LOGIN" << endl;
+        cout << "2. LIBRARIAN LOGIN" << endl;
+        cout << "3. STUDENT LOGIN" << endl;
+        cout << "4. EXIT" << endl;
+        cout << "\nPLEASE SELECT YOUR OPTION(1-4)" << endl;
+        ch = getch();
+        switch (ch)
+        {
+        case '1':
+            adminlogin();
+            break;
+        case '2':
+            liblogin();
+            break;
+        case '3':
+            stlogin();
+            break;
+        case '4':
+            return 0;
+            break;
+        default:
+            cout << "INVALID CHOICE";
+        }
+    } while (1);
+}
 void bookissue(string sn)
 {
     Book bk;
@@ -120,7 +162,6 @@ void bookdeposit(string sn)
     fp.close();
     fp1.close();
 }
-
 void start()
 {
     system("clear");
@@ -129,7 +170,6 @@ void start()
     cout << "I22-0518 & I22-1636" << endl;
     getch();
 }
-
 void adminmenu(Admin &a)
 {
     system("clear");
@@ -288,37 +328,4 @@ void stlogin()
     if (st.Check())
         stmenu(st);
     getch();
-}
-int main()
-{
-    char ch;
-    // start();
-    do
-    {
-        system("clear");
-        cout << "\nMAIN MENU" << endl;
-        cout << "1. ADMINISTRATOR LOGIN" << endl;
-        cout << "2. LIBRARIAN LOGIN" << endl;
-        cout << "3. STUDENT LOGIN" << endl;
-        cout << "4. EXIT" << endl;
-        cout << "\nPLEASE SELECT YOUR OPTION(1-4)" << endl;
-        ch = getch();
-        switch (ch)
-        {
-        case '1':
-            adminlogin();
-            break;
-        case '2':
-            liblogin();
-            break;
-        case '3':
-            stlogin();
-            break;
-        case '4':
-            return 0;
-            break;
-        default:
-            cout << "INVALID CHOICE";
-        }
-    } while (1);
 }
