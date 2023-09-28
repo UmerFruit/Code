@@ -8,12 +8,9 @@ class Student
     string name;
     string stbook_num; // student book no
     int token;         // total book of student
-    Login lock;       // for access control
+    string username;
+    string password; // for access control
 public:
-    Login getL()
-    {
-        return lock;
-    }
     void createstudent()
     {
         system("clear");
@@ -25,8 +22,146 @@ public:
         getline(cin, name);
         token = 0;
         stbook_num = "";
-        lock.Register();
+        Register();
         cout << "Student Record Created!" << endl;
+    }
+    void studentMenu()
+    {
+        cout << "\nWELCOME " << name << endl;
+        cout << "STUDENT MENU" << endl;
+        cout << "1. BOOK ISSUE" << endl;
+        cout << "2. BOOK DEPOSIT" << endl;
+        cout << "3. DISPLAY ALL BOOKS" << endl;
+        cout << "4. DISPLAY SPECIFIC BOOK" << endl;
+        cout << "5. BACK TO MAIN MENU" << endl;
+        cout << "\nPLEASE ENTER YOUR CHOICE(1-5)" << endl;
+    }
+
+    bool Check()
+    {
+        Student st;
+        string un, pw;
+        fstream fp("Students.dat", ios::binary | ios::in);
+        cout << "----------------------" << endl;
+        cout << "Enter the Username: ";
+        cin >> un;
+        cin.ignore();
+        cout << un << endl;
+        bool exists = false;
+        if (fp)
+            while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && !exists)
+            {
+                if (un == st.username)
+                {
+                    exists = true;
+                    name = st.name;
+                    adm_num = st.adm_num;
+                    break;
+                }
+            }
+
+        if (!exists)
+        {
+            cout << "----------------------" << endl;
+            cout << "User doesn't exist" << endl;
+            cout << "----------------------" << endl;
+        }
+        else
+        {
+            cout << "----------------------" << endl;
+            cout << "Enter the Password:" << endl;
+            cout << "If you have forgotten the password then type \"forgot\". :)" << endl;
+            pw = inputPass();
+            if (pw == st.password)
+            {
+                cout << endl;
+                cout << "----------------------" << endl;
+                cout << "You are now logged in." << endl;
+                cout << "----------------------" << endl;
+                fp.close();
+
+                return true;
+            }
+            else if (pw == "forgot")
+            {
+                cout << "----------------------" << endl;
+                cout << "Enter the same Username again." << endl;
+                getline(cin, un);
+                if (un == st.username)
+                {
+                    cout << endl;
+                    cout << "----------------------" << endl;
+                    cout << "You are now logged in" << endl;
+                    cout << "----------------------" << endl;
+                    fp.close();
+
+                    return true;
+                }
+                else
+                {
+                    cout << "\n----------------------" << endl;
+                    cout << "Incorrect entry sorry" << endl;
+                    cout << "----------------------" << endl;
+                    fp.close();
+
+                    return false;
+                }
+            }
+            else
+            {
+                cout << "\n----------------------" << endl;
+                cout << "Incorrect password" << endl;
+                cout << "----------------------" << endl;
+                fp.close();
+
+                return false;
+            }
+            fp.close();
+        }
+        return false;
+    }
+    string inputPass()
+    {
+        string password;
+        password = "";
+        char c;
+        while ((c = getch()) != 10) // until newline char \n is entered
+        {
+            if (c != 127) // if backspace is not pressed
+            {
+                password += c;
+                cout << '*'; // display asterisks instead of actual password characters
+            }
+            else
+            {
+                cout << "\r" << setw(100) << setfill(' ') << ""
+                     << "\r";
+                password.pop_back();
+                int size = 0;
+                for (int i = 0; password[i] != '\0'; i++)
+                {
+                    size++;
+                }
+                for (int i = 0; i < size; i++)
+                {
+                    cout << "*";
+                }
+            }
+        }
+        return password;
+    }
+    void Register()
+    {
+        string pss;
+        char choice;
+        cout << "----------------------" << endl;
+        cout << "Your Name is your username." << endl;
+        cout << "Type your Password: " << endl;
+        pss = inputPass();
+        cout << "----------------------" << endl;
+
+        username = name;
+        password = pss;
     }
     void showstudent()
     {
@@ -75,7 +210,7 @@ bool findstudent(string admnum)
 {
     Student st;
     bool alreadyE = false;
-    ifstream fp("Student.dat", ios::in | ios::binary); // read data
+    ifstream fp("Students.dat", ios::in | ios::binary); // read data
 
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)))
     {
@@ -91,28 +226,31 @@ void writestudent()
 {
     ofstream fout;
     char ch;
-    fout.open("Student.dat", ios::binary | ios::app); // write and append data
+    fout.open("Students.dat", ios::binary | ios::app); // write and append data
     do
     {
         Student st;
         system("clear");
         st.createstudent();
-        if(findstudent(st.getadm_num()) == false)
+        if (findstudent(st.getadm_num()) == false)
             fout.write(reinterpret_cast<char *>(&st), sizeof(Student)); // size of class
         else
-            cout<<"Student Already exists.Try again."<<endl;
+            cout << "Student Already exists.Try again." << endl;
         cout << "\nWould you like to add more records? (y/n):" << endl;
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     fout.close();
 }
-void displaysps(string n) // display specific student
+void displaysps() // display specific student
 {
+    string n;
+    cout << "\nPlease Enter Admission no. ";
+    cin >> n;
     Student st;
     ifstream fin;
     cout << "\nSTUDENT DETAILS" << endl;
-    int flag = 0;                                   // if student not found
-    fin.open("Student.dat", ios::in | ios::binary); // read data
+    int flag = 0;                                    // if student not found
+    fin.open("Students.dat", ios::in | ios::binary); // read data
     while (fin.read(reinterpret_cast<char *>(&st), sizeof(Student)) && flag == 0)
     {
         if (st.getadm_num() == n)
@@ -139,7 +277,7 @@ void modifystudent()
     cout << "\nMODIFY STUDENT RECORD" << endl;
     cout << "\nEnter the Admission no. ";
     cin >> n;
-    fp.open("Student.dat", ios::in | ios::out | ios::binary);
+    fp.open("Students.dat", ios::in | ios::out | ios::binary);
     int pos = fp.tellg();
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)) && found == 0)
     {
@@ -175,7 +313,7 @@ void deletestudent()
     cout << "\nDELETE STUDENT" << endl;
     cout << "\nEnter the Admission num :" << endl;
     cin >> n;
-    fp.open("Student.dat", ios::in | ios::out | ios::binary);
+    fp.open("Students.dat", ios::in | ios::out | ios::binary);
     fstream fp2;
     fp2.open("temp.dat", ios::out | ios::binary);
     fp.seekg(0);
@@ -192,8 +330,8 @@ void deletestudent()
     }
     fp2.close();
     fp.close();
-    remove("Student.dat");
-    rename("temp.dat", "Student.dat"); // data after deletion moved to temp
+    remove("Students.dat");
+    rename("temp.dat", "Students.dat"); // data after deletion moved to temp
     if (flag == 1)
     {
         cout << "\nRecord Deleted." << endl;
@@ -210,7 +348,7 @@ void displayalls() // display all students
     ifstream fin;
     Student st;
     system("clear");
-    fin.open("Student.dat", ios::binary); // read mode
+    fin.open("Students.dat", ios::binary); // read mode
     if (!fin)
     {
         cout << "File Could Not Be Opened" << endl;

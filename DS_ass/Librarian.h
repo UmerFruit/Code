@@ -1,14 +1,13 @@
 #ifndef LIBRARIAN_H_
 #define LIBRARIAN_H_
 #include "Headers.h"
-
-
 using namespace std;
 class Librarian
 {
     string name;
     string libID;
-    Login lock;
+    string username;
+    string password;
 
 public:
     void createlibrarian()
@@ -18,9 +17,152 @@ public:
         cout << "Enter Your First Name only:" << endl;
         cin >> name;
         cout << "Enter The Libraian ID:" << endl;
-        cin>> libID;
-        lock.Register();
+        cin >> libID;
+        cin.ignore();
+        Register();
         cout << "Librarian Record Created!" << endl;
+    }
+    void libMenu()
+    {
+        cout << "\nWELCOME " << name << endl;
+        cout << "LIBRARIAN MENU" << endl;
+        cout << "\n1. CREATE STUDENT RECORD" << endl;
+        cout << "2. DISPLAY ALL STUDENT RECORD" << endl;
+        cout << "3. MODIFY STUDENT RECORD" << endl;
+        cout << "4. DELETE STUDENT RECORD" << endl;
+        cout << "5. CREATE BOOK" << endl;
+        cout << "6. DISPLAY ALL BOOKS" << endl;
+        cout << "7. DISPLAY SPECIFIC BOOK" << endl;
+        cout << "8. MODIFY BOOK RECORD" << endl;
+        cout << "9. DELETE BOOK RECORD" << endl;
+        cout << "10.BACK TO MAIN MENU" << endl;
+        cout << "\nPLEASE ENTER YOUR CHOICE(1-10)" << endl;
+    }
+
+    bool Check()
+    {
+        Librarian lb;
+        string un, pw;
+        fstream fp("Librarians.dat", ios::binary | ios::in);
+        cout << "----------------------" << endl;
+        cout << "Enter the Username: ";
+        cin >> un;
+        cin.ignore();
+        cout << un << endl;
+        bool exists = false;
+        if (fp)
+            while (fp.read(reinterpret_cast<char *>(&lb), sizeof(Librarian)) && !exists)
+            {
+                if (un == lb.username)
+                {
+                    exists = true;
+                    name = lb.name;
+                    break;
+                }
+            }
+
+        if (!exists)
+        {
+            cout << "----------------------" << endl;
+            cout << "User doesn't exist" << endl;
+            cout << "----------------------" << endl;
+        }
+        else
+        {
+            cout << "----------------------" << endl;
+            cout << "Enter the Password:" << endl;
+            cout << "If you have forgotten the password then type \"forgot\". :)" << endl;
+            pw = inputPass();
+            if (pw == lb.password)
+            {
+                cout << endl;
+                cout << "----------------------" << endl;
+                cout << "You are now logged in." << endl;
+                cout << "----------------------" << endl;
+                fp.close();
+
+                return true;
+            }
+            else if (pw == "forgot")
+            {
+                cout << "----------------------" << endl;
+                cout << "Enter the same Username again." << endl;
+                getline(cin, un);
+                if (un == lb.username)
+                {
+                    cout << endl;
+                    cout << "----------------------" << endl;
+                    cout << "You are now logged in" << endl;
+                    cout << "----------------------" << endl;
+                    fp.close();
+
+                    return true;
+                }
+                else
+                {
+                    cout << "\n----------------------" << endl;
+                    cout << "Incorrect entry sorry" << endl;
+                    cout << "----------------------" << endl;
+                    fp.close();
+
+                    return false;
+                }
+            }
+            else
+            {
+                cout << "\n----------------------" << endl;
+                cout << "Incorrect password" << endl;
+                cout << "----------------------" << endl;
+                fp.close();
+
+                return false;
+            }
+            fp.close();
+        }
+        return false;
+    }
+    string inputPass()
+    {
+        string password;
+        password = "";
+        char c;
+        while ((c = getch()) != 10) // until newline char \n is entered
+        {
+            if (c != 127) // if backspace is not pressed
+            {
+                password += c;
+                cout << '*'; // display asterisks instead of actual password characters
+            }
+            else
+            {
+                cout << "\r" << setw(100) << setfill(' ') << ""
+                     << "\r";
+                password.pop_back();
+                int size = 0;
+                for (int i = 0; password[i] != '\0'; i++)
+                {
+                    size++;
+                }
+                for (int i = 0; i < size; i++)
+                {
+                    cout << "*";
+                }
+            }
+        }
+        return password;
+    }
+    void Register()
+    {
+        string pss;
+        char choice;
+        cout << "----------------------" << endl;
+        cout << "Your Name is your username." << endl;
+        cout << "Type your Password: " << endl;
+        pss = inputPass();
+        cout << "----------------------" << endl;
+
+        username = name;
+        password = pss;
     }
     string getid() { return libID; }
 

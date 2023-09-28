@@ -42,7 +42,6 @@ public:
     {
         return book_num;
     }
-
 };
 void writebook()
 {
@@ -60,8 +59,11 @@ void writebook()
     } while (ch == 'y' || ch == 'Y');
     fout.close();
 }
-void displayspb(string n) // display specific book
+void displayspb() // display specific book
 {
+    string n;
+    cout << "\nPlease Enter Book no." << endl;
+    cin >> n;
     Book bk;
     ifstream fin;
     cout << "\nBOOK DETAILS" << endl;

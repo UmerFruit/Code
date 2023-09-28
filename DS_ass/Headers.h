@@ -4,7 +4,6 @@
 #include <iostream>
 #include <fstream>
 #include "getch.h"
-#include "Login.h"
 #include "Student.h"
 #include <cstring>
 #include <iomanip>
