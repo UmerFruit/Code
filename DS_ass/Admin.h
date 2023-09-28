@@ -1,16 +1,13 @@
 #ifndef ADMIN_H_
 #define ADMIN_H_
-#include <cstring>
-#include <iostream>
-#include <fstream>
-#include "getch.h"
-#include "Login.h"
+#include "Headers.h"
 using namespace std;
+
 class Admin
 {
     string name;
     string adminID;
-    Login login;
+    Login lock;
 
 public:
     void createadmin()
@@ -22,7 +19,7 @@ public:
         cout << "Enter The Admin ID:" << endl;
         cin.ignore();
         getline(cin, adminID);
-        login.Register();
+        lock.Register();
         cout << "Admin Record Created!" << endl;
     }
     string getid() { return adminID; }

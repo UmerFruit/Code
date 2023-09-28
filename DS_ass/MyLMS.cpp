@@ -1,11 +1,10 @@
-#include "Admin.h"
-#include "Student.h"
-#include "Librarian.h"
-#include "Book.h"
+#include "Headers.h"
 Book bk;    // book class object
 Student st; // student class object
 Librarian lb;
 Admin am;
+
+
 
 void bookissue()
 {
@@ -209,10 +208,9 @@ void adminmenu()
         deletelib();
         break;
     case 14:
-    {
         writesadm();
         break;
-    }
+
     case 15:
         displayallA();
         break;
@@ -230,7 +228,7 @@ void adminmenu()
 int main()
 {
     char ch;
-    // start();
+    start();
     do
     {
         system("clear");

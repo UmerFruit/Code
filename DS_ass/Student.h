@@ -1,10 +1,6 @@
 #ifndef STUDENT_H_
 #define STUDENT_H_
-#include <cstring>
-#include <iostream>
-#include <fstream>
-#include "getch.h"
-#include "Login.h"
+#include "Headers.h"
 using namespace std;
 class Student
 {
@@ -12,11 +8,11 @@ class Student
     string name;
     string stbook_num; // student book no
     int token;         // total book of student
-    Login login;       // for access control
+    Login lock;       // for access control
 public:
     Login getL()
     {
-        return login;
+        return lock;
     }
     void createstudent()
     {
@@ -29,7 +25,7 @@ public:
         getline(cin, name);
         token = 0;
         stbook_num = "";
-        login.Register();
+        lock.Register();
         cout << "Student Record Created!" << endl;
     }
     void showstudent()

@@ -1,17 +1,14 @@
 #ifndef LIBRARIAN_H_
 #define LIBRARIAN_H_
-#include <cstring>
-#include <iostream>
-#include <fstream>
-#include "getch.h"
-#include "Login.h"
+#include "Headers.h"
+
 
 using namespace std;
 class Librarian
 {
     string name;
     string libID;
-    Login login;
+    Login lock;
 
 public:
     void createlibrarian()
@@ -22,7 +19,7 @@ public:
         cin >> name;
         cout << "Enter The Libraian ID:" << endl;
         cin>> libID;
-        login.Register();
+        lock.Register();
         cout << "Librarian Record Created!" << endl;
     }
     string getid() { return libID; }

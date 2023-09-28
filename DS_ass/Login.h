@@ -1,61 +1,32 @@
 #ifndef LOGIN_H_
 #define LOGIN_H_
-#include <cstring>
-#include <iostream>
-#include <fstream>
-#include "Student.h"
-#include "getch.h"
+#include "Headers.h"
 using namespace std;
+
 class Login
 {
-private:
+public:
     string username;
     string password;
 
 public:
-    string getun()
-    {
-        return username;
-    }
     void Register()
     {
-        string us,pss;
+        string us, pss;
         char choice;
         char l;
-        Student st;
         cout << "----------------------" << endl;
         cout << "Type your New Username: " << endl;
         cin >> ws;
         getline(cin, us);
-        bool alreadyE = false;
-        ifstream fp("Student.dat", ios::in | ios::binary); // read data
-        while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)))
-        {
-            if (st.getL().getun() == us)
-            {
-                alreadyE = true;
-                break;
-            }
-        }
-        if (alreadyE)
-        {
-            cout << "----------------------" << endl;
-            cout << "Same Username existing in database" << endl
-                 << "Please use another Username to register" << endl;
-            cout << "----------------------" << endl;
-            Register();
-        }
-        else
-        {
-            cout << "Type your New Password: " << endl;
-            pss = inputPass();
-            cout << "\n----------------------" << endl;
-            cout << "Registered successfully" << endl;
-            cout << "----------------------" << endl;
-        }
+        cout << "Type your New Password: " << endl;
+        pss = inputPass();
+        cout << "\n----------------------" << endl;
+        cout << "Registered successfully" << endl;
+        cout << "----------------------" << endl;
+
         username = us;
         password = pss;
-        fp.close();
     }
     bool Check()
     {
@@ -168,16 +139,6 @@ public:
         }
         return password;
     }
-    void showall()
-    {
-        Login L;
-        fstream fp("Usernames.dat", ios::binary | ios::in | ios::out);
-        while (fp.read(reinterpret_cast<char *>(&L), sizeof(Login)))
-        {
-            L.Display();
-        }
-    }
-
     /// Display the credentials
     void Display()
     {
@@ -187,4 +148,5 @@ public:
         cout << "----------------------" << endl;
     }
 };
+
 #endif

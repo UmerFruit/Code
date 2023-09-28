@@ -1,9 +1,3 @@
-/*
- * getch.h
- *
- *  Created on: 13-May-2023
- *      Author: umerfarooq
- */
 #ifndef GETCH_H_
 #define GETCH_H_
 #include <termios.h>
@@ -35,4 +29,5 @@ int getche(void)
     tcsetattr(STDIN_FILENO, TCSANOW, &oldattr);
     return ch;
 }
+
 #endif /* GETCH_H_ */

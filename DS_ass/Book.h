@@ -1,9 +1,6 @@
 #ifndef BOOK_H_
 #define BOOK_H_
-#include <cstring>
-#include <iostream>
-#include <fstream>
-#include "getch.h"
+#include "Headers.h"
 using namespace std;
 class Book
 {
