@@ -11,6 +11,7 @@ class Admin
     string password;
 
 public:
+    string getusername() { return username; }
     void createadmin()
     {
         system("clear");
@@ -30,7 +31,7 @@ public:
         fstream fp("Admins.dat", ios::binary | ios::in);
         cout << "----------------------" << endl;
         cout << "Enter the Username: ";
-        cin>>un;
+        cin >> un;
         cin.ignore();
         cout << un << endl;
         bool exists = false;
@@ -40,7 +41,7 @@ public:
                 if (un == a.username)
                 {
                     exists = true;
-                    name = a.name;
+                    *this = a;
                     break;
                 }
             }
@@ -178,7 +179,7 @@ public:
         cout << "\nPLEASE ENTER YOUR CHOICE(1-17)" << endl;
     }
 };
-void writesadm()
+bool writesadm()
 {
     ofstream fout;
     char ch;
@@ -193,6 +194,7 @@ void writesadm()
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     fout.close();
+    return 1;
 }
 void displayallA() // display all admins
 {
@@ -220,8 +222,9 @@ void displayallA() // display all admins
     cin.ignore();
     getch();
 }
-void deleteadm()
+bool deleteadm()
 {
+    bool deleted = false;
     fstream fp;
     Admin am;
     string n;
@@ -252,6 +255,7 @@ void deleteadm()
     if (flag == 1)
     {
         cout << "\nRecord Deleted." << endl;
+        deleted = true;
     }
     else
     {
@@ -259,6 +263,7 @@ void deleteadm()
     }
     cin.ignore();
     getch();
+    return deleted;
 }
 
 #endif

@@ -6,8 +6,8 @@ void stmenu(Student &);
 void libmenu(Librarian &);
 void adminmenu(Admin &);
 void start();
-void bookdeposit(string);
-void bookissue(string);
+bool bookdeposit(string);
+bool bookissue(string);
 int main()
 {
     char ch;
@@ -41,13 +41,14 @@ int main()
         }
     } while (1);
 }
-void bookissue(string sn)
+bool bookissue(string sn)
 {
     Book bk;
     Student st;
     fstream fp1, fp;
     string bn;
     int found = 0, flag = 0;
+    bool issued = false;
     system("clear");
     cout << "\nBOOK ISSUE" << endl;
     fp.open("Students.dat", ios::in | ios::out | ios::binary);
@@ -74,6 +75,7 @@ void bookissue(string sn)
                         fp.seekg(pos);
                         fp.write(reinterpret_cast<char *>(&st), sizeof(Student));
                         cout << "\n\nBook Issued Successfully\n\nPlease Note The Book Issue Date Of Your Book And Return Within 15 Days\nOtherwise Fine = 15 Rs Per Day" << endl;
+                        issued = true;
                     }
                 }
                 if (flag == 0)
@@ -83,10 +85,7 @@ void bookissue(string sn)
             }
             else
             {
-
                 cout << "You Have Not Returned The Last Book" << endl;
-                getch();
-                return;
             }
         }
         pos = fp.tellg();
@@ -99,9 +98,11 @@ void bookissue(string sn)
     fp1.close();
     cin.ignore();
     getch();
+    return issued;
 }
-void bookdeposit(string sn)
+bool bookdeposit(string sn)
 {
+    bool deposited = false;
     fstream fp, fp1;
     string bn;
     Student st;
@@ -137,6 +138,7 @@ void bookdeposit(string sn)
                         fp.seekg(pos);
                         fp.write(reinterpret_cast<char *>(&st), sizeof(Student));
                         cout << "\nBook Deposited Successfully" << endl;
+                        deposited = true;
                     }
                 }
                 if (flag == 0)
@@ -161,6 +163,7 @@ void bookdeposit(string sn)
     getch();
     fp.close();
     fp1.close();
+    return deposited;
 }
 void start()
 {
@@ -172,7 +175,9 @@ void start()
 }
 void adminmenu(Admin &a)
 {
+    LogManager LM;
     system("clear");
+    string ad = "Admin";
     int ch2;
     string num;
     a.adminMenu();
@@ -180,54 +185,58 @@ void adminmenu(Admin &a)
     switch (ch2)
     {
     case 1:
-        writestudent();
+        LM.addLog(a.getusername(), "Add New Student", ad, writestudent());
         break;
     case 2:
+        LM.addLog(a.getusername(), "Displayed All Students", ad, 1);
         displayalls();
         break;
     case 3:
-        system("clear");
+        LM.addLog(a.getusername(), "Displayed Specific Student", ad, 1);
         displaysps();
         break;
     case 4:
-        modifystudent();
+        LM.addLog(a.getusername(), "Modified Student", ad, modifystudent());
         break;
     case 5:
-        deletestudent();
+        LM.addLog(a.getusername(), "Removed Student", ad, deletestudent());
         break;
     case 6:
-        writebook();
+        LM.addLog(a.getusername(), "Add New Book", ad, writebook());
         break;
     case 7:
+        LM.addLog(a.getusername(), "Displayed All Books", ad, 1);
         displayallb();
         break;
     case 8:
-        system("clear");
+        LM.addLog(a.getusername(), "Displayed Specific Book", ad, 1);
         displayspb();
         break;
     case 9:
-        modifybook();
+        LM.addLog(a.getusername(), "Modified Book", ad, modifybook());
         break;
     case 10:
-        deletebook();
+        LM.addLog(a.getusername(), "Removed Book", ad, deletebook());
         break;
     case 11:
-        writesLib();
+        LM.addLog(a.getusername(), "Add Librarian", ad, writesLib());
         break;
     case 12:
+        LM.addLog(a.getusername(), "Displayed All Librarians", ad, 1);
         displayallL();
         break;
     case 13:
-        deletelib();
+        LM.addLog(a.getusername(), "Removed Librarian", ad, deletelib());
         break;
     case 14:
-        writesadm();
+        LM.addLog(a.getusername(), "Add Admin", ad, writesadm());
         break;
     case 15:
+        LM.addLog(a.getusername(), "Displayed All Admins", ad, 1);
         displayallA();
         break;
     case 16:
-        deleteadm();
+        LM.addLog(a.getusername(), "Removed Admin", ad, deleteadm());
         break;
     case 17:
         return;
@@ -238,7 +247,9 @@ void adminmenu(Admin &a)
 }
 void libmenu(Librarian &lb)
 {
+    LogManager LM;
     system("clear");
+    string l = "Librarian";
     int ch2;
     string num;
     lb.libMenu();
@@ -246,28 +257,30 @@ void libmenu(Librarian &lb)
     switch (ch2)
     {
     case 1:
-        writestudent();
+        LM.addLog(lb.getusername(), "Add New Student", l, writestudent());
         break;
     case 2:
+        LM.addLog(lb.getusername(), "Displayed All Students", l, 1);
         displayalls();
         break;
     case 3:
-        modifystudent();
+        LM.addLog(lb.getusername(), "Modified Student", l, modifystudent());
         break;
     case 4:
-        deletestudent();
+        LM.addLog(lb.getusername(), "Removed Student", l, deletestudent());
         break;
     case 5:
-        writebook();
+        LM.addLog(lb.getusername(), "Add New Book", l, writebook());
         break;
     case 6:
+        LM.addLog(lb.getusername(), "Displayed All Books", l, 1);
         displayallb();
         break;
     case 8:
-        modifybook();
+        LM.addLog(lb.getusername(), "Modified Book", l, modifybook());
         break;
     case 9:
-        deletebook();
+        LM.addLog(lb.getusername(), "Removed Book", l, deletebook());
         break;
     case 10:
         return;
@@ -278,24 +291,27 @@ void libmenu(Librarian &lb)
 }
 void stmenu(Student &st)
 {
+    LogManager LM;
     system("clear");
     char ch2;
+    string s = "Student";
     string num;
     st.studentMenu();
     ch2 = getch();
     switch (ch2)
     {
     case '1':
-        bookissue(st.getadm_num());
+        LM.addLog(st.getusername(), "Book Issue", s, bookissue(st.getadm_num()));
         break;
     case '2':
-        bookdeposit(st.getadm_num());
+        LM.addLog(st.getusername(), "Book Deposit", s, bookdeposit(st.getadm_num()));
         break;
     case '3':
+        LM.addLog(st.getusername(), "Displayed All Books", s, 1);
         displayallb();
         break;
-
     case '4':
+        LM.addLog(st.getusername(), "Displayed Specific Book", s, 1);
         displayspb();
         break;
     case '5':
@@ -309,23 +325,42 @@ void adminlogin()
 {
     system("clear");
     Admin a;
+    LogManager LM;
+
     if (a.Check())
+    {
+        LM.addLog(a.getusername(), "Login", "Admin", 1);
         adminmenu(a);
+    }
+    else
+        LM.addLog(a.getusername(), "Login", "Admin", 0);
     getch();
 }
 void liblogin()
 {
     system("clear");
     Librarian lb;
+    LogManager LM;
     if (lb.Check())
+    {
+        LM.addLog(lb.getusername(), "Login", "Librarian", 1);
         libmenu(lb);
+    }
+    else
+        LM.addLog(lb.getusername(), "Login", "Librarian", 0);
     getch();
 }
 void stlogin()
 {
     system("clear");
     Student st;
+    LogManager LM;
     if (st.Check())
+    {
+        LM.addLog(st.getusername(), "Login", "Student", 1);
         stmenu(st);
+    }
+    else
+        LM.addLog(st.getusername(), "Login", "Student", 0);
     getch();
 }

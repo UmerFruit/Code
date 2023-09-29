@@ -11,6 +11,7 @@ class Student
     string username;
     string password; // for access control
 public:
+    string getusername() { return username; }
     void createstudent()
     {
         system("clear");
@@ -54,8 +55,7 @@ public:
                 if (un == st.username)
                 {
                     exists = true;
-                    name = st.name;
-                    adm_num = st.adm_num;
+                    *this = st;
                     break;
                 }
             }
@@ -222,8 +222,9 @@ bool findstudent(string admnum)
     }
     return alreadyE;
 }
-void writestudent()
+bool writestudent()
 {
+    bool created = false;
     ofstream fout;
     char ch;
     fout.open("Students.dat", ios::binary | ios::app); // write and append data
@@ -233,16 +234,21 @@ void writestudent()
         system("clear");
         st.createstudent();
         if (findstudent(st.getadm_num()) == false)
-            fout.write(reinterpret_cast<char *>(&st), sizeof(Student)); // size of class
+        {
+            fout.write(reinterpret_cast<char *>(&st), sizeof(Student));// size of class
+            created = true;
+        } 
         else
             cout << "Student Already exists.Try again." << endl;
         cout << "\nWould you like to add more records? (y/n):" << endl;
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     fout.close();
+    return created;
 }
 void displaysps() // display specific student
 {
+    system("clear");
     string n;
     cout << "\nPlease Enter Admission no. ";
     cin >> n;
@@ -267,8 +273,9 @@ void displaysps() // display specific student
     cin.ignore();
     getch();
 }
-void modifystudent()
+bool modifystudent()
 {
+    bool modified = false;
     Student st;
     fstream fp;
     string n;
@@ -291,6 +298,7 @@ void modifystudent()
             fp.write(reinterpret_cast<char *>(&st), sizeof(Student));
             cout << "\nRecord Updated." << endl;
             found = 1;
+            modified = true;
         }
         pos = fp.tellg();
     }
@@ -301,12 +309,13 @@ void modifystudent()
         cout << "\nRecord Not Found." << endl;
     }
     getch(); // press key to get out
+    return modified;
 }
-void deletestudent()
+bool deletestudent()
 {
     Student st;
     fstream fp;
-
+    bool deleted = false;
     string n;
     int flag = 0;
     system("clear");
@@ -335,6 +344,7 @@ void deletestudent()
     if (flag == 1)
     {
         cout << "\nRecord Deleted." << endl;
+        deleted = true;
     }
     else
     {
@@ -342,6 +352,7 @@ void deletestudent()
     }
     cin.ignore();
     getch();
+    return deleted;
 }
 void displayalls() // display all students
 {

@@ -71,17 +71,17 @@ public:
 // code flow
 int main()
 {
-    Student T;
-    T.createstudent();
-    hash_chain H;
+    // Student T;
+    // T.createstudent();
+    // hash_chain H;
     // H.insert_end("\0", "\0", "\0", "\0", T);
     // H.insert(H.hash(), "\0", "\0", "\0", T);
-    // string input = "Umer Farooq";
-    // SHA1 checksum;
-    // checksum.update(input);
-    // const string hash = checksum.final();
-    // cout << "The SHA-1 of \"" << input << "\" is: " << hash << endl;
-    // return 0;
+    string input = "saif Ur Rehman";
+    SHA1 checksum;
+    checksum.update(input);
+    const string hash = checksum.final();
+    cout << "The SHA-1 of \"" << input << "\" is: " << hash << endl;
+    return 0;
 
     return 0;
 }

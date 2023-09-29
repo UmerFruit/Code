@@ -10,6 +10,7 @@ class Librarian
     string password;
 
 public:
+    string getusername() { return username; }
     void createlibrarian()
     {
         system("clear");
@@ -56,7 +57,7 @@ public:
                 if (un == lb.username)
                 {
                     exists = true;
-                    name = lb.name;
+                    *this = lb;
                     break;
                 }
             }
@@ -172,8 +173,9 @@ public:
         cout << setw(10) << left << "LibID:" << libID << endl;
     }
 };
-void writesLib()
+bool writesLib()
 {
+    bool created = false;
     ofstream fout;
     char ch;
     fout.open("Librarians.dat", ios::binary | ios::app); // write and append data
@@ -183,10 +185,12 @@ void writesLib()
         system("clear");
         lb.createlibrarian();
         fout.write(reinterpret_cast<char *>(&lb), sizeof(Librarian)); // size of class
+        created = true;
         cout << "\nWould you like to add more records? (y/n):" << endl;
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     fout.close();
+    return created;
 }
 void displayallL() // display all Librarians
 {
@@ -214,8 +218,9 @@ void displayallL() // display all Librarians
     cin.ignore();
     getch();
 }
-void deletelib()
+bool deletelib()
 {
+    bool deleted = 0;
     fstream fp;
     Librarian lb;
     string n;
@@ -246,6 +251,7 @@ void deletelib()
     if (flag == 1)
     {
         cout << "\nRecord Deleted." << endl;
+        deleted = 1;
     }
     else
     {
@@ -253,5 +259,6 @@ void deletelib()
     }
     cin.ignore();
     getch();
+    return deleted;
 }
 #endif

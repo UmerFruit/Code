@@ -43,8 +43,9 @@ public:
         return book_num;
     }
 };
-void writebook()
+bool writebook()
 {
+    bool created = false;
     ofstream fout;
     char ch;
     fout.open("Book.dat", ios::binary | ios::app); // write and append data
@@ -54,13 +55,16 @@ void writebook()
         system("clear");
         bk.createbook();
         fout.write(reinterpret_cast<char *>(&bk), sizeof(Book)); // size of class
+        created = true;
         cout << "\nWould you like to add more records? (y/n):" << endl;
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
     fout.close();
+    return created;
 }
 void displayspb() // display specific book
 {
+    system("clear");
     string n;
     cout << "\nPlease Enter Book no." << endl;
     cin >> n;
@@ -85,9 +89,10 @@ void displayspb() // display specific book
     cin.ignore();
     getch();
 }
-void modifybook()
+bool modifybook()
 {
     Book bk;
+    bool modified = false;
     fstream fp;
     string n;
     int found = 0; // seach book of given data
@@ -109,6 +114,7 @@ void modifybook()
             fp.write(reinterpret_cast<char *>(&bk), sizeof(Book));
             cout << "\nRecord Updated" << endl;
             found = 1;
+            modified = true;
         }
         pos = fp.tellg();
     }
@@ -119,9 +125,11 @@ void modifybook()
         cout << "\nRecord Not Found" << endl;
     }
     getch(); // press key to get out
+    return modified;
 }
-void deletebook()
+bool deletebook()
 {
+    bool deleted = false;
     Book bk;
     fstream fp;
     string n; // book no.
@@ -152,6 +160,7 @@ void deletebook()
     if (flag == 1)
     {
         cout << "\nRecord Deleted." << endl;
+        deleted = true;
     }
     else
     {
@@ -159,6 +168,7 @@ void deletebook()
     }
     cin.ignore();
     getch();
+    return deleted;
 }
 void displayallb()
 {
