@@ -79,6 +79,7 @@
 		"regex": "cpp",
 		"set": "cpp",
 		"unordered_set": "cpp",
-		"valarray": "cpp"
+		"valarray": "cpp",
+		"hash_map": "cpp"
 	}
 }
