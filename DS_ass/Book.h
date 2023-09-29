@@ -62,8 +62,9 @@ bool writebook()
     fout.close();
     return created;
 }
-void displayspb() // display specific book
+bool displayspb() // display specific book
 {
+    bool found = false;
     system("clear");
     string n;
     cout << "\nPlease Enter Book no." << endl;
@@ -78,6 +79,7 @@ void displayspb() // display specific book
         if (bk.getbook_num() == n)
         {
             bk.showbook();
+            found = true;
             flag = 1;
         }
     }
@@ -88,6 +90,7 @@ void displayspb() // display specific book
     }
     cin.ignore();
     getch();
+    return found;
 }
 bool modifybook()
 {

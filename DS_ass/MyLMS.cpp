@@ -276,6 +276,10 @@ void libmenu(Librarian &lb)
         LM.addLog(lb.getusername(), "Displayed All Books", l, 1);
         displayallb();
         break;
+    case 7:
+        LM.addLog(lb.getusername(), "Displayed Specific Book", l, displayspb());
+        
+        break;
     case 8:
         LM.addLog(lb.getusername(), "Modified Book", l, modifybook());
         break;
