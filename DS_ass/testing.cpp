@@ -24,14 +24,15 @@ public:
         }
     }
 
-    void logAction(const string &action)
+    void logAction(string name, string action)
     {
         if (logFile.is_open())
         {
             time_t currentTime = time(nullptr);
             string localTime = ctime(&currentTime);
 
-            logFile << "[" << localTime << "] " << action << endl;
+            logFile << localTime << endl
+                    << "User:" << name << "\nAction:" << action << endl;
         }
     }
 };
@@ -63,7 +64,6 @@ public:
         getline(cin, Title);
         cout << "Enter IBN Number:" << endl;
         getline(cin, IBN);
-        cin.ignore();
     }
 
     void WriteBookFile()
@@ -207,15 +207,27 @@ public:
         fout.close();
     }
 
-    void ReadStudentData()
+    void ReadStudentData(string name)
     {
         ifstream fin("StudentData.bin", ios::binary);
         Student st;
         while (!fin.eof())
         {
             fin.read(reinterpret_cast<char *>(&st), sizeof(Student));
+            if (name == st.st_Name)
+            {
+                setName(name);
+            }
         }
         fin.close();
+    }
+    void setName(string Name)
+    {
+        st_Name = Name;
+    }
+    string getName()
+    {
+        return st_Name;
     }
 
     void DisplayStudent()
@@ -229,7 +241,6 @@ public:
         }
 
         Student st;
-
         while (fin.read(reinterpret_cast<char *>(&st), sizeof(Student)))
         {
             cout << "Name: " << st.st_Name << "\tRoll No.: " << st.RollNo << endl;
@@ -338,7 +349,7 @@ public:
         cout << "\n Enter Your Password : ";
         getline(cin, pass);
         cout << endl;
-        logging.logAction("Login");
+        logging.logAction(st.getName(), "Login");
         cout << endl;
 
         cout << "Debug Info: Entered Email: " << email << ", Password: " << pass << endl;
@@ -377,7 +388,7 @@ public:
                 getline(cin, ibn);
                 RemoveBookByIBN(ibn);
                 cout << endl;
-                logging.logAction("Issued a book");
+                logging.logAction(st.getName(), "Issued a book");
                 cout << endl;
                 break;
             default:
@@ -410,7 +421,7 @@ public:
         getline(cin, email);
         cout << "Enter the Password : ";
         getline(cin, pass);
-        logging.logAction("Login");
+        logging.logAction(ad_name, "Login");
         cout << endl;
 
         while (fin.read(reinterpret_cast<char *>(&L), sizeof(Library)))
@@ -437,17 +448,17 @@ public:
                 DisplayAllBooks();
                 cout << "\n--------------------\n"
                      << endl;
-                logging.logAction("Display books");
+                logging.logAction(ad_name, "Display books");
                 break;
             case 2:
                 WriteBookFile();
-                logging.logAction("Added a book");
+                logging.logAction(ad_name, "Added a book");
                 break;
             case 3:
                 cout << "Enter IBN of Book to Remove from List : ";
                 getline(cin, ibn);
                 RemoveBookByIBN(ibn);
-                logging.logAction("Removed book");
+                logging.logAction(ad_name, "Removed book");
                 break;
             default:
                 cout << "Wrong Option!" << endl;
@@ -458,25 +469,29 @@ public:
 
 int main()
 {
-    // Book b1;
-    // b1.WriteBookFile();
-    // b1.DisplayAllBooks();
-    // b1.RemoveBookByIBN("34756");
-    // b1.DisplayAllBooks();
-    // b1.ReadBookFile();          //ye function kya kar raha hai? faaltu lag raha hai mujhe
+    Book b1;
+    b1.WriteBookFile();
+    cout<<"Chal gya."<<endl;
+    b1.DisplayAllBooks();
+    cout<<"Chal gya."<<endl;
+    b1.RemoveBookByIBN("34756");
+    cout<<"Chal gya."<<endl;
+    b1.DisplayAllBooks();
+    cout<<"Chal gya."<<endl;
+    //b1.ReadBookFile();          //ye function kya kar raha hai? faaltu lag raha hai mujhe
 
-    // Student s1;
-    // s1.WriteStudentData();
+    Student s1;
+    s1.WriteStudentData();
 
-    // Library l1;
-    // l1.WriteStudentData();
-    // l1.DisplayStudent();
-    // l1.StudentLogin();
-    // l1.WriteStudentData();
-    // l1.DisplayStudent();
-    // l1.ReadStudentData();
-    // l1.WriteLibraryData();
-    // l1.ReadLibraryData();
+    Library l1;
+    l1.WriteStudentData();
+    l1.DisplayStudent();
+    l1.StudentLogin();
+    l1.WriteStudentData();
+    l1.DisplayStudent();
+    //l1.ReadStudentData();
+    //l1.WriteLibraryData();
+    //l1.ReadLibraryData();
 
     return 0;
 }

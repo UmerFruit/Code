@@ -288,7 +288,6 @@ void libmenu(Librarian &lb)
         break;
     case 10:
         return;
-    default:
         cout << "Invalid choice";
     }
     libmenu(lb);
