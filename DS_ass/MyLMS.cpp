@@ -8,6 +8,10 @@ void adminmenu(Admin &);
 void start();
 bool bookdeposit(string);
 bool bookissue(string);
+void RegMenu();
+void SecMenu();
+
+LogManager LM;
 int main()
 {
     char ch;
@@ -16,30 +20,88 @@ int main()
     {
         system("clear");
         cout << "\nMAIN MENU" << endl;
-        cout << "1. ADMINISTRATOR LOGIN" << endl;
-        cout << "2. LIBRARIAN LOGIN" << endl;
-        cout << "3. STUDENT LOGIN" << endl;
-        cout << "4. EXIT" << endl;
-        cout << "\nPLEASE SELECT YOUR OPTION(1-4)" << endl;
+        cout << "1. REGULAR MENU" << endl;
+        cout << "2. SECURITY MENU" << endl;
+        cout << "3. EXIT" << endl;
+        cout << "\nPLEASE SELECT YOUR OPTION(1-3)" << endl;
         ch = getch();
         switch (ch)
         {
         case '1':
-            adminlogin();
+            RegMenu();
             break;
         case '2':
-            liblogin();
+            SecMenu();
             break;
         case '3':
-            stlogin();
-            break;
-        case '4':
+            LM.chain.printList();
             return 0;
-            break;
         default:
             cout << "INVALID CHOICE";
         }
     } while (1);
+}
+void SecMenu()
+{
+    char ch;
+    system("clear");
+    cout << "\nSECURITY MENU" << endl;
+    cout << "1. " << endl;
+    cout << "2. " << endl;
+    cout << "3. " << endl;
+    cout << "4. " << endl;
+    cout << "5. " << endl;
+    cout << "6. BACK TO MAIN MENU" << endl;
+    cout << "\nPLEASE SELECT YOUR OPTION(1-6)" << endl;
+    ch = getch();
+    switch (ch)
+    {
+    case '1':
+        adminlogin();
+        break;
+    case '2':
+        liblogin();
+        break;
+    case '3':
+        stlogin();
+        break;
+    case '4':
+        return;
+        break;
+    default:
+        cout << "INVALID CHOICE";
+    }
+    SecMenu();
+}
+void RegMenu()
+{
+    char ch;
+    system("clear");
+    cout << "\nREGULAR MENU" << endl;
+    cout << "1. ADMINISTRATOR LOGIN" << endl;
+    cout << "2. LIBRARIAN LOGIN" << endl;
+    cout << "3. STUDENT LOGIN" << endl;
+    cout << "4. BACK TO MAIN MENU" << endl;
+    cout << "\nPLEASE SELECT YOUR OPTION(1-4)" << endl;
+    ch = getch();
+    switch (ch)
+    {
+    case '1':
+        adminlogin();
+        break;
+    case '2':
+        liblogin();
+        break;
+    case '3':
+        stlogin();
+        break;
+    case '4':
+        return;
+        break;
+    default:
+        cout << "INVALID CHOICE";
+    }
+    RegMenu();
 }
 bool bookissue(string sn)
 {
@@ -175,7 +237,6 @@ void start()
 }
 void adminmenu(Admin &a)
 {
-    LogManager LM;
     system("clear");
     string ad = "Admin";
     int ch2;
@@ -247,7 +308,6 @@ void adminmenu(Admin &a)
 }
 void libmenu(Librarian &lb)
 {
-    LogManager LM;
     system("clear");
     string l = "Librarian";
     int ch2;
@@ -278,7 +338,7 @@ void libmenu(Librarian &lb)
         break;
     case 7:
         LM.addLog(lb.getusername(), "Displayed Specific Book", l, displayspb());
-        
+
         break;
     case 8:
         LM.addLog(lb.getusername(), "Modified Book", l, modifybook());
@@ -294,7 +354,6 @@ void libmenu(Librarian &lb)
 }
 void stmenu(Student &st)
 {
-    LogManager LM;
     system("clear");
     char ch2;
     string s = "Student";
@@ -328,7 +387,6 @@ void adminlogin()
 {
     system("clear");
     Admin a;
-    LogManager LM;
 
     if (a.Check())
     {
@@ -343,7 +401,6 @@ void liblogin()
 {
     system("clear");
     Librarian lb;
-    LogManager LM;
     if (lb.Check())
     {
         LM.addLog(lb.getusername(), "Login", "Librarian", 1);
@@ -357,7 +414,6 @@ void stlogin()
 {
     system("clear");
     Student st;
-    LogManager LM;
     if (st.Check())
     {
         LM.addLog(st.getusername(), "Login", "Student", 1);

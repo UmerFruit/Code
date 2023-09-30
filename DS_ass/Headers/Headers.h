@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <vector>
+#include "sha1.hpp"
 #include "getch.h"
 #include "Student.h"
 #include <cstring>
