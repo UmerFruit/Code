@@ -11,6 +11,7 @@
 #include "Admin.h"
 #include "Librarian.h"
 #include "Book.h"
+#include <dirent.h>
 #include "Logging.h"
 using namespace std;
 #endif /* HEADERS_H_ */

@@ -11,7 +11,8 @@ bool bookissue(string);
 void RegMenu();
 void SecMenu();
 
-LogManager LM;
+string lastFileInDirectory();
+
 int main()
 {
     char ch;
@@ -34,7 +35,6 @@ int main()
             SecMenu();
             break;
         case '3':
-            LM.chain.printList();
             return 0;
         default:
             cout << "INVALID CHOICE";
@@ -43,31 +43,66 @@ int main()
 }
 void SecMenu()
 {
+    int c;
+    int idx;
     char ch;
+    string data;
     system("clear");
     cout << "\nSECURITY MENU" << endl;
-    cout << "1. " << endl;
-    cout << "2. " << endl;
-    cout << "3. " << endl;
-    cout << "4. " << endl;
-    cout << "5. " << endl;
+    cout << "1. SHOW LOGS OF CURRENT SESSION" << endl;
+    cout << "2. REMOVE A LOG" << endl;
+    cout << "3. CHECK LOGS FOR CONSISTENCY" << endl;
+    cout << "4. EDIT LOG" << endl;
+    cout << "5. READ LOGS FROM LAST FILE" << endl;
     cout << "6. BACK TO MAIN MENU" << endl;
     cout << "\nPLEASE SELECT YOUR OPTION(1-6)" << endl;
     ch = getch();
     switch (ch)
     {
     case '1':
-        adminlogin();
+        system("clear");
+        LM.chain.printList();
+        getch();
         break;
     case '2':
-        liblogin();
+        system("clear");
+        cout << "Enter the Log# to delete:" << endl;
+        cin >> c;
+        cin.ignore();
+        LM.chain.RemoveBlock(c) ? cout << "Deleted Successfully" << endl : cout << "Failed to Delete" << endl;
+        getch();
         break;
     case '3':
-        stlogin();
+        system("clear");
+        idx = LM.chain.checkChainConsistency();
+        if (idx == -1)
+            cout << "Healthy Chain" << endl;
+        else
+        {
+            cout << "BREACH!" << endl;
+            LM.chain.autoRepairchain(idx);
+        }
+        cout << "Chain Has Been AutoRepaired. You can view the correct logs now." << endl;
+        getch();
         break;
     case '4':
-        return;
+        system("clear");
+        cout << "Enter the Log# to Modify:" << endl;
+        cin >> c;
+        cin.ignore();
+        cout << "Enter Data to Inject:" << endl;
+        getline(cin, data);
+        LM.chain.injectDataInChain(c, data) ? cout << "Modification Successful" << endl : cout << "Failed to modify data" << endl;
+        getch();
         break;
+    case '5':
+        system("clear");
+        LM.chain.readChain(lastFileInDirectory());
+        cout << "Read Done" << endl;
+        getch();
+        break;
+    case '6':
+        return;
     default:
         cout << "INVALID CHOICE";
     }
@@ -422,4 +457,28 @@ void stlogin()
     else
         LM.addLog(st.getusername(), "Login", "Student", 0);
     getch();
+}
+string lastFileInDirectory()
+{
+    string directory_path = "HashLogs/";
+    string file = "";
+    DIR *dir = opendir(directory_path.c_str());
+    if (dir == nullptr)
+    {
+        cout << "Failed to open directory." << endl;
+        return file;
+    }
+
+    string max = file;
+    struct dirent *entry;
+    while ((entry = readdir(dir)))
+    {
+        if (entry->d_type == DT_REG)
+        { 
+            file = (entry->d_name);
+            if (file > max)
+                max = file;
+        }
+    }
+    return max;
 }

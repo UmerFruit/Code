@@ -69,9 +69,10 @@ public:
     }
     void print()
     {
-        cout << "\ndata.prev_hash: " << data.prev_hash << endl;
-        cout << "data.log: " << data.log << endl;
-        cout << "TimeStamp: " << data.timestamp << endl
+        string log = data.log;
+        replaceCharInString(log, '_', ' ');
+        replaceCharInString(log, '.', ':');
+        cout << "Log: " << log << endl
              << endl;
     }
     bool operator==(Hash_node &h)
@@ -133,6 +134,7 @@ public:
     {
         if (head == NULL)
         {
+            cout << "\nThere are no Logs" << endl;
             return;
         }
         int i = 1;
@@ -144,19 +146,7 @@ public:
             curr = curr->next;
         }
     }
-    void recalulcateChain()
-    {
-        int idx = checkChainConsistency();
-        if (idx != -1)
-        {
-            Hash_node *curr = head->next;
-            while (curr != NULL)
-            {
-                curr->data.prev_hash = Generatehash(curr->prev->inputHash());
-                curr = curr->next;
-            }
-        }
-    }
+
     string Generatehash(string str)
     {
         SHA1 checksum;
@@ -164,12 +154,104 @@ public:
         string hash = checksum.final();
         return hash;
     }
-    // void restoreBlock();
+    void autoRepairchain(int idx, int s = 2)
+    {
+        if (s == 0)
+        {
+            return;
+        }
 
-    void injectDataInChain(int InjectIndex, string InjectData)
+        Hash_node *ogcurr = head;
+        int i = 1;
+        while (i < idx)
+        {
+            ogcurr = ogcurr->next;
+            i++;
+        }
+        string t = ogcurr->data.timestamp;
+        string name = "../HashLogs/HASHCHAIN_<" + t + ">.txt";
+        ifstream fin;
+        fin.open(name);
+        Hash_chain temp;
+        temp.readChain(name);
+        Hash_node *curr2 = temp.head;
+
+        while (curr2->next != NULL)
+        {
+            curr2 = curr2->next;
+        }
+        if (s == 1) // remove case
+        {
+            insertAtIndex(idx - 2, curr2->prev->prev->data);
+            if (checkChainConsistency() == -1)
+            {
+                autoRepairchain(idx, 0);
+            }
+            else
+            {
+                autoRepairchain(idx, 2);
+            }
+        }
+        if (s == 2)
+        {
+            insertAtIndex(idx - 1, curr2->prev->data); // modify case
+            RemoveBlock(idx - 1);
+            if (checkChainConsistency() == -1)
+            {
+                autoRepairchain(idx, 0);
+            }
+            else
+            {
+                autoRepairchain(idx, 1);
+            }
+        }
+    }
+    void insertAtIndex(int index, st data)
+    {
+        Hash_node *newNode = new Hash_node(data);
+        if (!head && index != 0)
+        {
+            cout << "List is empty. Can't insert at index other than 0." << endl;
+            return;
+        }
+
+        if (index == 0)
+        {
+            newNode->next = head;
+            if (head)
+                head->prev = newNode;
+            head = newNode;
+            return;
+        }
+
+        Hash_node *current = head;
+        int currentIndex = 0;
+
+        while (current && currentIndex < index - 1)
+        {
+            current = current->next;
+            currentIndex++;
+        }
+
+        if (!current)
+        {
+            cout << "Index out of range." << endl;
+            delete newNode;
+            return;
+        }
+
+        newNode->next = current->next;
+        newNode->prev = current;
+
+        if (current->next)
+            current->next->prev = newNode;
+
+        current->next = newNode;
+    }
+    bool injectDataInChain(int InjectIndex, string InjectData)
     {
         if (head == NULL)
-            return;
+            return false;
 
         Hash_node *curr = head;
         int i = 1;
@@ -179,8 +261,12 @@ public:
             i++;
         }
         if (curr == NULL)
+        {
             cout << "Index not found" << endl;
+            return false;
+        }
         curr->data.log = InjectData;
+        return true;
     }
 
     int checkChainConsistency()
@@ -190,7 +276,7 @@ public:
             cout << "Empty Chain" << endl;
             return -1;
         }
-        head->next->prev = head; 
+        head->next->prev = head;
         Hash_node *curr = head->next;
         while (curr != NULL)
         {
@@ -198,27 +284,27 @@ public:
             {
                 cout << "Current Node:\n\n";
                 curr->print();
-
-                cout << "Previous 2 Nodes:\n\n";
-                if (curr->prev)
-                {
-                    curr->prev->print();
-
-                    if (curr->prev->prev)
-                    {
-                        curr->prev->prev->print();
-                    }
-                }
                 cout << "Next 2 Nodes:\n\n";
-                if (curr->next)
+                if (curr->next != NULL)
                 {
                     curr->next->print();
 
-                    if (curr->next->next)
+                    if (curr->next->next != NULL)
                     {
                         curr->next->next->print();
                     }
                 }
+                cout << "Previous 2 Nodes:\n\n";
+                if (curr->prev != NULL)
+                {
+                    curr->prev->print();
+
+                    if (curr->prev->prev != NULL)
+                    {
+                        curr->prev->prev->print();
+                    }
+                }
+
                 return FindBlock(curr);
             }
             curr = curr->next;
@@ -238,26 +324,43 @@ public:
         }
         return size;
     }
-    void RemoveBlock(int position)
+    bool RemoveBlock(int position = -1)
     {
+        bool deleted = false;
         if (head == NULL)
         {
             cout << "EMPTY LIST!" << endl;
-            return;
+            return deleted;
+        }
+        else if (position == -1)
+        {
+            Hash_node *curr = head;
+            while (curr->next != NULL)
+            {
+                curr = curr->next;
+            }
+            tail = curr->prev;
+            curr->prev->next = curr->next;
+            curr->next = NULL;
+            delete curr;
+            deleted = true;
+            return deleted;
         }
         else if (position < 0 || position > Size())
         {
             cout << "Index not found" << endl;
-            return;
+            return deleted;
         }
-        if (position == 1)
+        else if (position == 1)
         {
             Hash_node *prev = head;
             head = head->next;
             prev->next = NULL;
             delete prev;
-            return;
+            deleted = true;
+            return deleted;
         }
+
         Hash_node *curr = head;
         int i = 1;
         while (i < position)
@@ -265,9 +368,23 @@ public:
             curr = curr->next;
             i++;
         }
+        if (curr->next == NULL)
+        {
+            tail = curr->prev;
+            curr->prev->next = curr->next;
+            curr->next = NULL;
+            curr->prev = NULL;
+            delete curr;
+            deleted = true;
+            return deleted;
+        }
         curr->prev->next = curr->next;
+        curr->next->prev = curr->prev;
         curr->next = NULL;
+        curr->prev = NULL;
         delete curr;
+        deleted = true;
+        return deleted;
     }
     void writeChain()
     {
@@ -296,10 +413,10 @@ public:
         }
         fout.close();
     }
-    void readChain()
+    void readChain(const string name)
     {
         ifstream fin;
-        fin.open("Hashlogs/HASHCHAIN_<Sun_Oct__1_00.20.56_2023>.txt");
+        fin.open("HashLogs/" + name);
         if (!fin)
         {
             cout << "File doesnt exist" << endl;
@@ -310,17 +427,30 @@ public:
         fin >> test.prev_hash;
         fin >> test.timestamp;
         this->head = new Hash_node(test);
+        this->tail = head;
         Hash_node *curr = this->head;
-
-        while (!fin.eof()) 
+        curr->prev = NULL;
+        while (!fin.eof())
         {
             fin >> test.log;
             fin >> test.prev_hash;
             fin >> test.timestamp;
             curr->next = new Hash_node(test);
+            curr->next->prev = curr;
             curr = curr->next;
+            tail = curr;
         }
         fin.close();
+        RemoveBlock();
+    }
+    void reverse()
+    {
+        Hash_node *curr = tail;
+        while (curr)
+        {
+            curr->print();
+            curr = curr->prev;
+        }
     }
     int FindBlock(Hash_node *data)
     {
@@ -329,23 +459,21 @@ public:
             cout << "EMPTY LIST!" << endl;
             return -1;
         }
-        int idx, i = 0;
+        int idx, i = 1;
 
-        bool exists = false;
         Hash_node *curr = head;
         while (curr != NULL)
         {
             if (curr == data)
             {
                 idx = i;
-                exists = true;
                 break;
             }
             curr = curr->next;
             i++;
         }
 
-        if (exists)
+        if (curr == data)
         {
             return idx;
         }
@@ -374,5 +502,6 @@ public:
         chain.AddBlock(getTimestamp(), action, user, position, s);
         chain.writeChain();
     }
-};
+}LM;
+
 #endif
