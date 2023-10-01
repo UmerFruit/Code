@@ -10,7 +10,6 @@ bool bookdeposit(string);
 bool bookissue(string);
 void RegMenu();
 void SecMenu();
-
 string lastFileInDirectory();
 
 int main()

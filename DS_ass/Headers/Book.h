@@ -27,7 +27,8 @@ public:
     {
         cout << setw(20) << left << "Book Number: " << book_num << endl;
         cout << setw(20) << left << "Enter Book Name: " << book_name << endl;
-        cout << setw(20) << left << "Enter Author Name: " << author_name << endl;
+        cout << setw(20) << left << "Enter Author Name: " << author_name << endl
+             << endl;
     }
     void modifybook()
     {
