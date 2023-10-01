@@ -15,7 +15,7 @@ string lastFileInDirectory();
 int main()
 {
     char ch;
-    // start();
+    start();
     do
     {
         system("clear");
