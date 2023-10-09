@@ -23,13 +23,10 @@ class Queue
 private:
     Node *front;
     Node *rear;
-    int numItems;
 
 public:
     Queue(int ignore = 0)
     {
-        numItems = 0;
-
         front = NULL;
         rear = NULL;
     }
@@ -48,7 +45,6 @@ public:
     }
     void Enqueue(Student &std, int priority) // Assigns least priority if none is given
     {
-        numitems = 0;
 
         Node *temp = new Node(std, priority);
         if (front == NULL)

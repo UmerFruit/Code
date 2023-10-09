@@ -7,6 +7,7 @@ int main()
     string rollnum;
     int marks;
     bool cmt;
+    csv<<endl;
     do
     {
         cout << "Roll Number: ";
@@ -18,12 +19,8 @@ int main()
             cout << "Marks of Q" << i << ":";
             cin >> marks;
             csv << marks;
-            if (i < 15)
-            {
-                csv << ',';
-            }
+            csv << ',';
         }
-        csv << endl;
         cout << "Enter Comment(0/1)";
         cin >> cmt;
         if (cmt)
@@ -33,6 +30,7 @@ int main()
             getline(cin, com);
             csv << com;
         }
+        csv << endl;
         cout << "Add new Record? (y/n)" << endl;
         cin >> ch;
     } while (ch != 'n');
