@@ -1,9 +1,4 @@
-/*
- *      CY-A Umer Farooq
- *      22I-0518
- *      Networks and CyberSecurity-I
- *      Assignment-1
- */
+
 #include <iostream>
 #include <cstring>
 using namespace std;

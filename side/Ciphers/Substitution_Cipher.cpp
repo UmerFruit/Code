@@ -17,9 +17,7 @@ int main()
     int *key = new int[26];
 
     for (int i = 0; i < 26; i++)
-    {
         key[i] = i;
-    }
 
     for (int i = 0; i < 26; i++) // bogosort zindabad
         swap(key[i], key[rand() % 26]);
