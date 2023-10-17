@@ -90,6 +90,8 @@ Fraction &Fraction::operator/(Fraction &f)
 	temp->normalize();
 	return *temp;
 }
+// a += 5;	a *= 5;  a/=5;
+// a = a+5;
 Fraction &Fraction::operator+=(Fraction &f)
 {
 	numer = (numer * f.denom) + (denom * f.numer);

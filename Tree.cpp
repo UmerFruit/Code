@@ -26,23 +26,22 @@ public:
         {
             q.push(arr[i]);
         }
-        root = BuildTree(root, q);
+        root = BuildTree(root);
     }
-    Node *BuildTree(Node *root, queue<int> q)
+    Node *BuildTree(Node *root)
     {
         int d;
-        d = q.front();
-        q.pop();
+        cout<<"Enter Data for node"<<endl;
+        cin>>d;
         root = new Node(d);
         if (d == -1)
         {
-            q.pop();
             return NULL;
         }
         cout << "Enter data for inserting in left of " << d << endl;
-        root->left = BuildTree(root->left, q);
+        root->left = BuildTree(root->left);
         cout << "Enter data for inserting in right of " << d << endl;
-        root->right = BuildTree(root->right, q);
+        root->right = BuildTree(root->right);
 
         return root;
     }
@@ -225,33 +224,8 @@ void leaves(Node *root, int &count)
 }
 // 1 3 5 7 11 17 -1 -1 -1 -1 -1 -1 -1
 // 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
-void part1(string name = "umer farooq")
-{
-    char c;
-    for (int j = 0; j < name.length(); j++)
-    {
-        for (int i = 0; i < 26; i++)
-        {
-            c = 'a' + i;
-            usleep(30000);
-            cout << c << flush << "\b";
-        }
 
-        for (int i = 0; i < 26; i++)
-        {
-            c = 'a' + i;
-            usleep(30000);
-            cout << c  <<flush;
-            if (c != name[j])
-            {
-                cout << '\b';
-            }
-            else
-                break;
-        }
-    }
-}
 int main()
 {
-   part1();
+
 }
