@@ -13,22 +13,43 @@ public:
     {
         cout << a << endl;
     }
-    Int (int a)
+    Int(int a)
     {
         this->a = a;
     }
-    int operator +(Int m)
+    int operator+(Int m)
     {
         return this->a + m.a;
     }
-
-
-}; int main()
+};
+void part1(string name)
 {
-    Int l,m;
-    l.display();
-    fraction ad
-    Int insh = l+m;        // l.operator+(Int m);
-    insh.display();
-   
+    char c;
+    for (int j = 0; j < name.length(); j++)
+    {
+        for (int i = 0; i < 26; i++)
+        {
+            c = 'a' + i;
+            usleep(30000);
+            cout << c << flush << "\b";
+        }
+
+        for (int i = 0; i < 26; i++)
+        {
+            c = 'a' + i;
+            usleep(30000);
+            cout << c << flush;
+            if (c != name[j])
+            {
+                cout << '\b';
+            }
+            else
+                break;
+        }
+    }
+}
+int main()
+{
+    part1("hassaansiddiqui");
+    cout<<endl;
 }
