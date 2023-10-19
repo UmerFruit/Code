@@ -1,55 +1,30 @@
 #include "Headers.h"
-using namespace std;
-class Int
-{
-    int a;
+double customLog10(double x) {
+    if (x <= 0) {
+        std::cerr << "Error: The number must be positive." << std::endl;
+        return -1.0; // You can choose an appropriate error value here
+    }
 
-public:
-    Int()
-    {
-        a = 5;
+    double result = 0.0;
+    while (x >= 10.0) {
+        x /= 10.0;
+        result += 1.0;
     }
-    void display()
-    {
-        cout << a << endl;
-    }
-    Int(int a)
-    {
-        this->a = a;
-    }
-    int operator+(Int m)
-    {
-        return this->a + m.a;
-    }
-};
-void part1(string name)
-{
-    char c;
-    for (int j = 0; j < name.length(); j++)
-    {
-        for (int i = 0; i < 26; i++)
-        {
-            c = 'a' + i;
-            usleep(30000);
-            cout << c << flush << "\b";
-        }
 
-        for (int i = 0; i < 26; i++)
-        {
-            c = 'a' + i;
-            usleep(30000);
-            cout << c << flush;
-            if (c != name[j])
-            {
-                cout << '\b';
-            }
-            else
-                break;
-        }
+    double fraction = x - 1.0;
+    double fractionSum = 0.0;
+    double denominator = 1.0;
+
+    for (int i = 1; i <= 50; i++) {
+        denominator *= i;
+        fractionSum += pow(fraction, i) / denominator;
     }
+
+    result += fractionSum;
+
+    return result;
 }
+
 int main()
 {
-    part1("hassaansiddiqui");
-    cout<<endl;
 }
