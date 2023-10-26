@@ -3,7 +3,7 @@
 #include "Stack.cpp"
 #include "Queue.cpp"
 using namespace std;
-//Q1 part 1
+// Q1 part a
 int binaryToDecimal(long long binary)
 {
     int decimal = 0;
@@ -25,7 +25,7 @@ int binaryToDecimal(long long binary)
     }
     return decimal;
 }
-//Q1 part 2
+// Q1 part b
 long long decimalToBinary(int decimal)
 {
     Stack<int> binaryStack, temp;
@@ -52,10 +52,10 @@ long long decimalToBinary(int decimal)
     }
     return binary;
 }
-//Q1 part 3
-int postfixEval(string expression)
+// Q1 part c
+float postfixEval(string expression)
 {
-    Stack<int> opndstk;
+    Stack<float> opndstk;
     /* scan the input string reading one element */
     /* at a time into symb */
     for (int i = 0; expression[i] != '\0'; i++)
@@ -71,9 +71,9 @@ int postfixEval(string expression)
         {
 
             /* symb is an operator */
-            int op2 = opndstk.Pop();
-            int op1 = opndstk.Pop();
-            int value;
+            float op2 = opndstk.Pop();
+            float op1 = opndstk.Pop();
+            float value;
             switch (symb)
             {
             case '*':
@@ -100,17 +100,38 @@ int postfixEval(string expression)
     }
     return (opndstk.Pop());
 }
+void parta()
+{
+    long long binary;
+    cout << "Enter a Binary number: ";
+    cin >> binary;
+    cin.ignore();
 
+    int decimal = binaryToDecimal(binary);
+    cout << "Binary equivalent: " << decimal << endl;
+}
+void partb()
+{
+    int Decimal;
+    cout << "Enter a Decimal number: ";
+    cin >> Decimal;
+    cin.ignore();
+
+    int Binary = decimalToBinary(Decimal);
+    cout << "Binary equivalent: " << Binary << endl;
+}
+void partc()
+{
+    cout << "Expression: " << endl;
+    string ex;
+    getline(cin, ex);
+    cout << "Answer is " << postfixEval(ex) << endl;
+}
 int main()
 {
-    // cout << "Expression: " << endl;
-    // string ex;
-    // getline(cin, ex);
-    // cout<<"Answer is "<<postfixEval(ex)<<endl;
-    // long long binary;
-    // cout << "Enter a Decimal number: ";
-    // cin >> binary;
-    // int decimal = binaryToDecimal(binary);
-    // cout << "Binary equivalent: " << decimal << endl;
+    parta();
+    partb();
+    partc();
+
     return 0;
 }

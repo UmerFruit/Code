@@ -3,13 +3,13 @@
 #include "Stack.cpp"
 #include "Queue.cpp"
 using namespace std;
-int Eval(Queue<string>& postfix)
+float Eval(Queue<string> &postfix)
 {
-    Stack<int> opndstk;
+    Stack<float> opndstk;
     /* scan the input string reading one element */
     /* at a time into symb */
     string op;
-    int value;
+    float value;
     while (!postfix.isEmpty())
     {
         string symb = postfix.Dequeue();
@@ -18,8 +18,8 @@ int Eval(Queue<string>& postfix)
         else
         {
             /* symb is an operator */
-            int op2 = opndstk.Pop();
-            int op1 = opndstk.Pop();
+            float op2 = opndstk.Pop();
+            float op1 = opndstk.Pop();
             switch (symb[0])
             {
             case '*':
@@ -74,7 +74,7 @@ bool isOperator(char c, string &op)
     }
     return false;
 }
-int infixToPostfix(string& Infix)
+float infixToPostfix(string &Infix)
 {
     Stack<string> opstk;
     Queue<string> postfix;
@@ -83,7 +83,9 @@ int infixToPostfix(string& Infix)
     for (int i = 0; i < Infix.length(); i++)
     {
         symb = &Infix[i];
-        if (*symb == '(')
+        if (*symb == ' ')
+            continue;
+        else if (*symb == '(')
             continue;
         else if (*symb == ')')
             postfix.Enqueue(opstk.Pop());
@@ -102,15 +104,14 @@ int infixToPostfix(string& Infix)
             postfix.Enqueue(to_string(ans));
         }
     }
-    int val = Eval(postfix);
-    cout << "lol" << endl;
-    return val;
+    return Eval(postfix);
 }
 
 int main()
 {
-    string exp = "(2+(3*4))";
-    int ans = infixToPostfix(exp);
-    cout << "Answer is " << ans << endl;
+    cout << "Expression: " << endl;
+    string exp;
+    getline(cin, exp);
+    cout << "Answer is " << infixToPostfix(exp) << endl;
     return 0;
 }

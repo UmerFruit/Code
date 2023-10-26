@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 class Node
 {
@@ -16,10 +17,7 @@ public:
     {
         root = NULL;
     }
-    ~BSTree()
-    {
-        deleteALL(root);
-    }
+    
     void deleteALL(Node *&root)
     {
         if (root == NULL)
@@ -38,7 +36,7 @@ public:
         }
         int RH = treeHeight(root->right);
         int LH = treeHeight(root->left);
-        return 1 + (RH>LH? RH : LH);
+        return 1 + (RH > LH ? RH : LH);
     }
     void Insert(Node *&root, int data)
     {
@@ -100,8 +98,17 @@ public:
         preorder(root->left);
         preorder(root->right);
     }
+    void leaves(Node *root, int &count)
+    {
+        if (root == NULL)
+            return;
 
-    int findMax()
+        leaves(root->left, count);
+        if (!root->left && !root->right)
+            count++;
+        leaves(root->right, count);
+    }
+    int findMax(Node *&root)
     {
         Node *temp = root;
         while (temp->right)
@@ -119,16 +126,74 @@ public:
         }
         return temp->data;
     }
+
     int treeNodeCount(Node *&root)
     {
         if (root == NULL)
             return 0;
-        
+
         return treeNodeCount(root->left) + treeNodeCount(root->right) + 1;
     }
     bool isEmpty()
     {
         return !root;
     }
-    
+    void BreadthFirst(Node *&root)
+    {
+        queue<Node *> q;
+        q.push(root);
+        while (!q.empty())
+        {
+            Node *temp = q.front();
+            q.pop();
+            cout << temp->data << " ";
+            if (temp->left)
+                q.push(temp->left);
+            if (temp->right)
+                q.push(temp->right);
+        }
+        cout << endl;
+    }
+    Node *Delete(Node *&root, int data)
+    {
+        if (root == NULL)
+        {
+            return NULL;
+        }
+        else if (root->data == data)
+        {
+            if (root->left == NULL && root->right == NULL)
+            {
+                delete root;
+                return NULL;
+            }
+            else if (root->left != NULL && root->right == NULL)
+            {
+                Node *temp = root->left;
+                delete root;
+                return temp;
+            }
+            else if (root->left == NULL && root->right != NULL)
+            {
+                Node *temp = root->right;
+                delete root;
+                return temp;
+            }
+            else
+            {
+                int max = findMax(root->left);
+                root->data = max;
+                root->left = Delete(root->left, max);
+            }
+        }
+        else if (root->data > data)
+        {
+            root->left = Delete(root->left, data);
+        }
+        else
+        {
+            root->right = Delete(root->right, data);
+        }
+        return root;
+    }
 };
