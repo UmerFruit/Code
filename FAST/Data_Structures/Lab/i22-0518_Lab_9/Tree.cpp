@@ -28,7 +28,7 @@ public:
         deleteALL(root->right);
         delete root;
     }
-    int treeHeight(Node *&root)
+    static int treeHeight(Node *&root)
     {
         if (!root)
         {
@@ -117,7 +117,7 @@ public:
         }
         return temp->data;
     }
-    int findMin()
+    int findMin(Node* root)
     {
         Node *temp = root;
         while (temp->left)

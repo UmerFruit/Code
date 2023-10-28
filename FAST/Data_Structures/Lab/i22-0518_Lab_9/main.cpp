@@ -1,19 +1,25 @@
 #include "Tree.cpp"
 using namespace std;
-bool FullBinaryTree(Node *root);
-bool PerfectBinaryTree(BSTree root);
-bool BalancedBinaryTree(BSTree t);
-bool DegenerateTree(Node *root);
+bool FullBinaryTree(Node *);
+bool PerfectBinaryTree(BSTree);
+bool BalancedBinaryTree(Node *);
+bool DegenerateTree(Node *);
 int main()
 {
     BSTree t;
-    t.Insert(t.root, 10);
-    t.Insert(t.root, 2);
-    t.Insert(t.root, 11);
-    t.Insert(t.root, 4);
-    t.Insert(t.root, 5);
-    t.Insert(t.root, 9);
-    t.Insert(t.root, 7);
+    // t.Insert(t.root, 1);
+    // t.Insert(t.root, 2);
+    // t.Insert(t.root, 3);
+    // t.Insert(t.root, 4);
+    // t.Insert(t.root, -3);
+    // t.Insert(t.root, 6);
+    // t.Insert(t.root, 7);
+    t.Insert(t.root, 50);
+    t.Insert(t.root, 30);
+    t.Insert(t.root, 80);
+    t.Insert(t.root, 25);
+    t.Insert(t.root, 40);
+    t.Insert(t.root, 98);
 
     // cout << "\nINORDER = " << endl;
     // t.inorder(t.root);
@@ -23,12 +29,25 @@ int main()
     // t.postorder(t.root);
     // cout << "\nHEIGHT = " << t.treeHeight(t.root) << endl;
     // cout << "MAX = " << t.findMax(t.root) << endl;
-    // cout << "MIN = " << t.findMin() << endl;
+    // cout << "MIN = " << t.findMin(t.root) << endl;
     // cout << "NUM NODES = " << t.treeNodeCount(t.root) << endl;
     // cout<<"Breadth First = "<<endl; t.BreadthFirst(t.root);
-    // cout << (FullBinaryTree(t.root)? ) << endl;
-    // cout<< PerfectBinaryTree(t)<<endl;
-    cout << DegenerateTree(t.root) << endl;
+    if (FullBinaryTree(t.root))
+        cout << "FULL" << endl;
+    else
+        cout << "NOT FULL" << endl;
+    if (PerfectBinaryTree(t))
+        cout << "PERFECT" << endl;
+    else
+        cout << "NOT PERFECT" << endl;
+    if (DegenerateTree(t.root))
+        cout << "DEGENERATE" << endl;
+    else
+        cout << "NOT DEGENERATE" << endl;
+    if (BalancedBinaryTree(t.root))
+        cout << "BALANCED" << endl;
+    else
+        cout << "NOT BALANCED" << endl;
 }
 bool FullBinaryTree(Node *root)
 {
@@ -42,7 +61,7 @@ bool FullBinaryTree(Node *root)
         return true;
 
     if (full)
-        return FullBinaryTree(root->left) || FullBinaryTree(root->right);
+        return FullBinaryTree(root->left) && FullBinaryTree(root->right);
 
     return false;
 }
@@ -54,7 +73,10 @@ bool PerfectBinaryTree(BSTree t)
     }
     if (FullBinaryTree(t.root))
     {
-        if (t.treeNodeCount(t.root->left) == t.treeNodeCount(t.root->right))
+        int count = 0;
+        t.leaves(t.root, count);
+        int height = t.treeHeight(t.root);
+        if (count == pow(2, height))
         {
             return true;
         }
@@ -66,30 +88,18 @@ bool PerfectBinaryTree(BSTree t)
         return false;
     }
 }
-bool balance(Node* root)
+bool BalancedBinaryTree(Node *root)
 {
-    if (t.root == NULL)
-    {
+    if (root == NULL)
         return true;
-    }
-    int LH = t.treeHeight(t.root);
-    int RH = t.treeHeight(t.root);
-    if ((LH - RH > -1) && (LH - RH < 1) && balance(t.root->left) && balance(t.root->right))
-    {
+
+    int LH = BSTree::treeHeight(root->left);
+    int RH = BSTree::treeHeight(root->right);
+    bool Lcheck = BalancedBinaryTree(root->left), Rcheck = BalancedBinaryTree(root->right);
+    if (abs(LH - RH) <= 1 && Lcheck && Rcheck)
         return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-bool BalancedBinaryTree(BSTree t)
-{
-    if (t.root == NULL)
-    {
-        return true;
-    }
-    return balance(t);
+
+    return false;
 }
 bool DegenerateTree(Node *root)
 {
@@ -97,23 +107,20 @@ bool DegenerateTree(Node *root)
     {
         return true;
     }
+    if (!root->right && !root->left)
+    {
+        return true;
+    }
+    if (root->left && !root->right)
+    {
+        return DegenerateTree(root->left);
+    }
+    else if (!root->left && root->right)
+    {
+        return DegenerateTree(root->right);
+    }
     else
     {
-        if (!root->right && !root->left)
-        {
-            return true;
-        }
-        if (root->left && !root->right)
-        {
-            return DegenerateTree(root->left);
-        }
-        else if (!root->left && root->right)
-        {
-            return DegenerateTree(root->left);
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 }
