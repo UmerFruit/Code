@@ -1,4 +1,7 @@
-#include "Headers.h"
+#include <iostream>
+#include <fstream>
+#include <cstring>
+
 using namespace std;
 class heap
 {
@@ -74,31 +77,28 @@ public:
     }
 };
 
-pair<bool, int *> isMinheap(int arr[], int size)
+bool isMinheap(int arr[], int size, int idx = 1)
 {
-    int idx = 1;
-    pair<bool, int *> ans;
-    while (idx <= size)
+    if (idx > size)
     {
-        int left = idx * 2;      // parent * 2
-        int right = idx * 2 + 1; // parent * 2 + 1
-
-        if (left <= size && (arr[idx] > arr[left]))
-        {
-            ans = make_pair(false, arr);
-            return ans;
-        }
-        else if (right <= size && arr[idx] > arr[right])
-        {
-            ans = make_pair(false, arr);
-            return ans;
-        }
-        idx++;
+        return true;
     }
-    ans = make_pair(true, arr);
-    return ans;
+
+    int left = idx * 2;
+    int right = idx * 2 + 1;
+
+    if (left <= size && arr[idx] > arr[left])
+    {
+        return false;
+    }
+    else if (right <= size && arr[idx] > arr[right])
+    {
+        return false;
+    }
+
+    return isMinheap(arr, size, left) && isMinheap(arr, size, right);
 }
-pair<bool, int *> Minheap(string filename, int size)
+pair<bool,int*> Minheap(string filename, int size)
 {
     ifstream fin(filename);
     int *arr = new int[size];
@@ -107,7 +107,7 @@ pair<bool, int *> Minheap(string filename, int size)
     {
         fin >> arr[i++];
     }
-    return isMinheap(arr, size);
+    return make_pair(isMinheap(arr, size), arr);
 }
 int main()
 {
