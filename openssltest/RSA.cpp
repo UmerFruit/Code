@@ -1,5 +1,6 @@
 #include <iostream>
 #include <openssl/bn.h>
+#include <cmath>
 using namespace std;
 
 void printBN(string msg, BIGNUM *a);
@@ -10,24 +11,29 @@ void task4();
 
 int main()
 {
+    long long sum = pow(10 ,6) * 9 + 100000 * 9 + 10000 * 9 + 1000 * 9 + 100 * 9 + 90 + 9;
+    cout<< sum<<endl;
+
     BN_CTX *ctx = BN_CTX_new();
-    BIGNUM *n = BN_new(), *e = BN_new(), *M = BN_new(), *M2 = BN_new(), *d = BN_new(), *signature = BN_new(), *verify = BN_new();
-
-    BN_hex2bn(&n, "AE1CD4DC432798D933779FBD46C6E1247F0CF1233595113AA51B450F18116115");
-    BN_hex2bn(&signature, "867578747a8b4769830b757cadf0e8ddc3f3d67ace64f3ce255a0cfeacf2823d");
-    BN_hex2bn(&M, "4c61756e63682061206d697373696c65"); // Launch a missile
-
-    BN_hex2bn(&e, "010001");
-
-    // signature = message ^ d mod n
-    BN_mod_exp(verify, signature, e, n, ctx);
-
-    printBN("M = ", M);
+    BIGNUM* n = BN_new();
     
-    printBN("signature = ", signature);
-    printBN("verify = ", verify);
-    //when changed from 2F to 3F the error occured
-    //'utf-8' codec can't decode byte 0x91 in position 0: invalid start byte
+    // BIGNUM *n = BN_new(), *e = BN_new(), *M = BN_new(), *M2 = BN_new(), *d = BN_new(), *signature = BN_new(), *verify = BN_new();
+
+    // BN_hex2bn(&n, "AE1CD4DC432798D933779FBD46C6E1247F0CF1233595113AA51B450F18116115");
+    // BN_hex2bn(&signature, "643D6F34902D9C7EC90CB0B2BCA36C47FA37165C0005CAB026C0542CBDB6802F");
+    // BN_hex2bn(&M, "4c61756e63682061206d697373696c65"); // Launch a missile
+
+    // BN_hex2bn(&e, "010001");
+
+    // // signature = message ^ d mod n
+    // BN_mod_exp(verify, signature, e, n, ctx);
+
+    // printBN("M = ", M);
+
+    // printBN("signature = ", signature);
+    // printBN("verify = ", verify);
+    // // when changed from 2F to 3F the error occured
+    // //'utf-8' codec can't decode byte 0x91 in position 0: invalid start byte
     return 0;
 }
 void printBN(string msg, BIGNUM *a)
@@ -121,7 +127,7 @@ void task4()
 
     BN_hex2bn(&n, "DCBFFE3E51F62E09CE7032E2677A78946A849DC4CDDE3A4D0CB81629242FB1A5");
     BN_hex2bn(&e, "010001");
-    BN_hex2bn(&M, "49206f776520796f75202432303030"); // I owe you $2000
+    BN_hex2bn(&M, "49206f776520796f75202432303030");  // I owe you $2000
     BN_hex2bn(&M2, "49206f776520796f75202433303030"); // I owe you $3000
 
     BN_hex2bn(&d, "74D806F9F3A62BAE331FFE3F0A68AFE35B3D2E4794148AACBC26AA381CD7D30D");
@@ -134,12 +140,11 @@ void task4()
     BN_mod_exp(verify2, signature2, e, n, ctx);
 
     printBN("M = ", M);
-    
+
     printBN("signature = ", signature);
     printBN("verify = ", verify);
-    cout<<endl;
+    cout << endl;
     printBN("signature2 = ", signature2);
-    printBN("verify2 = ", verify2); 
-    //changing even one character completely changes the digital signature
-
+    printBN("verify2 = ", verify2);
+    // changing even one character completely changes the digital signature
 }
