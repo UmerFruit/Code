@@ -30,7 +30,7 @@ int substr(string s1, string s2)
                 break;
         if (j == M)
             return i;
-    }q
+    }
 }
 int main()
 {
@@ -46,6 +46,11 @@ int main()
     // decrypt signature into verify
     BN_mod_exp(verify, signature, e, n, ctx);
     string hash = "1835ef034ca442c03e5c91a3f672e27c6a24397c86ea11b58d8bbd642dd99752";
+    for (int i = 0; i < hash.length(); i++)
+    {
+        if (isalpha(hash[i]))
+            hash[i] -= 32;
+    }
     if (substr(hash, BN_bn2hex(verify)))
     {
         cout << "HASHES DONT MATCH" << endl;
@@ -55,6 +60,8 @@ int main()
         cout << "HASHES MATCH" << endl;
     }
     cout << "Decrypted Signature = " << BN_bn2hex(verify) << endl;
-    cout << "signature = " << BN_bn2hex(signature) << endl;
+    // cout << "signature = " << BN_bn2hex(signature) << endl;
+    cout << "hash = " << hash << endl;
+
     return 0;
 }

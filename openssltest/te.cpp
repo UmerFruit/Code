@@ -33,11 +33,11 @@ int check_substr(string s1, string s2)
     }
     return -1;
 }
+bool check_substrleemao(const std::string& str, const std::string& substr) {
+    return str.find(substr) != std::string::npos;
+}
 int main()
 {
-    // string s1 = "hello world";
-    // string s2 = "wor";
-    // check_substr(s1,s2)
     BN_CTX *ctx = BN_CTX_new();
     BIGNUM *n[3] = {BN_new(), BN_new(), BN_new()}, *e = BN_new(), *d = BN_new(),
            *signature[3] = {BN_new(), BN_new(), BN_new()},
@@ -69,18 +69,44 @@ int main()
     string hash[3] = {"1835ef034ca442c03e5c91a3f672e27c6a24397c86ea11b58d8bbd642dd99752", "444ebd67bb83f8807b3921e938ac9178b882bd50aadb11231f044cf5f08df7ce", "11b102e6b1f63e528984d6025f32ƒb138241fc88bbd7519574d70c9832d53e1e8"};
     for (int i = 0; i < 3; i++)
     {
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < hash[i].length(); j++)
         {
-            if (check_substr(BN_bn2hex(verify[j]), hash[i]) == -1)
-            {
-                cout << "HASHES DONT MATCH" << endl;
-            }
-            else
-            {
-                cout << "HASHES MATCH" << endl;
-            }
+            if (isalpha(hash[i][j]))
+                hash[i][j] -= 32;
         }
     }
+    cout<<"\n\n\n\n";
+    int j = 0;
+    string v = BN_bn2hex(verify[2]);
+    string h = hash[0];
+    for(int i =0; i<v.length();i++)
+    {
+        cout<<v[i];
+        if(h[j] != v[i])
+        {
+            cout<<" ";
+            j=0;
+        }
+        else 
+        {
+            j++;
+        }
+    }
+    return 1;
+    // for (int i = 0; i < 3; i++)
+    // {
+    //     for (int j = 0; j < 3; j++)
+    //     {
+    //         if (check_substrleemao(BN_bn2hex(verify[j]), hash[i]))
+    //         {
+    //             cout << "HASHES DONT MATCH" << endl;
+    //         }
+    //         else
+    //         {
+    //             cout << "HASHES MATCH" << endl;
+    //         }
+    //     }
+    // }
 
     // cout << "Decrypted Signature = " << BN_bn2hex(verify) << endl;
     // cout << "signature = " << BN_bn2hex(signature) << endl;

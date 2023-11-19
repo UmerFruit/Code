@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <unordered_map>
 
 // Define Job structure
 struct Job {
@@ -64,7 +63,7 @@ private:
     std::priority_queue<Job, std::vector<Job>, CompareJob> jobQueue;
 
     // Use unordered_map for quick access to VM information based on VM id
-    std::unordered_map<int, VirtualMachine> vmMap;
+    // std::unordered_map<int, VirtualMachine> vmMap;
 
     // Add other data structures as needed
 };
