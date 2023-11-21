@@ -2,21 +2,27 @@
 using namespace std;
 int main()
 {
-    fstream csv("Marks.csv", ios::out | ios::app);
+    fstream csv("AMarks.csv", ios::out | ios::app);
     char ch;
-    string rollnum;
+    string rollnum,name;
     int marks;
     bool cmt;
     csv<<endl;
     do
     {
+        cout<<"Enter name: ";
+        cin>>name;
+        csv << name << ",";
         cout << "Roll Number: ";
         cin >> rollnum;
         csv << rollnum << ",";
 
-        for (int i = 1; i <= 15; i++)
+        for (int i = 1; i <= 8; i++)
         {
-            cout << "Marks of Q" << i << ":";
+            cout << "Marks of Q" << i;
+            if(i == 4 || i == 3)
+                cout<<" (Out of 20)";
+            cout<< ": ";
             cin >> marks;
             csv << marks;
             csv << ',';
