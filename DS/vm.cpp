@@ -1,57 +1,39 @@
 #include <iostream>
-#include 
+#include "Heap.cpp"
 using namespace std;
-
-class Job
-{
-public:
-    string name;
-    int compReqs;
-    int priorityLevel;
-
-    Job(string n, int compRequirements, int priority)
-    {
-        this->name = name;
-        compReqs = compRequirements;
-        priorityLevel = priority;
-    }
-};
 
 class VM
 {
-private:
-    int maxNumberJobs;
-
-    int computingCapacity;
-    float percentageUsed;
-
-    int maxJobsPerVM;
-    int currentJobs;
-
-    int jobsCompleted;
-
-    Job *j;
-
 public:
-    VM(int capacity)
+    int maxJobs;
+    int compPower;
+    float percUsed;
+    int currentJobs;
+    int jobsCompleted;
+    MaxHeap j;
+public:
+    VM(int compP,int capacity = 10)
     {
-        computingCapacity = capacity;
+        maxJobs = capacity;
+        compPower = compP;
+        currentJobs = 0;
+        percUsed = 0;
+        jobsCompleted = 0;
     }
-
-    VM()
-    {
-        computingCapacity = 0;
-        percentageUsed = 0;
-    }
-
     void allocateJob(Job newJob)
     {
+        if(currentJobs == maxJobs)
+        {
+            cout<<"VM is full!"<<endl;
+            return;
+        }
+        j.insert(newJob,);
+        currentJobs++;
+        percUsed = (float)currentJobs/maxJobs;
     }
-
     void handleFailure()
     {
     }
-
     void showSummary()
     {
         // time etc will be local variables

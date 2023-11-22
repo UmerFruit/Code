@@ -1,8 +1,8 @@
 #include "Headers.h"
 using namespace std;
-int main()
+void ass5()
 {
-    fstream csv("AMarks.csv", ios::out | ios::app);
+    fstream csv("AMarks5.csv", ios::out | ios::app);
     char ch;
     string rollnum,name;
     int marks;
@@ -40,4 +40,59 @@ int main()
         cout << "Add new Record? (y/n)" << endl;
         cin >> ch;
     } while (ch != 'n');
+}
+void ass6()
+{
+    fstream csv("AMarks6.csv", ios::out | ios::app);
+    char ch;
+    string rollnum,name;
+    int marks;
+    bool cmt;
+    csv<<endl;
+    do
+    {
+        cout<<"Enter name: ";
+        cin>>name;
+        csv << name << ",";
+        cout << "Roll Number: ";
+        cin >> rollnum;
+        csv << rollnum << ",";
+
+        for (int i = 1; i <= 4; i++)
+        {
+            cout << "Marks of Q" << i;
+            cout<<"(out of 25)";
+            cout<< ": ";
+            cin >> marks;
+            csv << marks;
+            csv << ',';
+        }
+        cout << "Enter Comment(0/1)";
+        cin >> cmt;
+        if (cmt)
+        {
+            string com;
+            cin.ignore();
+            getline(cin, com);
+            csv << com;
+        }
+        csv << endl;
+        cout << "Add new Record? (y/n)" << endl;
+        cin >> ch;
+    } while (ch != 'n');
+}
+int main()
+{
+    char c;
+    cout<<"Assignment number: ";
+    cin>>c;
+    if(c=='5')
+    {
+        ass5();
+    }
+    if(c == '6')
+    {
+        ass6();
+    }
+    
 }
