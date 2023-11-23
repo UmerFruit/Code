@@ -2,16 +2,16 @@
 using namespace std;
 void ass5()
 {
-    fstream csv("AMarks5.csv", ios::out | ios::app);
+    fstream csv("BMarks5.csv", ios::out | ios::app);
     char ch;
-    string rollnum,name;
+    string rollnum, name;
     int marks;
     bool cmt;
-    csv<<endl;
+    csv << endl;
     do
     {
-        cout<<"Enter name: ";
-        cin>>name;
+        cout << "Enter name: ";
+        cin >> name;
         csv << name << ",";
         cout << "Roll Number: ";
         cin >> rollnum;
@@ -20,9 +20,9 @@ void ass5()
         for (int i = 1; i <= 8; i++)
         {
             cout << "Marks of Q" << i;
-            if(i == 4 || i == 3)
-                cout<<" (Out of 20)";
-            cout<< ": ";
+            if (i == 4 || i == 3)
+                cout << " (Out of 20)";
+            cout << ": ";
             cin >> marks;
             csv << marks;
             csv << ',';
@@ -43,16 +43,16 @@ void ass5()
 }
 void ass6()
 {
-    fstream csv("AMarks6.csv", ios::out | ios::app);
+    fstream csv("BMarks6.csv", ios::out | ios::app);
     char ch;
-    string rollnum,name;
+    string rollnum, name;
     int marks;
     bool cmt;
-    csv<<endl;
+    csv << endl;
     do
     {
-        cout<<"Enter name: ";
-        cin>>name;
+        cout << "Enter name: ";
+        cin >> name;
         csv << name << ",";
         cout << "Roll Number: ";
         cin >> rollnum;
@@ -61,8 +61,8 @@ void ass6()
         for (int i = 1; i <= 4; i++)
         {
             cout << "Marks of Q" << i;
-            cout<<"(out of 25)";
-            cout<< ": ";
+            cout << "(out of 25)";
+            cout << ": ";
             cin >> marks;
             csv << marks;
             csv << ',';
@@ -84,15 +84,21 @@ void ass6()
 int main()
 {
     char c;
-    cout<<"Assignment number: ";
-    cin>>c;
-    if(c=='5')
+    char cont;
+    do
     {
-        ass5();
-    }
-    if(c == '6')
-    {
-        ass6();
-    }
-    
+        cout << "Assignment number: ";
+        cin >> c;
+
+        if (c == '5')
+        {
+            ass5();
+        }
+        if (c == '6')
+        {
+            ass6();
+        }
+        cout << "new assignment? (y/n)";
+        cin >> cont;
+    } while (cont == 'y');
 }

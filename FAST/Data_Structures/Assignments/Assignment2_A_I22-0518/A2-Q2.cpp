@@ -104,6 +104,10 @@ float infixToPostfix(string &Infix)
             postfix.Enqueue(to_string(ans));
         }
     }
+    cout << endl;
+
+    postfix.display();
+    cout << endl;
     return Eval(postfix);
 }
 

@@ -129,8 +129,7 @@ void partc()
 }
 int main()
 {
-    parta();
-    partb();
+    
     partc();
 
     return 0;

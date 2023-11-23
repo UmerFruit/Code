@@ -32,7 +32,7 @@ def read_strings(n):
 
 import os.path
 
-path=os.path(" \markstest5.xlsx")
+path=os.path("./markstest5.xlsx")
 
 n = 4 #NUMBER OF QUESTIONS OF THE ASSIGNMENT
 workbook = xlsxwriter.Workbook(path)
