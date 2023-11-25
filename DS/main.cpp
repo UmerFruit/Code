@@ -1,104 +1,108 @@
 #include "Headers.h"
-/*
-    har vm ki apni maxheap which sotres theamount of jobs based on priority.
-    jobs assign hone k baad vo heap se delete hojayegi.
-    assign honay ka matlab hai vo ek "completed" ki queue mai push hojaya gi
-    vms in minheap according to perc-used
-    queue mai saare jobs read hogaye, phir uske baad vm mai allocate hogaye
-    heap bharti jaaye gi vo dequeue hokar
-    check if the available comp power is enough to handle the job
-    if not spawn new
-    if yes then check if perc used is less than 80%
-    if yes then allocate
-    if no then spawn new
-    jese hi uski max jobs hit hogayi
-    uski saari jobs write kardo file mai (completed queue mai jo hain),
-    har job ki comp req ko nano seconds ke mutabik likhdo, aur vm delete kardo
-    jab tak queue mai kuch hai tab tak chalega
-*/
-bool possible(Job newJob, vector<VM> &v)
+float totalTime(vector<VM> &v)
 {
-
-    int i = 0;
-    while (i < v.size())
+    float sum = 0;
+    for (int i = 0; i < v.size(); i++)
     {
-        if (v[i].percUsed < 80)
+        sum += v[i].timeTaken();
+    }
+    return sum;
+}
+void allocate(Job &j, vector<VM> &vms)
+{
+    int lowestperc = 100, maxcap = 0, idx = -1;
+    for (int i = 0; i < vms.size(); i++)
+    {
+        if (vms[i].compPower > maxcap && vms[i].percUsed < lowestperc && vms[i].currentJobs < vms[i].maxJobs)
         {
-            if (v[i].compPower >= newJob.compReqs)
-            {
-                if (v[i].compPower <= 0)
-                {
-                    return true;
-                }
-
-            }
+            idx = i;
         }
-        i++;
+    }
+    if (idx == -1)
+    {
+        VM temp(rand() % 10000 + 1000);
+        temp.jobsheap.insert(j);
+        temp.currentJobs++;
+        temp.percUsed = (static_cast<float>(temp.currentJobs) / temp.maxJobs) * 100;
+        vms.push_back(temp);
+        return;
+    }
+    else if (vms[idx].compPower > j.compReqs)
+    {
+        vms[idx].jobsheap.insert(j);
+        vms[idx].currentJobs++;
+        vms[idx].percUsed = (static_cast<float>(vms[idx].currentJobs) / vms[idx].maxJobs) * 100;
+    }
+    else
+    {
+        j.compReqs -= vms[idx].compPower;
+        if (j.compReqs < vms[idx].compPower)
+        {
+            vms[idx].currentJobs++;
+            vms[idx].percUsed = (static_cast<float>(vms[idx].currentJobs) / vms[idx].maxJobs) * 100;
+        }
+
+        VM temp(rand() % 10000 + 1000);
+        temp.jobsheap.insert(j);
+        temp.currentJobs++;
+        temp.percUsed = (static_cast<float>(temp.currentJobs) / temp.maxJobs) * 100;
+        vms.push_back(temp);
     }
 }
-void allocateJob(Job newJob, vector<VM> &v)
+void recovery(vector<VM> &v)
 {
-    int i = 0;
-    while (i < v.size())
+    ifstream fin("FailedJobs.txt");
+    int compReqs, priority;
+    string name;
+    int i = 1;
+    while (!fin.eof())
     {
-        if (v[i].percUsed < 80)
-        {
-            if (v[i].compPower >= newJob.compReqs)
-            {
-                v[i].compPower -= newJob.compReqs;
-                if (v[i].compPower == 0 || v[i].compPower < 0)
-                {
-                    v[i].compPower += newJob.compReqs;
-                    VM newVM(newJob.compReqs * 2, 10);
-                    v.push_back(newVM);
-                    break;
-                }
-                v[i].jobsheap.insert(newJob);
-                v[i].currentJobs++;
-                v[i].percUsed = (v[i].currentJobs * 100) / v[i].maxJobs;
-                return;
-            }
-        }
-        i++;
+        fin >> name >> compReqs >> priority;
+        Job *j = new Job(name, compReqs, priority);
+        allocate(*j, v);
     }
+    fin.close();
+    remove("FailedJobs.txt");
 }
 int main()
 {
-    // Job j1("Job1", 10, 1);
-    // Job j2("Job2", 20, 2);
-    // Job j3("Job3", 30, 3);
-    // Job j4("Job4", 40, 4);
-    // Job j5("Job5", 50, 5);
-
-    // Job j6("Job6", 60, 6);
-    // Job j7("Job7", 70, 7);
-    // Job j8("Job8", 80, 8);
-    // Job jobs[] = {j1, j2, j3, j4, j5, j6, j7, j8};
-    // MaxHeap jobsHeap(8);
-    int n = 10;
+    int n;
+    cout << "Input number of Jobs to be completed: " << endl;
+    cin >> n;
+    srand(time(0));
     MaxHeap jobs(n);
+    int compReqs, priority;
     for (int i = 1; i <= n; i++)
     {
         string name = "Job" + to_string(i);
-        int compReqs = i * 100;
-        int priority = i;
-        Job j(name, compReqs, priority);
-        jobs.insert(j);
+        compReqs = rand() % 250 * 10 + 1;
+        priority = rand() % 100 + 1;
+        Job *j = new Job(name, compReqs, priority);
+        jobs.insert(*j);
     }
-    jobs.print();
-    cout << "\n\n\n\n\n";
     vector<VM> vms;
-    vms.push_back(VM(1000, 10));
-    for (int i = 1; i <= n; i++)
-        allocateJob(jobs.deleteHeap(), vms);
+    VM temp(rand() % 1000 + 100);
 
+    vms.push_back(temp);
+    for (int i = 1; i <= n; i++)
+    {
+        Job j = jobs.deleteHeap();
+        allocate(j, vms);
+        if (!(rand() % 100))
+        {
+            int x = rand() % vms.size();
+            cout << "\n\nHandling Failure of VM num: " << x + 1 << endl;
+            vms[x].handleFailure();
+            vms.erase(vms.begin() + x);
+            recovery(vms);
+            cout << "Recovery Done. Reallocation of Jobs successful\n\n";
+        }
+    }
     for (int i = 0; i < vms.size(); i++)
     {
-        cout << endl;
-
-        vms[i].jobsheap.print();
-        cout << endl;
         vms[i].showSummary();
         cout << endl;
     }
+    cout << "Number of VMS used: " << VM::numVMs << "\nFailed: " << VM::failed << endl;
+    cout << "Total time taken: " << totalTime(vms) << " Milliseconds, To complete " << n << " Jobs" << endl;
 }
