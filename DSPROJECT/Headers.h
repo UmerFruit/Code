@@ -2,8 +2,9 @@
 #ifndef HEADERS_H_
 #define HEADERS_H_
 #include <iostream>
-#include <fstream>
-#include "Heap.h"
-#include <vector>
+#include "Queue.h"
+#include "Stack.h"
+#include "List.h"
+
 using namespace std;
 #endif /* HEADERS_H_ */
