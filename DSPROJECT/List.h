@@ -24,6 +24,10 @@ private:
     int numelements;
 
 public:
+    Node<T> *getHead()
+    {
+        return head;
+    }
     List()
     {
         numelements = 0;
