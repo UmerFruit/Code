@@ -1,4 +1,10 @@
-#include "Headers.h"
+#include <iostream>
+#include <vector>
+#include <cstring>
+#include <fstream>
+using namespace std;
+
+
 void fun()
 { // umer Truckdriver ka asli kaam
     cout << "login krso jee" << endl;
@@ -59,7 +65,7 @@ void registertruck(vector<truckdriver> &v1)
 
     truckdriver t1(x, y, z);
     v1.push_back(t1);
-    ofstream out("truckdriver.csv", ios::app);
+    ofstream out("truckdriver.csv");
     for (int i = 0; i < v1.size(); i++)
     {
         if (i != 0)
@@ -119,7 +125,7 @@ void registercontrol(vector<controller> &v1)
 
     controller t1(x, y, z);
     v1.push_back(t1);
-    ofstream out("controller.csv",ios::app);
+    ofstream out("controller.csv");
     for (int i = 0; i < v1.size(); i++)
     {
         if (i != 0)
@@ -300,13 +306,13 @@ int main()
     // {
     //     out<<vec[i].getname()<<","<<vec[i].getusrname()<<","<<vec[i].getpass()<<endl;
     // }
-    menu();
-    // vector<location> v1;
-    // read_locations(v1);
-    // graph g1;
-    // g1.insert(v1);
+    // menu();
+    vector<location> v1;
+    read_locations(v1);
+    graph g1;
+    g1.insert(v1);
 
-    // g1.showGraphStructure();
+    g1.showGraphStructure();
 
     return 0;
 }

@@ -28,7 +28,7 @@ void setup()
 
 void loop()
 {
-  //Makes sure that the game ends after 30 lights are whacked
+  //Makes sure that the game ends after 10 lights are whacked
   for(int i = 0; i < 10; i++)
   {
     //Randomly turns on an LED
@@ -81,7 +81,7 @@ void loop()
     }
   }
   
-  //Shows the end of the game
+  //Shows the end of the game blinks 3 times
   for (int i = 0; i < 3; i++)
   {
     digitalWrite(redLED, HIGH);
