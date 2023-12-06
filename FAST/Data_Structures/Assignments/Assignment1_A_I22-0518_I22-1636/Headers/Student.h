@@ -326,6 +326,20 @@ bool deletestudent()
     fstream fp2;
     fp2.open("temp.dat", ios::out | ios::binary);
     fp.seekg(0);
+    /*
+        while(!fp.eof())
+        {
+            fp>>inputstr;
+            if(id == inputstr)
+            {
+
+            }
+            else
+            {
+                fout<<
+            }
+        }
+    */
     while (fp.read(reinterpret_cast<char *>(&st), sizeof(Student)))
     {
         if (st.getadm_num() != n)
