@@ -15,6 +15,13 @@
 #include <cmath>
 #include <iomanip>
 #include <chrono>
+#include <vector>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <set>
+#include <stack>
+#include <queue>
 #include "getch.h"
 using namespace std;
 #endif /* HEADERS_H_ */
