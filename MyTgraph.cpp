@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <algorithm>
 using namespace std;
 template <class T>
 class Graphnode
 {
 public:
-	vector<Graphnode *> links;
+	vector<Graphnode<T> *> links;
 	T data;
 	Graphnode(T d)
 	{
@@ -28,6 +29,17 @@ public:
 	void addvert(T data)
 	{
 		vertices.push_back(Graphnode<T>(data));
+	}
+	Graphnode<T> *findvert(T data)
+	{
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			if (vertices[i].data == data)
+			{
+				return &vertices[i];
+			}
+		}
+		return NULL;
 	}
 	void addedge(T srcdata, T destdata)
 	{
@@ -57,7 +69,7 @@ public:
 			}
 		}
 		else
-			cout << "dest Edge already exists in src" << endl;
+			cout << srcdata << " already has " << destdata << endl;
 		return;
 	}
 	void print()
@@ -73,42 +85,164 @@ public:
 			cout << endl;
 		}
 	}
+	void bfs(T start)
+	{
+		bool *visited = new bool[vertices.size()];
+		for (int i = 0; i < vertices.size(); i++)
+			visited[i] = false;
+		vector<T> ans;
+		for (int i = 0; i < vertices.size(); i++)
+			if (!visited[i])
+			{ /*
+			   * Front maango
+			   * queue mai push karo
+			   * visited mark
+			   * print
+			   * queue mai adjlist push karo
+			   * repeat
+			   */
+				queue<Graphnode<T> *> q;
+				q.push(findvert(start));
+				visited[start] = true;
+				while (!q.empty())
+				{
+					Graphnode<T> *f = q.front();
+					q.pop();
+					ans.push_back(f->data);
+					for (int i = 0; i < f->links.size(); i++)
+					{
+						if (!visited[f->links[i]->data])
+						{
+							q.push(f->links[i]);
+							visited[f->links[i]->data] = true;
+						}
+					}
+				}
+			}
+		for (int i = 0; i < ans.size(); i++)
+			cout << ans[i] << " ";
+		cout << endl;
+	}
+	void dfs(T start)
+	{
+		bool visited[5] = {0};
+		vector<T> ans;
+		for (int i = 0; i < vertices.size(); i++)
+			if (!visited[i])
+			{
+				if (!visited[node])
+				{
+					ans.push_back(node);
+					visited[node] = true;
+					Graphnode<T> *list = findvert(node);
+					for (int i = 0; i < list->links.size(); i++)
+					{
+						DFS(visited, ans, list->links[i]->data);
+					}
+				}
+			}
+		for (int i = 0; i < ans.size(); i++)
+			cout << ans[i] << " ";
+		cout << endl;
+	}
+	bool cycleutil()
+	{
+		queue<Graphnode<T> *> q;
+		q.push(findvert(start));
+		visited[start] = true;
+		while (!q.empty())
+		{
+			Graphnode<T> *f = q.front();
+			q.pop();
+			ans.push_back(f->data);
+			for (int i = 0; i < f->links.size(); i++)
+			{
+				if (!visited[f->links[i]->data])
+				{
+					q.push(f->links[i]);
+					visited[f->links[i]->data] = true;
+				}
+			}
+		}
+	}
+	void cycleBFS()
+	{
+		bool visited[9] = {0};
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			if (!visited[i])
+			{
+				bool ans = cycleutil(i,visited,);
+				if(ans == 1)
+					return true;
+			}
+		}
+		return false;
+	}
 };
+
+// bool checkcycleUtil(AdjList *arr, bool *visited, bool *dfsVisited, int node)
+// {
+// 	visited[node] = true;
+// 	dfsVisited[node] = true;
+// 	for (Node *temp = arr[node].head->next; temp; temp = temp->next)
+// 	{
+// 		int x = temp->data;
+// 		if (visited[x] == 0)
+// 		{
+// 			bool ans = checkcycleUtil(arr, visited, dfsVisited, x);
+// 			if (ans)
+// 			{
+// 				return ans;
+// 			}
+// 		}
+// 		else if (dfsVisited[x] == 1)
+// 		{
+// 			return true;
+// 		}
+// 	}
+// 	dfsVisited[node] = false;
+// 	return false;
+// }
+// bool checkcycle()
+// {
+// 	bool *visited = new bool[vert];
+// 	bool *dfsvisited = new bool[vert];
+// 	for (int i = 0; i < vert; i++)
+// 	{
+// 		visited[i] = false;
+// 		dfsvisited[i] = false;
+// 	}
+// 	for (int i = 0; i < vert; i++)
+// 	{
+// 		if (visited[i] == 0)
+// 		{
+// 			bool ans = checkcycleUtil(list, visited, dfsvisited, i);
+// 			if (ans)
+// 			{
+// 				return ans;
+// 			}
+// 		}
+// 	}
+// 	return false;
+// }
+
 int main()
 {
 	Graph<int> g(0); // 0 for undirected graph
-	g.addvert(1);
-	g.addvert(2);
-	g.addvert(3);
-	g.addvert(4);
-	g.addvert(5);
+	for (int i = 0; i < 6; i++)
+	{
+		g.addvert(i);
+	}
+	g.addedge(0, 1);
+	g.addedge(0, 3);
+	g.addedge(0, 4);
 	g.addedge(1, 2);
-	g.addedge(2, 1);
-
-	// g.addedge(2, 1);
-	// g.addedge(2, 1);
-	// g.addedge(1, 3);
-	// g.addedge(2, 4);
-	// g.addedge(3, 4);
-	// g.addedge(4, 5);
-	// g.addedge(5, 1);
-	g.print();
-	// Graph<string> g2(1);	// 1 for directed graph
-	// g.addvert("Saif");
-	// g.addvert("Humayun");
-	// g.addvert("Bilal");
-	// g.addvert("Umer");
-	// g.addvert("Munim");
-	// g.addvert("Tiddy");
-	// g.addvert("Emaan");
-	// g.addvert("Mohaiman");
-	// g.addedge("Umer", "Saif");
-	// g.addedge("Humayun", "Bilal");
-	// g.addedge("Bilal", "Munim");
-	// g.addedge("Munim", "Tiddy");
-	// g.addedge("Tiddy", "Munim");
-	// g.addedge("Tiddy", "Emaan");
-	// g.addedge("Emaan", "Mohaiman");
-	// g.addedge("Mohaiman", "Umer");
+	g.addedge(2, 4);
+	g.addedge(2, 5);
+	g.addedge(3, 4);
+	g.addedge(4, 5);
+	g.dfs(0);
 	// g.print();
+	// g.bfs(0);
 }
