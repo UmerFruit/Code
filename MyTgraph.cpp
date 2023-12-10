@@ -92,6 +92,7 @@ public:
 			visited[i] = false;
 		vector<T> ans;
 		for (int i = 0; i < vertices.size(); i++)
+		{
 			if (!visited[i])
 			{ /*
 			   * Front maango
@@ -119,113 +120,40 @@ public:
 					}
 				}
 			}
+		}
 		for (int i = 0; i < ans.size(); i++)
 			cout << ans[i] << " ";
 		cout << endl;
+	}
+	void DFS(bool visited[5], vector<T> &ans, int node)
+	{
+		if (!visited[node])
+		{
+			ans.push_back(node);
+			visited[node] = true;
+			Graphnode<T> *list = findvert(node);
+			for (int i = 0; i < list->links.size(); i++)
+			{
+				DFS(visited, ans, list->links[i]->data);
+			}
+		}
 	}
 	void dfs(T start)
 	{
 		bool visited[5] = {0};
 		vector<T> ans;
-		for (int i = 0; i < vertices.size(); i++)
-			if (!visited[i])
+		for (int node = 0; node < vertices.size(); node++)
+		{
+			if (!visited[node])
 			{
-				if (!visited[node])
-				{
-					ans.push_back(node);
-					visited[node] = true;
-					Graphnode<T> *list = findvert(node);
-					for (int i = 0; i < list->links.size(); i++)
-					{
-						DFS(visited, ans, list->links[i]->data);
-					}
-				}
+				DFS(visited, ans, node);
 			}
+		}
 		for (int i = 0; i < ans.size(); i++)
 			cout << ans[i] << " ";
 		cout << endl;
 	}
-	bool cycleutil()
-	{
-		queue<Graphnode<T> *> q;
-		q.push(findvert(start));
-		visited[start] = true;
-		while (!q.empty())
-		{
-			Graphnode<T> *f = q.front();
-			q.pop();
-			ans.push_back(f->data);
-			for (int i = 0; i < f->links.size(); i++)
-			{
-				if (!visited[f->links[i]->data])
-				{
-					q.push(f->links[i]);
-					visited[f->links[i]->data] = true;
-				}
-			}
-		}
-	}
-	void cycleBFS()
-	{
-		bool visited[9] = {0};
-		for (int i = 0; i < vertices.size(); i++)
-		{
-			if (!visited[i])
-			{
-				bool ans = cycleutil(i,visited,);
-				if(ans == 1)
-					return true;
-			}
-		}
-		return false;
-	}
 };
-
-// bool checkcycleUtil(AdjList *arr, bool *visited, bool *dfsVisited, int node)
-// {
-// 	visited[node] = true;
-// 	dfsVisited[node] = true;
-// 	for (Node *temp = arr[node].head->next; temp; temp = temp->next)
-// 	{
-// 		int x = temp->data;
-// 		if (visited[x] == 0)
-// 		{
-// 			bool ans = checkcycleUtil(arr, visited, dfsVisited, x);
-// 			if (ans)
-// 			{
-// 				return ans;
-// 			}
-// 		}
-// 		else if (dfsVisited[x] == 1)
-// 		{
-// 			return true;
-// 		}
-// 	}
-// 	dfsVisited[node] = false;
-// 	return false;
-// }
-// bool checkcycle()
-// {
-// 	bool *visited = new bool[vert];
-// 	bool *dfsvisited = new bool[vert];
-// 	for (int i = 0; i < vert; i++)
-// 	{
-// 		visited[i] = false;
-// 		dfsvisited[i] = false;
-// 	}
-// 	for (int i = 0; i < vert; i++)
-// 	{
-// 		if (visited[i] == 0)
-// 		{
-// 			bool ans = checkcycleUtil(list, visited, dfsvisited, i);
-// 			if (ans)
-// 			{
-// 				return ans;
-// 			}
-// 		}
-// 	}
-// 	return false;
-// }
 
 int main()
 {
@@ -234,15 +162,15 @@ int main()
 	{
 		g.addvert(i);
 	}
-	g.addedge(0, 1);
-	g.addedge(0, 3);
-	g.addedge(0, 4);
-	g.addedge(1, 2);
-	g.addedge(2, 4);
-	g.addedge(2, 5);
-	g.addedge(3, 4);
-	g.addedge(4, 5);
-	g.dfs(0);
+	int a = 0, b = 1, c = 2, d = 3, e = 4, f = 5;
+	g.addedge(a, b);
+	g.addedge(a, d);
+	g.addedge(a, e);
+	g.addedge(b, c);
+	g.addedge(c, e);
+	g.addedge(c, f);
+	g.addedge(d, e);
+	g.addedge(e, f);
 	// g.print();
-	// g.bfs(0);
+	g.bfs(0);
 }

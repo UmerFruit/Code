@@ -25,11 +25,11 @@ public:
     {
         directed = i;
     }
-    void addvert(T data)
+    void addVert(T data)
     {
         vertices.push_back(Graphnode<T>(data));
     }
-    void addedge(T srcdata, T destdata, int w)
+    void addEdge(T srcdata, T destdata, int w)
     {
         Graphnode<T> *src = NULL, *dest = NULL;
         for (int i = 0; i < vertices.size(); i++)
@@ -74,4 +74,23 @@ public:
             cout << endl;
         }
     }
+    void djalgo()
+    {
+        
+    }
 };
+int main()
+{
+	// Create a graph given in the above diagram
+	Graph<int> g(0);
+	for (int i = 0; i < 4; i++)
+		g.addVert(i);
+	g.addEdge(0, 1, 5);
+	g.addEdge(0, 2, 8);
+	g.addEdge(1, 2, 9);
+	g.addEdge(1, 3, 2);
+	g.addEdge(2, 3, 6);
+
+	g.print();
+	return 0;
+}
