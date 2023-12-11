@@ -1,25 +1,30 @@
-#include <iostream>
-#include <iomanip>
-#include <list>
-#include "Dictionary.h"
+#include "Headers.h"
 using namespace std;
+class node
+{
+public:
+   int data;
+   node *next;
+   node(int data = 0)
+   {
+      this->data = data;
+      next = NULL;
+   }
+};
+void print(node *head)
+{
+   node *temp = head;
+   while (temp != NULL)
+   {
+      cout << temp->data << " ";
+      temp = temp->next;
+   }
+   cout << endl;
+}
 int main()
 {
-   Dictionary<int , list<int>> d;
-   d.add(1, {1, 2, 3});
-   d.add(2, {4, 5, 6});
-   d.add(3, {7, 8, 9});
-   d.add(4, {10, 11, 12});
-   d.remove(3);
-   for (int i = 1; i <= 4; i++)
-   {
-      cout << i << " -> ";
-      for (int& j : d[i])
-      {
-         cout << j << " ";
-      }
-      cout << endl;
-   }
-   
-   
+   node *head = new node(5);
+   head->next = new node(6);
+   head->next->next = new node(3);
+   print(head);
 }

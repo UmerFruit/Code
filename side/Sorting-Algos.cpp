@@ -10,7 +10,7 @@ void randomize(int *arr, long long size)
 {
     for (int i = 0; i < size; i++)
     {
-        arr[i] = rand() % 10;
+        arr[i] = rand();
     }
 }
 uint64_t BubbleSort(int *arr, long long size)
@@ -25,9 +25,10 @@ uint64_t BubbleSort(int *arr, long long size)
             if (arr[i] < arr[j])
             {
                 a = true;
-                int temp = arr[j];
-                arr[j + 1] = arr[j];
-                arr[j] = temp;
+                swap(arr[j],arr[j+1]);
+                // int temp = arr[j];
+                // arr[j + 1] = arr[j];
+                // arr[j] = temp;
             }
         }
         if(!a)
@@ -141,24 +142,24 @@ uint64_t MergeSort(int *arr, long long size)
     return ms2 - ms1;
 }
 
-// int main()
-// {
-//     const int size = 10;
-//     int arr[size] = {9, 5, 2, 1, 6, 8, 7, 3, 4, 0};
+int main()
+{
+    const int size = 10;
+    int arr[size] = {9, 5, 2, 1, 6, 8, 7, 3, 4, 0};
 
-//     const long long size2 = 1000000;
-//     int *arr2 = new int[size2];
+    const long long size2 = 10000000;
+    int *arr2 = new int[size2];
 
-//     randomize(arr2, size2);
+    randomize(arr2, size2);
 
     
 
-//     // cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << " Milliseconds" << endl;
-//     // randomize(arr2, size2);
-//     // cout << "Time Taken For Selection Sort: " << SelectionSort(arr2, size2) << " Milliseconds" << endl;
-//     // randomize(arr2, size2);
-//     // cout << "Time Taken For Insertion Sort: " << InsertionSort(arr2, size2) << " Milliseconds" << endl;
-//     // randomize(arr2, size2);
-//     cout << "Time Taken For Merge Sort: " << MergeSort(arr2, size2) << " Milliseconds" << endl;
-//     // randomize(arr2, size2);
-// }
+    // cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
+    // cout << "Time Taken For Selection Sort: " << SelectionSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
+    // cout << "Time Taken For Insertion Sort: " << InsertionSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
+    // cout << "Time Taken For Merge Sort: " << MergeSort(arr2, size2) << " Milliseconds" << endl;
+    // randomize(arr2, size2);
+}

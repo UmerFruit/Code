@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <algorithm>
+#include "Dictionary.h"
 using namespace std;
 template <class T>
 class Graphnode
@@ -41,7 +41,6 @@ public:
 		}
 		return NULL;
 	}
-	void
 	void addedge(T srcdata, T destdata)
 	{
 		Graphnode<T> *src = NULL, *dest = NULL;
