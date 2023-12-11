@@ -100,12 +100,16 @@ public:
     }
     T2 operator[](T1 key)
     {
-        int pos = getidx(key);
-        if (pos == -1)
-            // cout << "Key not found" << endl;
-            throw std::runtime_error("Key not found");
-        else
+        if (find(key))
+        {
+            int pos = getidx(key);
             return entries[pos].second;
+        }
+        else
+        {
+            cout << "Key not found" << endl;
+            return T2();
+        }
     }
 };
 #endif // DICTIONARY_H_INCLUDED

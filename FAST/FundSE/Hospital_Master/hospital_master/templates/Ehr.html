@@ -1,0 +1,90 @@
+<!doctype html>
+{% load  static %}
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Ehr View</title>
+
+    <link rel="shortcut icon" href="/../assets/images/fav.jpg">
+    <link rel="stylesheet" href="/../static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/../static/assets/css/fontawsom-all.min.css">
+    <link rel="stylesheet" type="text/css" href="/../static/assets/css/style.css" />
+</head>
+
+<body>
+    <div class="container-fluid overcover">
+        <div class="container profile-box">
+            <div class="row">
+                <div class="col-md-4 left-co">
+                    <div class="left-side">
+                        <div class="profile-info">
+                            <img src="/../static/patient.png" alt="">
+                            <h3>{{ehr.patient.Email}}
+                            </h3>
+                        </div>
+                        <div class="contact-box pb0">
+                            <div class="icon">
+                            </div>
+                        </div>
+                        <div class="contact-box pb0">
+                            <div class="icon">
+                            </div>
+                        </div>
+                        <div class="contact-box">
+                            <div class="icon">
+                            </div>
+                        </div>
+                        <ul class="row social-link no-margin">
+                        </ul>
+
+                        <ul class="hoby row no-margin">
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-8 rt-div">
+                    <div class="rit-cover">
+                        <h2 class="rit-titl">ALLERGIES </h2>
+                        <div class="about">
+                            <p>{{ehr.allergies}}</p>
+                        </div>
+
+                        <h2 class="rit-titl"> DIET RESTRICTION </h2>
+                        <div class="about">
+                            <p>{{ehr.diet_restriction}}</p>
+                        </div>
+                        <h2 class="rit-titl"> TEST CONDUCTED </h2>
+                        <div class="about">
+                            <p>{{ehr.Test_conducted}}</p>
+                        </div>
+                        <h2 class="rit-titl"> PRESCRIPTIONS </h2>
+                        <div class="about">
+                            <p>{{ehr.prescriptions}}</p>
+                        </div>
+                        <h2 class="rit-titl"> DRUG HISTORY </h2>
+                        <div class="about">
+                            <p>{{ehr.Drug_history}}</p>
+                        </div>
+                        <h2 class="rit-titl"> FAMILY HISTORY </h2>
+                        <div class="about">
+                            <p>{{ehr.Family_history}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-secondary"><a href="/dashboard-light/{{person}}/?id={{id1}}">
+        Back
+    </a>
+    </button>
+</body>
+
+<script src="/../static/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/../static/assets/js/popper.min.js"></script>
+<script src="/../static/assets/js/bootstrap.min.js"></script>
+<script src="/../static/assets/js/script.js"></script>
+
+
+</html>
