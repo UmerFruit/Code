@@ -18,6 +18,7 @@
 #include <vector>
 #include <algorithm>
 #include <list>
+#include <unordered_map>
 #include <map>
 #include <set>
 #include <stack>

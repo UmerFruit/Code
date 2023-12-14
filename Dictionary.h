@@ -1,6 +1,5 @@
 #ifndef DICTIONARY_H_
 #define DICTIONARY_H_
-#include <algorithm>
 #include <vector>
 using namespace std;
 template <class T1, class T2>
@@ -19,11 +18,11 @@ public:
 template <class T1, class T2>
 class Dictionary
 {
-private:
-    vector<Pair<T1, T2>> entries;
+public:
+    vector<Pair<T1, T2> > entries;
 
 public:
-    Dictionary() {}
+    Dictionary() { entries.clear(); }
     void add(T1 key, T2 value)
     {
         entries.push_back(Pair<T1, T2>(key, value));
@@ -38,6 +37,10 @@ public:
             }
         }
         return false;
+    }
+    T1 &getkey(int i)
+    {
+        return entries[i].first;
     }
     int getidx(T1 targetKey) const
     {
@@ -82,34 +85,24 @@ public:
     {
         return entries.size() == 0;
     }
-
-    Dictionary(vector<Pair<T1, T2>> store)
+    T2 &getval(int i)
     {
-        for (int i = 0; i < store.size(); i++)
-        {
-            add(store[i].first, store[i].second);
-        }
+        return entries[i].second;
     }
-    T1 *begin()
+    T2 &operator[](T1 key)
     {
-        return &(entries[0].first);
-    }
-    T1 *end()
-    {
-        return &(entries[entries.size() - 1]);
-    }
-    T2 operator[](T1 key)
-    {
+        int pos;
         if (find(key))
         {
-            int pos = getidx(key);
-            return entries[pos].second;
+            pos = getidx(key);
         }
         else
         {
-            cout << "Key not found" << endl;
-            return T2();
+            T2 temp;
+            add(key, temp);
+            pos = getidx(key);
         }
+        return entries[pos].second;
     }
 };
 #endif // DICTIONARY_H_INCLUDED

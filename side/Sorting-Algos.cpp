@@ -144,8 +144,8 @@ uint64_t MergeSort(int *arr, long long size)
 
 int main()
 {
-    const int size = 10;
-    int arr[size] = {9, 5, 2, 1, 6, 8, 7, 3, 4, 0};
+    const int size = 6;
+    int arr[size] = {0 ,1 ,2, 2, 1, 0};
 
     const long long size2 = 10000000;
     int *arr2 = new int[size2];
@@ -154,7 +154,7 @@ int main()
 
     
 
-    // cout << "Time Taken For Bubble Sort: " << BubbleSort(arr2, size2) << " Milliseconds" << endl;
+    cout << "Time Taken For Bubble Sort: " << BubbleSort(arr, size) << " Milliseconds" << endl;
     // randomize(arr2, size2);
     // cout << "Time Taken For Selection Sort: " << SelectionSort(arr2, size2) << " Milliseconds" << endl;
     // randomize(arr2, size2);

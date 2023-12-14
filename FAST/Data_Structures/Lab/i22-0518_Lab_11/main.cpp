@@ -21,11 +21,11 @@ int main()
     int arr[10], temp;
     for (int i = 0; i < 10; i++)
     {
-        temp = rand() % 100;
-        h.insert(temp);
+        h.insert(i);
+        h.print();
     }
 
-    h.print();
-    heapsort(h);
-    h.print();
+    // h.print();
+    // heapsort(h);
+    // h.print();
 }
