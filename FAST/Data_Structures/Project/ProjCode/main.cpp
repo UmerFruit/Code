@@ -226,12 +226,6 @@ void livetrackin(int idx){
     system("clear");
     int time = (rand()%12) + 7;
     int min = 10;
-    // if(s2[idx].size() == 2 || s2[idx].size() == 0 || s1[idx].size()== 2 || s1[idx].size() == 0)
-    // {
-    //     cout<<"Controllers have not assigned paths yet."<<endl;
-    //     getch();
-    //     return;
-    // }
     if(b1[idx] == 1){
         cout<<"The Update Path is "<<endl;
         for (int i = 0; s2[idx].size() > i; i++)
