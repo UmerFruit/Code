@@ -41,7 +41,6 @@ public:
 		}
 		return NULL;
 	}
-	void
 	void addedge(T srcdata, T destdata)
 	{
 		Graphnode<T> *src = NULL, *dest = NULL;

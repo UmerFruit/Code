@@ -64,7 +64,7 @@ public:
     void insertEdge(int src, int dest)
     {
         list[src].insert(dest);
-        // arr[dest].insert(source);
+        // arr[dest].insert(source); //uncomment for undirected graph
     }
     void showGraphStrct()
     {
@@ -72,57 +72,7 @@ public:
         for (int i = 0; i < vert; i++)
             list[i].Display();
     }
-    bool checkcycleUtil(AdjList *arr, bool *visited, bool *dfsVisited, int node)
-    {
-        visited[node] = true;
-        dfsVisited[node] = true;
-
-        for (Node *temp = arr[node].head->next; temp; temp = temp->next)
-        {
-            int x = temp->data;
-            if (visited[x] == 0)
-            {
-                bool ans = checkcycleUtil(arr, visited, dfsVisited, x);
-
-                if (ans)
-                {
-                    return ans;
-                }
-            }
-            else if (dfsVisited[x] == 1)
-            {
-                return true;
-            }
-        }
-        dfsVisited[node] = false;
-        return false;
-    }
-
-    bool checkcycle()
-    {
-        bool *visited = new bool[vert];
-        bool *dfsvisited = new bool[vert];
-        for (int i = 0; i < vert; i++)
-        {
-            visited[i] = false;
-            dfsvisited[i] = false;
-        }
-        for (int i = 0; i < vert; i++)
-        {
-            if (visited[i] == 0)
-            {
-                bool ans = checkcycleUtil(list, visited, dfsvisited, i);
-
-                if (ans)
-                {
-                    return ans;
-                }
-            }
-        }
-
-        return false;
-    }
-
+    
     ~Graph()
     {
         delete[] list;
@@ -138,17 +88,11 @@ int main()
         4 : 1
     */
     Graph g(5);
-    g.insertEdge(0, 1);
+    g.insertEdge(0, 3);
     g.insertEdge(1, 2);
     g.insertEdge(2, 3);
     g.insertEdge(3, 4);
     g.insertEdge(4, 2);   //comment to show Acyclic 
-
     cout << "Graph is ";
-    if (!g.checkcycle())
-    {
-        cout << " not ";
-    }
-    cout << "cyclic\n";
     g.showGraphStrct();
 }
