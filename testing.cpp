@@ -1,41 +1,25 @@
-#include <vector> 
-#include <iostream>
-using namespace std;
-
-class NumArray
+#include "Headers.h"
+int main()
 {
-public:
-    vector<int> arr;
-    // Initialize here.
-    NumArray(vector<int> &arr, int n)
+    string sym = " + ";
+    for (int i = 0; i < 10; i++)
     {
-        // Write your code here.
-        this->arr = arr;
-    }
-
-    // Update operation.
-    void update(int l, int r, int val)
-    {
-        for(int i=0;i<=r-l;i++)
+        for (int j = 0; j < 10; j++)
         {
-            arr[l+i] += val+i;
+            for (int k = 0; k < 10; k++)
+            {
+                for (int l = 0; l < 10; l++)
+                {
+                    if(i+j+k+l == 10)
+                    {
+                        cout<<i<<sym<<j<<sym<<k<<sym<<l<<endl;
+                    }
+                }
+                
+            }
+            
         }
+        
     }
-
-    // Return the sum of subarray arr[l..r].
-    long long rangeSum(int l, int r)
-    {
-        long long sum = 0;
-        for(int i =l;i<=r;i++)
-        {
-            sum+= arr[i];
-        }
-        return sum;
-    }
-};
-int main() {
-    vector<int> arr = {0,1,1,1,0};
-    NumArray a(arr,4);
-    cout<<a.rangeSum(1,4)<<endl;
-
+    
 }
