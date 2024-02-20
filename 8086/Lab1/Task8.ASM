@@ -4,7 +4,7 @@
 .code
 main proc
     mov ah,1
-    int 21h ;   cuz it reads in ascii so 0 = 48
+    int 21h ;   because it reads in ascii so 0 = 48
     sub al,'0'; from ascii to actual num (this process is called Stripping the ascii)
     mov dl,al
 
