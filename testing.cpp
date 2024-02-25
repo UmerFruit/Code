@@ -10,16 +10,12 @@ int main()
             {
                 for (int l = 0; l < 10; l++)
                 {
-                    if(i+j+k+l == 10)
+                    if (i + j + k + l == 10)
                     {
-                        cout<<i<<sym<<j<<sym<<k<<sym<<l<<endl;
+                        cout << i << sym << j << sym << k << sym << l << endl;
                     }
                 }
-                
             }
-            
         }
-        
     }
-    
 }
