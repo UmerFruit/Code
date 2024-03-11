@@ -1,26 +1,27 @@
 .model small
 .stack 100h
 .data
-    v1   db 6,2,5,8,2,1
-    msg1 db 10,13,"Even number$"
-    msg2 db 10,13,"Odd number$"
-    len  =  ($-v1+1)
+    v1   db 5
+    v2   db 7
+    msg1 db "equal$"
+    msg2 db 10,13,"not equal$"
 .code
 main proc
                mov ax,@data
                mov ds,ax
-               mov al,len
-               and al,1
-               cmp al,0
-               jne odd
+               mov al,v1
+               mov bl,v2
+               cmp al,bl
+               je  equal
+               mov dx,offset msg2
                mov ah,09h
-               lea dx,msg1
                int 21h
                jmp endprogram
-    odd:       
+    equal:     
+               mov dx,offset msg1
                mov ah,09h
-               lea dx,msg2
                int 21h
+               jmp endprogram
     endprogram:
                mov ah,4ch
                int 21h

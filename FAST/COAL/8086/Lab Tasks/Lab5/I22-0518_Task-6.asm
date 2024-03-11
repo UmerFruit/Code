@@ -1,7 +1,7 @@
 .model small
 .stack 100h
 .data
-    v1   db 6,2,5,8,2,1
+    v1   db 6,2,5,8,2,1,43
     msg1 db 10,13,"Even number$"
     msg2 db 10,13,"Odd number$"
     len  =  ($-v1+1)
