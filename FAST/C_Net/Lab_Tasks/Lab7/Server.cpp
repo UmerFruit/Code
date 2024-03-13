@@ -11,6 +11,8 @@ void clear(char t[], int size = 256)
 {
     for (int i = 0; i < 256; i++)
         t[i] = 0;
+ 
+    
 }
 int main()
 {
@@ -29,25 +31,29 @@ int main()
     // bind the socket to our specified IP and port
     bind(s_sock, (sockaddr *)&s_addr, sizeof(s_addr));
     listen(s_sock, 5);
-    int c_sock = accept(s_sock, NULL, NULL);
-
-    while (1)
+    int c_sock[2];
+    c_sock[0] = accept(s_sock, NULL, NULL);
+    c_sock[1] = accept(s_sock, NULL, NULL);
+    for (int i = 0; i < 2; i++)
     {
-        clear(buf);
-        recv(c_sock, &buf, sizeof(buf), 0);
-        if (strcmp(buf, "exit") == 0)
+        while (1)
         {
-            send(c_sock, buf, strlen(buf), 0);
-            break;
-        }
-        cout << "Client: " << buf << endl;
-        cout << "Server: ";
-        cin.getline(buf, 256);
+            clear(buf);
+            recv(c_sock[i], &buf, sizeof(buf), 0);
+            if (strcmp(buf, "exit") == 0)
+            {
+                send(c_sock[i], buf, strlen(buf), 0);
+                break;
+            }
+            cout << "Client"<<i<<": " << buf << endl;
+            cout << "Server: ";
+            cin.getline(buf, 256);
 
-        send(c_sock, buf, strlen(buf), 0);
-        if (strcmp(buf, "exit") == 0)
-        {
-            break;
+            send(c_sock[i], buf, strlen(buf), 0);
+            if (strcmp(buf, "exit") == 0)
+            {
+                break;
+            }
         }
     }
     // close the socket

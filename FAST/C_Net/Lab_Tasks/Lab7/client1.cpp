@@ -7,7 +7,11 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
+void clear(char t[], int size = 256)
+{
+	for (int i = 0; i < 256; i++)
+		t[i] = 0;
+}
 int main()
 {
 	char request[256];
@@ -25,14 +29,26 @@ int main()
 
 	connect(sock, (struct sockaddr *)&server_address, sizeof(server_address));
 
-	cout << "enter string for client: ";
-	cin.getline(request, 256);
-	cout <<"Sending: "<< request << endl;
-	send(sock, request, sizeof(request), 0);
-	recv(sock, &buf, sizeof(buf), 0);
-	cout <<"Recieved: "<< buf << endl;
+	while (1)
+	{
+		clear(request);
+		cout << "Client: ";
 
+		cin.getline(request, 256);
+
+		send(sock, request, strlen(request), 0);
+		if (strcmp(buf, "exit") == 0)
+		{
+			break;
+		}
+		clear(buf);
+		recv(sock, &buf, sizeof(buf), 0);
+		if (strcmp(buf, "exit") == 0)
+		{
+			break;
+		}
+		cout << "Server: " << buf << endl;
+	}
 	close(sock);
-
 	return 0;
 }
