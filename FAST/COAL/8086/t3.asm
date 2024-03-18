@@ -2,24 +2,21 @@
 .model small
 .stack 100h
 .data
-    number1 db 5
-    result2 db 2
+    array  db 1,2,3,4,5,6,7,8,9
+    number db 9
+    result db ?
+    msg1   db 'FOUND$'
+    msg2   db 'NOT FOUND$'
 .code
 main PROC
            mov  ax,@data
            mov  ds,ax
-           mov  cx,8
+           mov  cx,9
            mov  si, offset array
     search:
            mov  al,array[si]
            mov dl,al
-        ;    add dl,48
-        ;    mov ah,02
-        ;    int 21h
-        ;    mov dl,number
-        ;    add dl,48
-        ;    mov ah,02
-        ;    int 21h
+        
            cmp  number,al
            je   found
            
