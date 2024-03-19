@@ -2,7 +2,7 @@
 .model small
 .stack 100h
 .data
-    array  db 1,2,3,4,5,6,7,8,9
+    array  db 1,2,3,4,5,6,7,8
     number db 9
     result db ?
     msg1   db 'FOUND$'
@@ -11,10 +11,10 @@
 main PROC
            mov  ax,@data
            mov  ds,ax
-           mov  cx,9
+           mov  cx,8
            mov  si, offset array
     search:
-           mov  al,array[si]
+           mov  al,[si]
            mov dl,al
         
            cmp  number,al
