@@ -1,72 +1,113 @@
-;Program in Assembly Language Read Three Numbers from User and Display Smallest Number
-.model small
-.stack 100h
-.data .386
-DATA SEGMENT USE16
-MESG DB 'Hello word','$'
-DATA ENDS
-CODE SEGMENT USE16
-        ASSUME CS:CODE,DS:DATA
-BEG:
-        MOV AX,DATA
-        MOV DS,AX
-        MOV AH,9
-        MOV DX, OFFSET MESG
-        INT 21H
-        MOV AH,4CH
-        INT 21H;back to dos
-CODE ENDS
-END BEG
-.code
+.MODEL SMALL 
+.STACK 100H 
+.DATA
+     DIGIT1 DB 0AH, 0DH, "ENTER FIRST DIGIT: $"
+     DIGIT2 DB 0AH, 0DH, "ENTER SECOND DIGIT: $"
+     RESULT DB 0AH, 0DH, "RESULT IS $"
+.CODE
+     MAIN:
+          MOV AX, @DATA
+          MOV DS, AX
+         
+          LEA DX, DIGIT1
+          MOV AH, 09H
+          INT 21H
+         
+     ;    MOV AH, 01H
+     ;    INT 21H
+          mov al,'8'
+          SUB AL, 30H
+          MOV BH, AL
+         
+     ;    MOV AH, 01H
+     ;    INT 21H
+          mov al,'7'
+         
+          SUB AL, 30H
+          MOV BL, AL                ; BH:BL FIRST NUMBER
+         
+          LEA DX, DIGIT2
+          MOV AH, 09H
+          INT 21H
+         
+     ;    MOV AH, 01H
+     ;    INT 21H
+          mov al,'8'
+         
+          SUB AL, 30H
+          MOV CH, AL
+         
+     ;    MOV AH, 01H
+     ;    INT 21H
+          mov al,'7'
+          SUB AL, 30H
+          MOV CL, AL                ; CH:CL SECOND NUMBER
+         
+          ADD BL, CL
+         
+          MOV AL, BL
+          MOV AH, 00H
+          AAA
+         
+          MOV CL, AL                ; LAST DIGIT OF ANSWER
+          MOV BL, AH
+         
+          ADD BL, BH
+          ADD BL, CH
+         
+          MOV AL, BL
+          MOV AH, 00H
+          AAA
+         
+          MOV BX, AX
+          mov al,'8'
+          SUB AL, 30H
+          mov dh,al
+          mov al,'7'
+          SUB AL, 30H
+          mov ch,al
+          
+          add dh,cl
+          mov al,dh
+          mov ah,00h
+          aaa
+          mov cl,al
+          mov dh,bl
+          add dh,AH
+          add dh,bh
+          add dh,ch
+          
+          mov al,dh
+          mov ah,00h
+          aaa
+          add bl,al
+          add bl,ah
+          add bl,bh
+          mov al,bl
+          mov ah,00h
+          aaa
+          mov bl,al
+          add bh,ah
 
-main proc
-               mov ax,@data
-               mov ds,ax
-               
-               mov ah,01h
-               int 21h
-
-               sub al,'0'
-               mov bl,al
-
-               mov ah,01h
-               int 21h
-               mov bh,al
-               sub bh,'0'
-
-               cmp bh,bl
-
-               jz  equal
-               ja  greater
-               jb  less
-
-       equal:  
-               mov dx,offset msg3
-               mov ah,09h
-               int 21h
-               mov ah,4ch
-               int 21h
-        less:   
-               mov dx,offset msg4
-               mov ah,09h
-               int 21h
-               mov dl,bl
-               add dl,'0'
-               mov ah,02
-               int 21h
-              mov ah,4ch
-               int 21h
-       greater:
-               mov dx,offset msg4
-               mov ah,09h
-               int 21h
-               mov dl,bh
-               add dl,'0'
-               mov ah,02
-               int 21h
-              mov ah,4ch
-               int 21h
-       
-
-main endp
-end main
+          MOV DX, OFFSET RESULT
+          MOV AH, 09H
+          INT 21H
+         
+          MOV DL, BH
+          ADD DL, 30H
+          MOV AH, 02H
+          INT 21H
+         
+          MOV DL, BL
+          ADD DL, 30H
+          MOV AH, 02H
+          INT 21H
+         
+          MOV DL, CL
+          ADD DL, 30H
+          MOV AH, 02H
+          INT 21H
+     EXIT:
+          MOV AH, 04CH
+          INT 21H
+    END MAIN     

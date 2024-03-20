@@ -1,11 +1,13 @@
 .model small
 .stack 100h
+
 .data
-      msg1  db 10,13,'Enter Marks of Student: $'
-      msg2  db 10,13,'Total Marks: $'
-      msg3  db 10,13,'Percentage: $'
-      marks dw 5 dup(?)
-      count dw 5
+    msg1  db 10,13,'Enter Marks of Student: $'
+    msg2  db 10,13,'Total Marks: $'
+    msg3  db 10,13,'Percentage: $'
+    marks dw 5 dup(30)
+    first db 0
+    count dw 5
 
 .code
 main proc
@@ -46,17 +48,25 @@ main proc
                add  al,[si]
                inc  si
                loop calc_loop
-               mov  bx,ax
                mov  dx, offset msg2
+               mov  bx,ax
+
                mov  ah, 09h
                int  21h
-               mov  di,1
+               
                mov  ax,bx
-               mul  di
                aam
-               mov  bx,ax
+               mov  bl,al
+               mov  al,AH
+               mov  ah,0
+               aam
+               
+               mov  cx,ax
                mov  ah, 02h
-               mov  dl,bh
+               mov  dl,ch
+               add  dl,30h
+               int  21h
+               mov  dl,cl
                add  dl,30h
                int  21h
                mov  dl,bl
