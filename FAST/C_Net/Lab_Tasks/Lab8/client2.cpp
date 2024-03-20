@@ -24,7 +24,8 @@ int main()
 	// setup an address
 	struct sockaddr_in server_address;
 	server_address.sin_family = AF_INET;
-	server_address.sin_addr.s_addr = INADDR_ANY;
+	INETADDR
+	server_address.sin_addr.s_addr = inet_addr("172.17.141.104");
 	server_address.sin_port = htons(3001);
 
 	connect(sock, (struct sockaddr *)&server_address, sizeof(server_address));
