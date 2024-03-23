@@ -2,9 +2,7 @@
 .stack 100h
 
 .data
-    msg1  db 10,13,'Enter Marks of Student: $'
-    msg2  db 10,13,'Total Marks: $'
-    msg3  db 10,13,'Percentage: $'
+    msg1  db 10,13,'Enter Number: $'
     marks dw 5 dup(30)
     first db 0
     count dw 5
@@ -16,7 +14,6 @@ main proc
                mov  cx, count
                mov  si, 0
 
-    input_loop:
                mov  dx, offset msg1
                mov  ah, 09h
                int  21h
@@ -37,18 +34,15 @@ main proc
                mov  bl,al
                add  bl,bh
                mov  bh,0
-               mov  marks[si], bx
-               add  si,1
-               loop input_loop
+                ;input num is now in bl
+                mov cx,bx
+                inc cx
+                mov ax,bx
+                mul cx
+                mov cx,2
+                div cx
 
-               mov  si, offset marks
-               mov  ax, 0
-               mov  cx,count
-    calc_loop: 
-               add  al,[si]
-               inc  si
-               loop calc_loop
-               mov  dx, offset msg2
+
                mov  bx,ax
 
                mov  ah, 09h
