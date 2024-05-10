@@ -223,7 +223,7 @@ void TSPsetup(int size)
 int main()
 {
 
-    fstream fin("testFile.txt", ios::in);
+    fstream fin("i22-0518_testFile.txt", ios::in);
     int u, v, w;
     string l;
     int numnodes;
