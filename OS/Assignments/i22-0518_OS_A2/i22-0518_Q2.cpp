@@ -80,6 +80,7 @@ void *travllingSalesmanProblem(void *a)
     number[param.first] = 0; // unlocking the thread
 
     sleep(2);
+    
     while (triedpaths.size() != number.size())
         ;
 
