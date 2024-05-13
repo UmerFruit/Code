@@ -379,7 +379,7 @@ void *Masterthread(void *args)
         }
     }
     // Check for entry square in home coloumn
-    if (currtok != NULL && currtok->isFinalWay(turnval) && currtok->hitrate >= 0)
+    if (currtok != NULL && currtok->isFinalWay(turnval) && currtok->hitrate >= 1)
     {
         currtok->index = 100;
     }
