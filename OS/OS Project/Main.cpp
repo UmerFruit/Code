@@ -349,9 +349,8 @@ void play()
 }
 void *Masterthread(void *args)
 {
-    int l = (*(pair<int, int> *)args).first;
-    int m = (*(pair<int, int> *)args).second;
-
+    int l = (*(pair<int, int> *)args).first; //which player 
+    int m = (*(pair<int, int> *)args).second; //which goti
     Player &p = players[l];
     token *currtok = NULL;
     if (m != -1)
@@ -383,6 +382,7 @@ void *Masterthread(void *args)
                 }
             gamefinished = true;
         }
+
     }
     // Check for entry square in home coloumn
     if (currtok != NULL && currtok->isFinalWay(turnval) && p.gethitrate() >= 1)

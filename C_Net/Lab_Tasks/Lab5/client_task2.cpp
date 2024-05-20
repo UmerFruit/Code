@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <unistd.h>
+#include <unistd.h> 
 #include <netinet/in.h>
 #include <iostream>
 #include <string>
@@ -37,7 +37,7 @@ int main()
 		cin.getline(request, 256);
 
 		send(sock, request, strlen(request), 0);
-		if (strcmp(buf, "exit") == 0)
+		if (strcmp(request, "exit") == 0)
 		{
 			break;
 		}
